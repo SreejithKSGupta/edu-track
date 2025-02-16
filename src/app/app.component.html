@@ -1,0 +1,4 @@
+<button (click)="themeService.toggleTheme()">
+  Toggle to {{ themeService.themeMode() === 'light' ? 'Dark' : 'Light' }} Mode
+</button>
+<router-outlet></router-outlet>
