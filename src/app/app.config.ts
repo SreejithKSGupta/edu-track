@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,6 +9,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './state/user.reducer';
 import { UserEffects } from './state/user.effects';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState('users', userReducer),
     provideEffects(UserEffects),
-    provideStoreDevtools({maxAge:25})
+    provideStoreDevtools({maxAge:25}),
+    importProvidersFrom(MatPaginatorModule)
   ]
 };
