@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+<div id="adminDashboard">
+  <h1 id="title">Admin Dashboard</h1>
+  <div id="managesection">
+ <div *ngFor="let adminitem of adminpages">
+<mat-card (click)="openitem(adminitem.link)">
+    <mat-card-header>
+        <mat-card-title>{{adminitem.title}}</mat-card-title>
+    </mat-card-header>
+    <mat-icon aria-hidden="false" aria-label="card icon" fontIcon={{adminitem.icon}}></mat-icon>
+  </mat-card>
+ </div>
+</div>
+</div>
