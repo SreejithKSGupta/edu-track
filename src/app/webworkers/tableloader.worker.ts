@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 
 addEventListener('message', ({ data }) => {
-  const response = `worker response to ${data}`;
-  postMessage(response);
+  const { users } = data;
+  const paginatedUsers = users;
+  postMessage({ paginatedUsers });
 });
