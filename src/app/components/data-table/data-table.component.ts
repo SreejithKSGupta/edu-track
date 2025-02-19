@@ -1,65 +1,82 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
-import { DataService } from '../../services/data.service';
-
-import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-
+import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent } from '@angular/material/paginator';
+import { loadUsers, setPagination } from '../../state/user.actions';
+import { selectPaginatedUsers, selectUserPagination } from '../../state/user.selectors';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
 @Component({
   selector: 'app-data-table',
   standalone: true,
   imports: [CommonModule, MatTableModule, MatPaginatorModule],
   templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.scss'
+  styleUrls: ['./data-table.component.css']
 })
-export class DataTableComponent implements OnInit {
-  users: User[] = [];
+export class DataTableComponent implements OnInit, OnDestroy {
+  displayedColumns: string[] = ['ID', 'Name', 'Email'];
+  dataSource = new MatTableDataSource<User>([]);
 
-  displayedColumns: string[]=['ID', 'Name', 'Email'];
-  dataSource = new MatTableDataSource<User>(this.users);
+  users$: Observable<User[]>;
+  pagination$: Observable<{ length: number; pageSize: number; pageIndex: number }>;
 
-  constructor(private dataService: DataService) {}
+  length: number = 0;
+  pageSize: number = 5;
+  pageIndex: number = 0;
+  pageSizeOptions: number[] = [5, 10, 25];
 
-  ngOnInit(): void {
-    this.dataService.getUsers().subscribe((data) =>{ 
-      this.users = data
-      this.length = data.length
-      this.dataSource.data = this.users.slice(this.startIndex, this.pageSize);
-  });
-  }
-  shownlist:any;
-  
-    length:number = 0;
-    pageSize:number = 5;
-    startIndex:number=0;
-    endindex:number=0;
-    pageIndex:number = 0;
-    pageSizeOptions:number[] = [5, 10, 25];
-  
-    hidePageSize = false;
+  worker!: Worker
+  subscriptions: Subscription[] = [];
+
+  hidePageSize = false;
     showPageSizeOptions = true;
     showFirstLastButtons = true;
     disabled = false;
-  
-    pageEvent!: PageEvent;
-  
-    handlePageEvent(e: PageEvent) {
-      this.pageEvent = e;
-      this.length = e.length;
-      this.startIndex=e.pageIndex*e.pageSize;
-      this.endindex=e.pageIndex*e.pageSize+e.pageSize;
-      this.pageSize = e.pageSize;
-      this.pageIndex = e.pageIndex;
-      this.dataSource.data = this.users.slice(this.startIndex, this.endindex);
-      
-    }
-  
-    setPageSizeOptions(setPageSizeOptionsInput: string) {
-      if (setPageSizeOptionsInput) {
-        this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-      }
-    }
 
+  constructor(private store: Store) {
+    this.users$ = this.store.select(selectPaginatedUsers);
+    this.pagination$ = this.store.select(selectUserPagination);
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(loadUsers());
+
+    if (typeof Worker !== 'undefined') {
+      this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
+      this.worker.onmessage = ({ data }) => {
+        this.dataSource.data = data.paginatedUsers;
+      };
+    }
+    this.subscriptions.push(
+      this.pagination$.subscribe(({length, pageSize, pageIndex})=>{
+        this.length = length;
+        this.pageSize = pageSize;
+        this.pageIndex = pageIndex;
+        this.updatePaginatedUsers();
+      })
+    )
+  }
+
+  updatePaginatedUsers(){
+    if (this.worker) {
+      this.users$.subscribe(users=>{
+        this.worker.postMessage({users})
+      })
+    }
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.store.dispatch(setPagination({ pageIndex: event.pageIndex, pageSize: event.pageSize }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    if (this.worker) {
+      this.worker.terminate(); 
+    }
+  }
 }
 

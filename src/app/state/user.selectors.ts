@@ -8,3 +8,17 @@ export const selectAllUsers = createSelector(selectUserState, (state) => {
     debugger
     state.users
 });
+
+export const selectPaginatedUsers = createSelector(
+    selectUserState,
+    (state) => state.paginatedUsers
+  );
+  
+  export const selectUserPagination = createSelector(
+    selectUserState,
+    (state) => {
+      return{length: state.length,
+      pageSize: state.pageSize,
+      pageIndex: state.pageIndex,}
+    }
+  );

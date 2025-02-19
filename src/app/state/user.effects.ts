@@ -13,7 +13,10 @@ export class UserEffects {
           ofType(loadUsers),
           mergeMap(() =>
             this.dataService.getUsers().pipe(
-              map((users) => loadUsersSuccess({ users })),
+              map((users) => {
+                console.log(users);
+                return loadUsersSuccess({ users })
+              }),
               catchError((error) => of(loadUsersFailure({ error: error.message })))
             )
           )
