@@ -10,6 +10,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './state/user.reducer';
 import { UserEffects } from './state/user.effects';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideState('users', userReducer),
     provideEffects(UserEffects),
     provideStoreDevtools({maxAge:25}),
-    importProvidersFrom(MatPaginatorModule)
+    importProvidersFrom(MatPaginatorModule),
+    provideHttpClient()
   ]
 };

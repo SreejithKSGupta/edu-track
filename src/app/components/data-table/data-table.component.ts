@@ -5,10 +5,10 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
-import { loadUsers, setPagination } from '../../state/user.actions';
-import { selectPaginatedUsers, selectUserPagination } from '../../state/user.selectors';
+import { loadMoreUsers, loadMoreUsersSuccess, loadUsers, setPagination } from '../../state/user.actions';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
+import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
 @Component({
   selector: 'app-data-table',
   standalone: true,
@@ -17,16 +17,16 @@ import {MatTableModule} from '@angular/material/table';
   styleUrls: ['./data-table.component.css']
 })
 export class DataTableComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['ID', 'Name', 'Email'];
+  displayedColumns: string[] = ['ID', 'Name', 'Email', 'Phone', 'Gender'];
   dataSource = new MatTableDataSource<User>([]);
 
   users$: Observable<User[]>;
   pagination$: Observable<{ length: number; pageSize: number; pageIndex: number }>;
 
   length: number = 0;
-  pageSize: number = 5;
+  pageSize: number = 10;
   pageIndex: number = 0;
-  pageSizeOptions: number[] = [5, 10, 25];
+  pageSizeOptions: number[] = [10, 25, 50];
 
   worker!: Worker
   subscriptions: Subscription[] = [];
@@ -37,7 +37,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     disabled = false;
 
   constructor(private store: Store) {
-    this.users$ = this.store.select(selectPaginatedUsers);
+    this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
   }
 
@@ -45,10 +45,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadUsers());
 
     if (typeof Worker !== 'undefined') {
-      this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
-      this.worker.onmessage = ({ data }) => {
-        this.dataSource.data = data.paginatedUsers;
-      };
+      if(!this.worker){
+
+        this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
+        this.worker.onmessage = ({ data }) => {
+          this.store.dispatch(loadMoreUsers({ users: data.remainingUsers }));
+        };
+      }
     }
     this.subscriptions.push(
       this.pagination$.subscribe(({length, pageSize, pageIndex})=>{
@@ -58,14 +61,20 @@ export class DataTableComponent implements OnInit, OnDestroy {
         this.updatePaginatedUsers();
       })
     )
+    setTimeout(() => {
+      this.users$.subscribe(users => {
+        if (users.length > 10 && this.worker) {
+          this.worker.postMessage({ users: users.slice(100) });
+        }
+      });
+    }, 2000);
   }
 
-  updatePaginatedUsers(){
-    if (this.worker) {
-      this.users$.subscribe(users=>{
-        this.worker.postMessage({users})
-      })
-    }
+  updatePaginatedUsers() {
+    this.users$.subscribe(users => {
+      const startIndex = this.pageIndex * this.pageSize;
+      this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
+    });
   }
 
   handlePageEvent(event: PageEvent) {
