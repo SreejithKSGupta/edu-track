@@ -1,0 +1,59 @@
+#adminDashboard{
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding);
+}
+
+h1{
+  text-align: center;
+  margin: var(--padding);
+  color: var(--primary-color);
+  font-size: 280%;
+  font-weight: bold;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+
+#managesection{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: var(--padding);
+  margin: var(--padding);
+  padding: var(--padding);
+}
+
+mat-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  &:hover{
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    scale: 1.05;
+  }
+
+
+  mat-card-title{
+    font-size: 0.8rem;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  mat-icon{
+    font-size: 6rem;
+    width: 6rem;
+    height: 6rem;
+    color: var(--primary-color);
+  }
+  }
+
+
+
+
+
