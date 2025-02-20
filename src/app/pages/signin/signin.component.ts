@@ -48,37 +48,51 @@ export class SigninComponent {
       storedUser.password === this.password
     ) {
       this.errorMessage = '';
-      console.log('Login successful');
+      this.setUserCookie();
       this.router.navigate(['/dashboard']);
     } else {
       this.errorMessage = 'Invalid username or password';
     }
   }
 
+  private savaNewUser(userData: { username: string; password: string; }) {
+    localStorage.setItem('user', JSON.stringify(userData));
+
+    console.log('Account created:', this.username);
+  }
+
+  private setUserCookie() {
+    const encryptedUsername = CryptoJS.AES.encrypt(
+      this.username,
+      'your-secret-key'
+    ).toString();
+    const encryptedPassword = CryptoJS.AES.encrypt(
+      this.password,
+      'your-secret-key'
+    ).toString();
+
+    // Store encrypted data in cookies
+    this.cookieService.set('username', encryptedUsername);
+    this.cookieService.set('password', encryptedPassword);
+
+    console.log('Login successful');
+  }
+
   private signup() {
     if (this.password === this.confirmPassword) {
-      const encryptedUsername = CryptoJS.AES.encrypt(
-        this.username,
-        'your-secret-key'
-      ).toString();
-      const encryptedPassword = CryptoJS.AES.encrypt(
-        this.password,
-        'your-secret-key'
-      ).toString();
-      this.cookieService.set('username', encryptedUsername);
-      this.cookieService.set('password', encryptedPassword);
+      this.setUserCookie();
       const userData = {
         username: this.username,
         password: this.password,
       };
-      localStorage.setItem('user', JSON.stringify(userData));
-
-      console.log('Account created:', this.username);
+      this.savaNewUser(userData);
       this.router.navigate(['/dashboard']);
     } else {
       this.errorMessage = 'Passwords do not match';
     }
   }
+
+
 
   toggleSignUp() {
     this.isSignUp = !this.isSignUp;
