@@ -1,0 +1,79 @@
+<div class="login-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ isSignUp ? 'Create an Account' : 'Sign In' }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="form-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input
+              matInput
+              type="text"
+              id="username"
+              name="username"
+              [(ngModel)]="username"
+              required
+              placeholder="Enter your username"
+            />
+            <mat-error *ngIf="loginForm.submitted && !username">Username is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              type="password"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              required
+              placeholder="Enter your password"
+            />
+            <mat-error *ngIf="loginForm.submitted && !password">Password is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group" *ngIf="isSignUp">
+          <mat-form-field appearance="fill">
+            <mat-label>Confirm Password</mat-label>
+            <input
+              matInput
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              required
+              placeholder="Confirm your password"
+            />
+            <mat-error *ngIf="loginForm.submitted && !confirmPassword">Please confirm your password</mat-error>
+            <mat-error *ngIf="confirmPassword !== password">Passwords do not match</mat-error>
+          </mat-form-field>
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!loginForm.valid || (isSignUp && confirmPassword !== password)"
+        >
+          {{ isSignUp ? 'Sign Up' : 'Sign In' }}
+        </button>
+      </form>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <mat-error>{{ errorMessage }}</mat-error>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="toggleSignUp()">
+        {{ isSignUp ? 'Already have an account? Sign In' : 'Don\'t have an account? Sign Up' }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
