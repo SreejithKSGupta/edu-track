@@ -3,10 +3,11 @@
   <div id="managesection">
  <div *ngFor="let adminitem of adminpages">
 <mat-card (click)="openitem(adminitem.link)">
+  <mat-icon aria-hidden="false" aria-label="card icon" fontIcon={{adminitem.icon}}></mat-icon>
+
     <mat-card-header>
         <mat-card-title>{{adminitem.title}}</mat-card-title>
     </mat-card-header>
-    <mat-icon aria-hidden="false" aria-label="card icon" fontIcon={{adminitem.icon}}></mat-icon>
   </mat-card>
  </div>
 </div>

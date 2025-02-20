@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import CryptoJS from 'crypto-js';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-signin',
@@ -29,24 +31,52 @@ export class SigninComponent {
   errorMessage: string = '';
   isSignUp: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cookieService: CookieService) {}
 
   onSubmit() {
     if (this.isSignUp) {
-      if (this.password === this.confirmPassword) {
-        console.log('Account created:', this.username);
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.errorMessage = 'Passwords do not match';
-      }
+      this.signup();
     } else {
-      if (this.username === 'admin' && this.password === 'password') {
-        this.errorMessage = '';
-        console.log('Login successful');
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.errorMessage = 'Invalid username or password';
-      }
+      this.login();
+    }
+  }
+
+  private login() {
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    if (
+      storedUser.username === this.username &&
+      storedUser.password === this.password
+    ) {
+      this.errorMessage = '';
+      console.log('Login successful');
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.errorMessage = 'Invalid username or password';
+    }
+  }
+
+  private signup() {
+    if (this.password === this.confirmPassword) {
+      const encryptedUsername = CryptoJS.AES.encrypt(
+        this.username,
+        'your-secret-key'
+      ).toString();
+      const encryptedPassword = CryptoJS.AES.encrypt(
+        this.password,
+        'your-secret-key'
+      ).toString();
+      this.cookieService.set('username', encryptedUsername);
+      this.cookieService.set('password', encryptedPassword);
+      const userData = {
+        username: this.username,
+        password: this.password,
+      };
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      console.log('Account created:', this.username);
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.errorMessage = 'Passwords do not match';
     }
   }
 
