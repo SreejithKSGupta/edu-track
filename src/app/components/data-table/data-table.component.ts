@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -14,7 +14,8 @@ import { selectAllUsers, selectUserPagination } from '../../state/user.selectors
   standalone: true,
   imports: [CommonModule, MatTableModule, MatPaginatorModule],
   templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.css']
+  styleUrls: ['./data-table.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DataTableComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ID', 'Name', 'Email', 'Phone', 'Gender'];
