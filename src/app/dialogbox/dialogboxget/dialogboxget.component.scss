@@ -1,0 +1,60 @@
+
+.dialog-title {
+  text-align: center;
+  font-weight: 700;
+  background-color: #3a3f51;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 0;
+  width: 80%;
+  margin: 0 auto 20px auto;
+}
+
+// Student form container
+.student-form-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid #dee2e6;
+  
+  // Override Bootstrap default if needed
+  .form-label {
+    font-size: 1.1rem;
+  }
+  
+  .form-control {
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+  }
+  
+  button {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.75rem;
+  }
+}
+
+// Student data section styling
+.student-data {
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  
+  h3 {
+    font-weight: 700;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+  
+  p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    
+    strong {
+      font-weight: 600;
+      color: #343a40;
+    }
+  }
+}
+
+

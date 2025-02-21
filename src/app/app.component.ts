@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/theme.service';
-import { DataTableComponent } from "./components/data-table/data-table.component";
-
+import { MatDialog } from '@angular/material/dialog';
+import { DialogboxaddComponent } from './dialogbox/dialogboxadd/dialogboxadd.component';
+import { DialogboxgetComponent } from './dialogbox/dialogboxget/dialogboxget.component';
 
 @Component({
   selector: 'app-root',
