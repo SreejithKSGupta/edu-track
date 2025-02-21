@@ -5,7 +5,7 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { AppComponent } from './app.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo:'home', pathMatch: 'full' },
+  { path: '', redirectTo:'dashboard', pathMatch: 'full' },
   { path: 'home', component: AppComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'signin', component: SigninComponent },
