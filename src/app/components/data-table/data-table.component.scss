@@ -1,0 +1,36 @@
+.left, .right{
+    width: 48%;
+}
+
+.left h1{
+    // width: 100px !important;
+    color: rgb(36, 36, 36) ;
+    font-weight: 700;
+}
+
+.right{
+    display: flex;
+    justify-content: end;
+}
+
+.right button{
+    margin: 0 1rem;
+}
+
+.mat-mdc-table{
+    border: 1px solid black !important;
+}
+
+@media screen and (max-width: 720px) {
+    .left, .right{
+        width: 100%;
+    }
+    .right{
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .right button{
+        margin: 1rem 1rem 1rem 0;
+    }
+}
