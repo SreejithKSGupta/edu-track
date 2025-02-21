@@ -30,7 +30,7 @@ export class UserEffects {
           ofType(loadMoreUsers),
           delay(2000), 
           mergeMap(() =>
-            this.dataService.getUsers(100, 100000).pipe( 
+            this.dataService.getUsers(100, Number.MAX_SAFE_INTEGER).pipe( 
               take(1),
               map(users => {
                 console.log(users.length);
