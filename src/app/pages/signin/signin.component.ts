@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
+import { AdminserviceService } from '../../services/adminservice.service';
 
 @Component({
   selector: 'app-signin',
@@ -31,7 +32,11 @@ export class SigninComponent {
   errorMessage: string = '';
   isSignUp: boolean = false;
 
-  constructor(private router: Router, private cookieService: CookieService) {}
+  constructor(
+    private router: Router,
+     private cookieService: CookieService,
+     private adminService: AdminserviceService
+    ) {}
 
   onSubmit() {
     if (this.isSignUp) {
@@ -42,24 +47,26 @@ export class SigninComponent {
   }
 
   private login() {
-    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-    if (
-      storedUser.username === this.username &&
-      storedUser.password === this.password
-    ) {
-      this.errorMessage = '';
-      this.setUserCookie();
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.errorMessage = 'Invalid username or password';
+    const user={
+      username:this.username,
+      password:this.password
     }
+   this.adminService.checksignin(user).subscribe(
+    (response) => {
+      console.log(response);
+      if (response) {
+        this.setUserCookie();
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.errorMessage = 'Invalid username or password';
+      }
+    })
+
+    // else {
+    //   this.errorMessage = 'Invalid username or password';
+    // }
   }
 
-  private savaNewUser(userData: { username: string; password: string; }) {
-    localStorage.setItem('user', JSON.stringify(userData));
-
-    console.log('Account created:', this.username);
-  }
 
   private setUserCookie() {
     const encryptedUsername = CryptoJS.AES.encrypt(
@@ -84,6 +91,8 @@ export class SigninComponent {
       const userData = {
         username: this.username,
         password: this.password,
+        name: this.username,
+
       };
       this.savaNewUser(userData);
       this.router.navigate(['/dashboard']);
@@ -92,10 +101,15 @@ export class SigninComponent {
     }
   }
 
-
-
   toggleSignUp() {
     this.isSignUp = !this.isSignUp;
     this.errorMessage = ''; // Clear error message when toggling
   }
+
+  private savaNewUser(userData: { username: string; password: string; name:string }) {
+    this.adminService.addUser(userData);
+  }
+
 }
+
+
