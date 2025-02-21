@@ -1,0 +1,31 @@
+<div class="container">
+    <h2 mat-dialog-title>Get User</h2>
+    <mat-dialog-content>
+      <div class="student-form-container">
+        <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+          <div class="form-field">
+            <label for="student_id">Student ID:</label>
+            <input id="student_id" type="text" formControlName="student_id" />
+            <span class="error" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
+              Student ID is required.
+            </span>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      
+        <div class="student-data" *ngIf="studentData">
+          <h3>Student Data:</h3>
+          <p><strong>ID:</strong> {{ studentData.student_id }}</p>
+          <p><strong>Name:</strong> {{ studentData.student_name }}</p>
+          <p><strong>Email:</strong> {{ studentData.student_email }}</p>
+          <p><strong>Phone:</strong> {{ studentData.student_phone }}</p>
+          <p><strong>Gender:</strong> {{ studentData.gender }}</p>
+          <p><strong>Age:</strong> {{ studentData.age }}</p>
+        </div>
+      </div>
+      
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Close</button>
+    </mat-dialog-actions>
+  </div>

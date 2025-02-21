@@ -1,0 +1,68 @@
+<div class="container">
+    <h2 mat-dialog-title>Add User</h2>
+    <mat-dialog-content>
+        <div class="student-form-container">
+            <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+              <div class="form-field">
+                <label for="student_id">Student ID:</label>
+                <input id="student_id" type="text" formControlName="student_id" />
+                <span class="error" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
+                  Student ID is required.
+                </span>
+              </div>
+          
+              <div class="form-field">
+                <label for="student_name">Name:</label>
+                <input id="student_name" type="text" formControlName="student_name" />
+                <span class="error" *ngIf="studentForm.get('student_name')?.touched && studentForm.get('student_name')?.invalid">
+                  Student Name is required.
+                </span>
+              </div>
+          
+              <div class="form-field">
+                <label for="student_email">Email:</label>
+                <input id="student_email" type="email" formControlName="student_email" />
+                <span class="error" *ngIf="studentForm.get('student_email')?.touched && studentForm.get('student_email')?.invalid">
+                  <ng-container *ngIf="studentForm.get('student_email')?.errors?.['required']">
+                    Email is required.
+                  </ng-container>
+                  <ng-container *ngIf="studentForm.get('student_email')?.errors?.['email']">
+                    Invalid email address.
+                  </ng-container>
+                </span>
+              </div>
+          
+              <div class="form-field">
+                <label for="student_phone">Phone:</label>
+                <input id="student_phone" type="text" formControlName="student_phone" />
+                <span class="error" *ngIf="studentForm.get('student_phone')?.touched && studentForm.get('student_phone')?.invalid">
+                  Student Phone is required.
+                </span>
+              </div>
+          
+              <div class="form-field">
+                <label for="gender">Gender:</label>
+                <select id="gender" formControlName="gender">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+                <span class="error" *ngIf="studentForm.get('gender')?.touched && studentForm.get('gender')?.invalid">
+                  Gender is required.
+                </span>
+              </div>
+          
+              <div class="form-field">
+                <label for="age">Age (Optional):</label>
+                <input id="age" type="number" formControlName="age" />
+              </div>
+          
+              <button type="submit">Submit</button>
+            </form>
+          </div>          
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Close</button>
+    </mat-dialog-actions>
+  </div>
