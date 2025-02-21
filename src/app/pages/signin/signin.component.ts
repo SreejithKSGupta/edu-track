@@ -107,7 +107,9 @@ export class SigninComponent {
   }
 
   private savaNewUser(userData: { username: string; password: string; name:string }) {
-    this.adminService.addUser(userData);
+    this.adminService.addUser(userData).subscribe(res=>{
+      console.log(res);
+    });
   }
 
 }
