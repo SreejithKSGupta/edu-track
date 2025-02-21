@@ -25,8 +25,7 @@ export class DialogboxgetComponent {
 
   onSubmit(): void {
     if (this.studentForm.valid) {
-      // Here we simulate getting student data based on the provided student_id.
-      // Replace this with an API call as needed.
+      
       const id = this.studentForm.value.student_id;
       this.dummyStudentData();
     } else {

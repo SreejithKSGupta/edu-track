@@ -13,28 +13,7 @@ import { DialogboxgetComponent } from './dialogbox/dialogboxget/dialogboxget.com
 })
 export class AppComponent {
   title = 'edu-track';
-  constructor(public themeService: ThemeService, public dialog: MatDialog) {}
-
-
-  openaddDialog() {
-      this.dialog.open(DialogboxaddComponent, {
-        position: { left: '10vw', top: '10vh' },
-        width: '50vw',
-        height: '100vw',
-        disableClose: true,
-        hasBackdrop: false 
-      });
-    }
-  
-    opengetDialog() {
-      this.dialog.open(DialogboxgetComponent, {
-        position: { left: '55vw', top: '10vh' },
-        width: '50vw',
-        height: '80vw',
-        disableClose: true,
-        hasBackdrop: false
-      });
-    }
+  constructor(public themeService: ThemeService) {}
 }
 
 // if (typeof Worker !== 'undefined') {

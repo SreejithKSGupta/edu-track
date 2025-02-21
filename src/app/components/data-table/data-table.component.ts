@@ -9,6 +9,9 @@ import { loadMoreUsers, loadMoreUsersSuccess, loadUsers, setPagination } from '.
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
+import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
 @Component({
   selector: 'app-data-table',
   standalone: true,
@@ -37,7 +40,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     showFirstLastButtons = true;
     disabled = false;
 
-  constructor(private store: Store) {
+  constructor(private store: Store,  public dialog: MatDialog) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
   }
@@ -87,6 +90,26 @@ export class DataTableComponent implements OnInit, OnDestroy {
     if (this.worker) {
       this.worker.terminate(); 
     }
+  }
+
+  openaddDialog() {
+    this.dialog.open(DialogboxaddComponent, {
+      position: { left: '10vw', top: '10vh' },
+      width: '50vw',
+      height: '100vw',
+      disableClose: true,
+      hasBackdrop: false 
+    });
+  }
+
+  opengetDialog() {
+    this.dialog.open(DialogboxgetComponent, {
+      position: { left: '55vw', top: '10vh' },
+      width: '50vw',
+      height: '70vw',
+      disableClose: true,
+      hasBackdrop: false
+    });
   }
 }
 

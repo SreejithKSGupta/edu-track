@@ -1,68 +1,68 @@
-<div class="container">
-    <h2 mat-dialog-title>Add User</h2>
-    <mat-dialog-content>
-        <div class="student-form-container">
-            <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-              <div class="form-field">
-                <label for="student_id">Student ID:</label>
-                <input id="student_id" type="text" formControlName="student_id" />
-                <span class="error" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
-                  Student ID is required.
-                </span>
-              </div>
-          
-              <div class="form-field">
-                <label for="student_name">Name:</label>
-                <input id="student_name" type="text" formControlName="student_name" />
-                <span class="error" *ngIf="studentForm.get('student_name')?.touched && studentForm.get('student_name')?.invalid">
-                  Student Name is required.
-                </span>
-              </div>
-          
-              <div class="form-field">
-                <label for="student_email">Email:</label>
-                <input id="student_email" type="email" formControlName="student_email" />
-                <span class="error" *ngIf="studentForm.get('student_email')?.touched && studentForm.get('student_email')?.invalid">
-                  <ng-container *ngIf="studentForm.get('student_email')?.errors?.['required']">
-                    Email is required.
-                  </ng-container>
-                  <ng-container *ngIf="studentForm.get('student_email')?.errors?.['email']">
-                    Invalid email address.
-                  </ng-container>
-                </span>
-              </div>
-          
-              <div class="form-field">
-                <label for="student_phone">Phone:</label>
-                <input id="student_phone" type="text" formControlName="student_phone" />
-                <span class="error" *ngIf="studentForm.get('student_phone')?.touched && studentForm.get('student_phone')?.invalid">
-                  Student Phone is required.
-                </span>
-              </div>
-          
-              <div class="form-field">
-                <label for="gender">Gender:</label>
-                <select id="gender" formControlName="gender">
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-                <span class="error" *ngIf="studentForm.get('gender')?.touched && studentForm.get('gender')?.invalid">
-                  Gender is required.
-                </span>
-              </div>
-          
-              <div class="form-field">
-                <label for="age">Age (Optional):</label>
-                <input id="age" type="number" formControlName="age" />
-              </div>
-          
-              <button type="submit">Submit</button>
-            </form>
-          </div>          
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <button mat-button (click)="closeDialog()">Close</button>
-    </mat-dialog-actions>
-  </div>
+<div class="container my-3">
+  <h2 class="dialog-title">Add User</h2>
+  <mat-dialog-content>
+    <div class="student-form-container p-4 shadow-sm rounded">
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label for="student_id" class="fw-bold">Student ID:</label>
+          <input id="student_id" type="text" formControlName="student_id" class="form-control" />
+          <div class="text-danger mt-1" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
+            Student ID is required.
+          </div>
+        </div>
+  
+        <div class="form-group mb-3">
+          <label for="student_name" class="fw-bold">Name:</label>
+          <input id="student_name" type="text" formControlName="student_name" class="form-control" />
+          <div class="text-danger mt-1" *ngIf="studentForm.get('student_name')?.touched && studentForm.get('student_name')?.invalid">
+            Student Name is required.
+          </div>
+        </div>
+  
+        <div class="form-group mb-3">
+          <label for="student_email" class="fw-bold">Email:</label>
+          <input id="student_email" type="email" formControlName="student_email" class="form-control" />
+          <div class="text-danger mt-1" *ngIf="studentForm.get('student_email')?.touched && studentForm.get('student_email')?.invalid">
+            <ng-container *ngIf="studentForm.get('student_email')?.errors?.['required']">
+              Email is required.
+            </ng-container>
+            <ng-container *ngIf="studentForm.get('student_email')?.errors?.['email']">
+              Invalid email address.
+            </ng-container>
+          </div>
+        </div>
+  
+        <div class="form-group mb-3">
+          <label for="student_phone" class="fw-bold">Phone:</label>
+          <input id="student_phone" type="text" formControlName="student_phone" class="form-control" />
+          <div class="text-danger mt-1" *ngIf="studentForm.get('student_phone')?.touched && studentForm.get('student_phone')?.invalid">
+            Student Phone is required.
+          </div>
+        </div>
+  
+        <div class="form-group mb-3">
+          <label for="gender" class="fw-bold">Gender:</label>
+          <select id="gender" formControlName="gender" class="form-select">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="text-danger mt-1" *ngIf="studentForm.get('gender')?.touched && studentForm.get('gender')?.invalid">
+            Gender is required.
+          </div>
+        </div>
+  
+        <div class="form-group mb-3">
+          <label for="age" class="fw-bold">Age (Optional):</label>
+          <input id="age" type="number" formControlName="age" class="form-control" />
+        </div>
+  
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+      </form>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="justify-content-center mt-3">
+    <button mat-button class="btn btn-secondary" (click)="closeDialog()">Close</button>
+  </mat-dialog-actions>
+</div>

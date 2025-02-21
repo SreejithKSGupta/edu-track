@@ -1,107 +1,60 @@
-.container{
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-bottom: 10px;
+
+.dialog-title {
+  text-align: center;
+  font-weight: 700;
+  background-color: #3a3f51;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 0;
+  width: 80%;
+  margin: 0 auto 20px auto;
 }
-h2{
-    text-align: center;
-    font-weight: bolder;
-    background-color: #b9a0a0;
-    color: white;
-    border-radius: 8px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
+
+// Student form container
 .student-form-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #9e9393;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid #dee2e6;
   
-    form {
-      display: flex;
-      flex-direction: column;
-  
-      .form-field {
-        margin-bottom: 15px;
-        display: flex;
-        flex-direction: column;
-  
-        label {
-          margin-bottom: 5px;
-          font-weight: bold;
-          color: wheat;
-        }
-  
-        input {
-          padding: 8px;
-          font-size: 1rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-  
-        .error {
-          color: #d9534f;
-          font-size: 0.875rem;
-          margin-top: 5px;
-        }
-      }
-  
-      button {
-        width: 120px;
-        padding: 10px;
-        font-size: 1rem;
-        background-color: #0275d8;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        align-self: flex-start;
-  
-        &:hover {
-          background-color: #025aa5;
-        }
-      }
-    }
-  
-    .student-data {
-      margin-top: 30px;
-      padding: 15px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-  
-      h3 {
-        margin-bottom: 15px;
-      }
-  
-      p {
-        margin: 5px 0;
-        strong {
-          margin-right: 5px;
-        }
-      }
-    }
+  // Override Bootstrap default if needed
+  .form-label {
+    font-size: 1.1rem;
   }
-  button {
-    width: 420px;
-    padding: 10px;
+  
+  .form-control {
     font-size: 1rem;
-    background-color: #0275d8;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-    
-    &:hover {
-      background-color: #025aa5;
-    }
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
   }
   
+  button {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.75rem;
+  }
+}
+
+// Student data section styling
+.student-data {
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  
+  h3 {
+    font-weight: 700;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+  
+  p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    
+    strong {
+      font-weight: 600;
+      color: #343a40;
+    }
+  }
+}
+
+
