@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-dialogboxget',
@@ -14,8 +15,7 @@ import { NgIf } from '@angular/common';
 export class DialogboxgetComponent {
   studentForm!: FormGroup;
   studentData: any = null;
-
-  constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder) {}
+  constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.studentForm = this.fb.group({
@@ -25,23 +25,27 @@ export class DialogboxgetComponent {
 
   onSubmit(): void {
     if (this.studentForm.valid) {
-      
-      const id = this.studentForm.value.student_id;
-      this.dummyStudentData();
+      const studentId = this.studentForm.value.student_id;
+
+      this.dataService.getStudentById(studentId).subscribe(
+        (student) => {
+          if (student) {
+            this.studentData = student; // ✅ Store retrieved data
+            console.log('Student Data:', student);
+          } else {
+            this.studentData = null;
+            alert('Student not found!');
+          }
+        },
+        (error) => {
+          this.studentData = null;
+          console.error('Error fetching student:', error);
+          alert('Error fetching student data. Please try again.');
+        }
+      );
     } else {
       this.studentForm.markAllAsTouched();
     }
-  }
-  
-  private dummyStudentData() {
-    this.studentData = {
-      student_id: "123",
-      student_name: 'John Doe',
-      student_email: 'john.doe@example.com',
-      student_phone: '123-456-7890',
-      gender: 'Male',
-      age: 20
-    };
   }
 
     closeDialog() {
