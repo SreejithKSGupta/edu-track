@@ -3,18 +3,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { DataService } from '../../services/data.service';
+import { NgFor, NgForOf } from '@angular/common';
+import { log } from 'console';
 
 @Component({
   selector: 'app-dialogboxget',
-  imports: [MatDialogContent, MatDialogActions, ReactiveFormsModule, NgIf],
+  imports: [MatDialogContent, MatDialogActions, ReactiveFormsModule, NgIf,CommonModule],
   templateUrl: './dialogboxget.component.html',
   styleUrl: './dialogboxget.component.scss'
 })
 export class DialogboxgetComponent {
   studentForm!: FormGroup;
-  studentData: any = null;
+  studentData: any; // Change to an array instead of a single object
+
   constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit(): void {
@@ -26,29 +29,31 @@ export class DialogboxgetComponent {
   onSubmit(): void {
     if (this.studentForm.valid) {
       const studentId = this.studentForm.value.student_id;
-
+      console.log(studentId);
+      
       this.dataService.getStudentById(studentId).subscribe(
-        (student) => {
-          if (student) {
-            this.studentData = student; // ✅ Store retrieved data
-            console.log('Student Data:', student);
+        (students) => { // expecting an array of students
+          if (students) {
+            this.studentData = students;  // Assigning array
           } else {
-            this.studentData = null;
+            this.studentData = [];  // Empty array if no students found
             alert('Student not found!');
           }
         },
         (error) => {
-          this.studentData = null;
+          this.studentData = [];
           console.error('Error fetching student:', error);
           alert('Error fetching student data. Please try again.');
         }
       );
-    } else {
+    }
+    else {
       this.studentForm.markAllAsTouched();
     }
   }
 
-    closeDialog() {
-      this.dialogRef.close();
-    }
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }
+
