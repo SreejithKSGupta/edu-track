@@ -15,6 +15,10 @@ import { DialogboxgetComponent } from './dialogbox/dialogboxget/dialogboxget.com
 export class AppComponent {
   title = 'edu-track';
   constructor(public themeService: ThemeService) {}
+
+  ngOnInit() {
+    this.themeService.initializeTheme();
+  }
 }
 
 // if (typeof Worker !== 'undefined') {
