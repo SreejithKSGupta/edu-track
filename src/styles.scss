@@ -1,37 +1,41 @@
-// styles.scss
 @use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@400..700&family=Jersey+15&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Oswald:wght@200..700&family=Pacifico&family=Barriecito&family=Lilita+One&family=Permanent+Marker&family=Press+Start+2P&display=swap');
 
-:root{
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --bgcolor:rgb(255, 255, 255);
-  --surface-color:rgb(159, 240, 186);
-  --border-color:rgb(176, 237, 255);
+:root {
+  --primary-color: #0084ff;
+  --secondary-color: #ffd740;
+
+  --font-family: Roboto, 'Helvetica Neue', sans-serif;
+  --font-size: 16px;
+
+  --border-radius: 4px;
   --padding: 16px;
   --margin: 16px;
-  --border-radius: 4px;
   --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --text-color:rgb(14, 14, 14);
-  --font-size:16px;
-  --font-family:Roboto, 'Helvetica Neue', sans-serif;
 
+  --border-color: rgb(176, 237, 255);
+  --buttoncolor: rgb(22, 72, 190);
+  --transparency: 1;
+  --headingcolor: rgb(26, 26, 26);
+
+  --background-color: #fcfcfc;
+  --text-color: #000000;
+  --surface-color: #ffffff;
+  --hover-color: rgba(0, 0, 0, 0.04);
+  --border-color: #e0e0e0;
+
+  --mdc-chip-label-text-color: var(--text-color);
+  --mat-sys-on-surface-variant: var(--text-color);
 }
 
-.dark {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --bgcolor:rgb(14, 14, 14);
-  --surface-color:rgb(27, 27, 27);
-  --border-color:rgb(176, 237, 255);
-  --padding: 16px;
-  --margin: 16px;
-  --border-radius: 4px;
-  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --text-color:rgb(255, 255, 255);
-  --font-size:16px;
+.dark-theme, .dark {
+  --background-color: #3f3e3e;
+  --text-color: #ffffff;
+  --surface-color: #242424;
+  --hover-color: rgba(255, 255, 255, 0.08);
+  --border-color: #484848;
+  --headingcolor: rgb(255, 255, 255);
 }
-
-
 
 html {
   @include mat.theme((
@@ -43,18 +47,18 @@ html {
     typography: Roboto,
     density: 0,
   ));
-}
 
-html.dark {
-  @include mat.theme((
-    color: (
-      theme-type: dark,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  &.dark {
+    @include mat.theme((
+      color: (
+        theme-type: dark,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+  }
 }
 
 * {
@@ -63,13 +67,149 @@ html.dark {
   box-sizing: border-box;
 }
 
-body {
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  background-color:var(--bg-color);
-  color:var(--text-color);
-  font-size:var(--font-size);
-
+html, body {
+  height: 100%;
 }
-// html.dark body {
-//   background-color:var(--primary-color);
-// }
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color) !important;
+  color: var(--text-color);
+  font-size: var(--font-size);
+  margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-size: 3rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: Oswald;
+  margin-top: 2vh;
+  color: var(--headingcolor) !important;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-fab, .mat-mdc-mini-fab {
+  &.mat-primary {
+    --mdc-filled-button-container-color: var(--primary-color) !important;
+    --mdc-filled-button-label-text-color: white !important;
+  }
+
+  &.mat-accent {
+    --mdc-filled-button-container-color: var(--secondary-color) !important;
+    --mdc-filled-button-label-text-color: black !important;
+  }
+}
+
+.mat-mdc-progress-bar.mat-primary {
+  --mdc-linear-progress-active-indicator-color: var(--primary-color) !important;
+}
+
+.mat-mdc-progress-spinner.mat-primary circle {
+  stroke: var(--primary-color) !important;
+}
+
+.mat-mdc-checkbox.mat-primary {
+  --mdc-checkbox-selected-checkmark-color: white;
+  --mdc-checkbox-selected-focus-icon-color: var(--primary-color);
+  --mdc-checkbox-selected-hover-icon-color: var(--primary-color);
+  --mdc-checkbox-selected-icon-color: var(--primary-color);
+  --mdc-checkbox-selected-pressed-icon-color: var(--primary-color);
+}
+
+.mat-mdc-slide-toggle.mat-primary {
+  --mdc-switch-selected-focus-state-layer-color: var(--primary-color);
+  --mdc-switch-selected-handle-color: var(--primary-color);
+  --mdc-switch-selected-hover-state-layer-color: var(--primary-color);
+  --mdc-switch-selected-pressed-state-layer-color: var(--primary-color);
+  --mdc-switch-selected-track-color: var(--primary-lighter);
+}
+
+.mat-mdc-form-field {
+  &.mat-focused {
+    .mat-mdc-form-field-ripple {
+      background-color: var(--primary-color) !important;
+    }
+
+    .mat-mdc-floating-label.mat-accent {
+      color: var(--primary-color) !important;
+    }
+  }
+}
+
+.mat-mdc-select-panel .mat-mdc-option.mat-selected:not(.mat-option-multiple) {
+  background-color: var(--primary-lighter) !important;
+}
+
+.mat-mdc-select-value-text {
+  color: var(--text-color) !important;
+}
+
+.mat-mdc-dialog {
+  &-container {
+    background-color: var(--surface-color) !important;
+    color: var(--text-color) !important;
+    border-radius: var(--border-radius) !important;
+    padding: var(--padding) !important;
+  }
+
+  &-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
+    color: var(--primary-color) !important;
+  }
+
+  &-content {
+    color: var(--text-color) !important;
+  }
+
+  &-actions .mat-mdc-button {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: var(--border-radius) !important;
+
+    &:hover {
+      background-color: var(--primary-darker) !important;
+    }
+  }
+}
+
+.mat-mdc-card {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--padding) !important;
+}
+
+.mat-mdc-snackbar {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+
+  &-action {
+    color: white !important;
+  }
+
+  &.mat-accent {
+    background-color: var(--secondary-color) !important;
+  }
+}
+
+.mat-mdc-tooltip {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.mat-mdc-bottom-sheet {
+  &-container, &-content, &-footer {
+    background-color: var(--surface-color) !important;
+    color: var(--text-color) !important;
+  }
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--background-color) !important;
+}

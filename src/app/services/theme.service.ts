@@ -13,6 +13,7 @@ export class ThemeService {
   }
 
   initializeTheme() {
+    if(typeof window !== 'undefined'){
     // Check for saved theme or system preference
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -21,4 +22,5 @@ export class ThemeService {
     this.themeMode.set(initialTheme as 'light' | 'dark');
     document.documentElement.classList.toggle('dark', initialTheme === 'dark');
   }
+}
 }
