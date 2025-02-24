@@ -19,7 +19,7 @@ export class UserEffects {
                 console.log(users.length);
                 return loadUsersSuccess({ users })
               }),
-              catchError((error) => of(loadMoreUsersFailure({ error: error.message })))
+              catchError((error) => of(loadUsersFailure({ error: error.message })))
             )
           )
         )
@@ -36,7 +36,7 @@ export class UserEffects {
                 console.log(users.length);
                 return loadMoreUsersSuccess({ users })  
               }),
-              catchError(error => of(loadUsersFailure({ error })))
+              catchError(error => of(loadMoreUsersFailure({ error: error.message })))
             )
           )
         )
