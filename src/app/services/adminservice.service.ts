@@ -12,16 +12,16 @@ export class AdminserviceService {
 
   constructor(private http: HttpClient){}
 
-  addUser(user:any){
-    localStorage.setItem('user', JSON.stringify(user));
-
-    console.log(user);
-    // return this.http.post(this.url,user).subscribe();
-    console.log('Account created:', user.username);
+  addUser(user:any):Observable<any>{
+    return this.http.post('http://localhost:5000/create-user',user);
 
   }
 
   checksignin(user:any):Observable<any>{
-     return this.http.post('http://localhost:5000/checksignin',user);
+    // const username = user.username;
+    // const password = user.password;
+    // const body = { username, password };
+    // console.log(body);
+    return this.http.post('http://localhost:5000/users', user);
   }
 }

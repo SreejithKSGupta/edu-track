@@ -27,20 +27,37 @@ import {
 })
 export class DashboardComponent {
   constructor(private router: Router, private cookieService: CookieService) {}
-
+  adminpages:any;
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      // Get the encrypted username from cookies
       const encryptedUsername = this.cookieService.get('username');
-
-      if (encryptedUsername) {
-        // Decrypt the username
-        const decryptedUsername = CryptoJS.AES.decrypt(encryptedUsername, 'your-secret-key').toString(CryptoJS.enc.Utf8);
-
-        // Log the decrypted username to the console
-        console.log('Decrypted Username:', decryptedUsername);
+      if (!encryptedUsername) {
+        console.log("user not signed in")
+        this.router.navigate(['/signin']);
       } else {
-        console.log('No username found in cookies');
+        const decryptedUsername = CryptoJS.AES.decrypt(encryptedUsername, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+        this. adminpages = [
+          {
+            title: 'Student Management',
+            icon: 'account_circle',
+            link: '/student',
+          },
+          {
+            title: 'Teacher Management',
+            icon: 'work',
+            link: '/teacher',
+          },
+          {
+            title: 'Course Management',
+            icon: 'library_books',
+            link: '/course',
+          },
+          {
+            title: 'Department Management',
+            icon: 'school',
+            link: '/department',
+          },
+        ];
       }
     }
   }
@@ -52,28 +69,6 @@ export class DashboardComponent {
     }
   }
 
-  adminpages = [
-    {
-      title: 'Student Management',
-      icon: 'account_circle',
-      link: '/student',
-    },
-    {
-      title: 'Teacher Management',
-      icon: 'work',
-      link: '/teacher',
-    },
-    {
-      title: 'Course Management',
-      icon: 'library_books',
-      link: '/course',
-    },
-    {
-      title: 'Department Management',
-      icon: 'school',
-      link: '/department',
-    },
-  ];
 
   openitem(link: string) {
     this.router.navigate([`/${link}`]);

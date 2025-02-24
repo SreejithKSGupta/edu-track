@@ -38,6 +38,22 @@ export class SigninComponent {
      private adminService: AdminserviceService
     ) {}
 
+    ngOnInit(): void {
+      if (typeof window !== 'undefined') {
+        const encryptedUsername = this.cookieService.get('username');
+        if (encryptedUsername) {
+          let choise = confirm('You are already logged in. Do you want to log out?');
+          if(choise){
+            this.cookieService.delete('username');
+            this.cookieService.delete('password');
+          }
+          else{
+            this.router.navigate(['/dashboard']);
+          }
+        }
+      }
+    }
+
   onSubmit() {
     if (this.isSignUp) {
       this.signup();
@@ -49,7 +65,8 @@ export class SigninComponent {
   private login() {
     const user={
       username:this.username,
-      password:this.password
+      password:this.password,
+      name:this.username
     }
    this.adminService.checksignin(user).subscribe(
     (response) => {
@@ -107,7 +124,9 @@ export class SigninComponent {
   }
 
   private savaNewUser(userData: { username: string; password: string; name:string }) {
-    this.adminService.addUser(userData);
+    this.adminService.addUser(userData).subscribe(res=>{
+      console.log(res);
+    });
   }
 
 }
