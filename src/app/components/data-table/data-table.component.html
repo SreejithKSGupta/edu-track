@@ -1,17 +1,30 @@
+<div class="table-container">
 
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource">
-    
-        <ng-container matColumnDef="ID">
-          <th mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let element"> {{element.student_id}} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="Name">
+  
+  <div class="py-3 d-flex justify-content-between row">
+    <div class="left">
+      <h1 class="text-uppercase">Students Details</h1>
+    </div>
+    <div class="right">
+      <button class="btn btn-secondary btn1" (click)="openaddDialog()">Open First Dialog</button>
+      <button class="btn btn-secondary btn2" (click)="opengetDialog()">Open Second Dialog</button>
+    </div>
+  </div>
+  
+  
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      
+      <ng-container matColumnDef="ID">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.student_id}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="Name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
           <td mat-cell *matCellDef="let element"> {{element.student_name}} </td>
         </ng-container>
-    
+        
         <ng-container matColumnDef="Email">
           <th mat-header-cell *matHeaderCellDef> Email </th>
           <td mat-cell *matCellDef="let element"> {{element.student_email}} </td>
@@ -24,7 +37,7 @@
           <th mat-header-cell *matHeaderCellDef> Gender </th>
           <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
         </ng-container>
-    
+        
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
@@ -40,7 +53,8 @@
       [hidePageSize]="hidePageSize"
       [pageIndex]="pageIndex"
       aria-label="Select page">
-</mat-paginator>
-
-    <!-- </div> -->
+    </mat-paginator>
     
+  <!-- </div> -->
+  
+</div>

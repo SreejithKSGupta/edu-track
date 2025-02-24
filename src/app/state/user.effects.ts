@@ -19,7 +19,7 @@ export class UserEffects {
                 console.log(users.length);
                 return loadUsersSuccess({ users })
               }),
-              catchError((error) => of(loadMoreUsersFailure({ error: error.message })))
+              catchError((error) => of(loadUsersFailure({ error: error.message })))
             )
           )
         )
@@ -30,13 +30,13 @@ export class UserEffects {
           ofType(loadMoreUsers),
           delay(2000), 
           mergeMap(() =>
-            this.dataService.getUsers(100, 100000).pipe( 
+            this.dataService.getUsers(100, Number.MAX_SAFE_INTEGER).pipe( 
               take(1),
               map(users => {
                 console.log(users.length);
                 return loadMoreUsersSuccess({ users })  
               }),
-              catchError(error => of(loadUsersFailure({ error })))
+              catchError(error => of(loadMoreUsersFailure({ error: error.message })))
             )
           )
         )

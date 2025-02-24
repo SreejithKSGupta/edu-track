@@ -9,12 +9,21 @@ import { HttpClient } from '@angular/common/http';
 
 export class DataService {
 
-  private url = 'http://localhost:5000/students';
+  private url = 'http://localhost:5000';
   // private url = 'http://localhost:3000/students';
 
   constructor(private http: HttpClient){}
 
   getUsers(start: number, limit: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.url}?_start=${start}&_limit=${limit}`);
+    return this.http.get<User[]>(`${this.url}/students?_start=${start}&_limit=${limit}`);
+  }
+
+  addStudent(studentData: any): Observable<User> {
+    return this.http.post<User>(`${this.url}/create-student`, studentData);
+  }
+
+  getStudentById(studentId: string): Observable<User> {
+    console.log(studentId);
+    return this.http.get<User>(`${this.url}/students/${studentId}`);
   }
 }
