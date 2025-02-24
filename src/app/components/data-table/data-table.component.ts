@@ -5,8 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
-import { loadMoreUsers, loadMoreUsersSuccess, loadUsers, setPagination } from '../../state/user.actions';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { commitPrefetchedUsers, loadMoreUsers, setPagination } from '../../state/user.actions';
+import { MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,14 +33,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
   pageSize: number = 10;
   pageIndex: number = 0;
   pageSizeOptions: number[] = [10, 25, 50];
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
 
   worker!: Worker
   subscriptions: Subscription[] = [];
+  currentOffset: number = 100;
+  prefetchedUsers: User[] = [];
 
-  hidePageSize = false;
-    showPageSizeOptions = true;
-    showFirstLastButtons = true;
-    disabled = false;
 
   constructor(private store: Store,  public dialog: MatDialog) {
     this.users$ = this.store.select(selectAllUsers);
@@ -48,17 +50,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadUsers());
-
-    if (typeof Worker !== 'undefined') {
-      if(!this.worker){
-
-        this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
-        this.worker.onmessage = ({ data }) => {
-          this.store.dispatch(loadMoreUsers({ users: data.remainingUsers }));
-        };
-      }
-    }
+    this.store.dispatch(loadMoreUsers({ offset: 0, limit: 1000 }));
+    this.subscriptions.push(
+      this.users$.subscribe(users => {
+        const startIndex = this.pageIndex * this.pageSize;
+        this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
+      })
+    );
     this.subscriptions.push(
       this.pagination$.subscribe(({length, pageSize, pageIndex})=>{
         this.length = length;
@@ -67,13 +65,32 @@ export class DataTableComponent implements OnInit, OnDestroy {
         this.updatePaginatedUsers();
       })
     )
-    setTimeout(() => {
-      this.users$.subscribe(users => {
-        if (users.length > 10 && this.worker) {
-          this.worker.postMessage({ users: users.slice(100) });
+    this.initWorker();
+    this.prefetchNextChunk();
+  }
+
+  initWorker(){
+    
+    if (typeof Worker !== 'undefined') {
+      if(!this.worker){
+
+        this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
+        this.worker.onmessage = ({ data }) => {
+          const fetchedUsers: User[] = data.users;
+        if (fetchedUsers && fetchedUsers.length > 0) {
+          this.prefetchedUsers = fetchedUsers;
         }
-      });
-    }, 2000);
+        };
+      }
+    }
+  }
+
+  prefetchNextChunk(){
+    if (this.worker) {
+      console.log("prefetch");
+      
+      this.worker.postMessage({ offset: this.length, limit: this.length+1000 });
+    }
   }
 
   updatePaginatedUsers() {
@@ -85,11 +102,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   handlePageEvent(event: PageEvent) {
     this.store.dispatch(setPagination({ pageIndex: event.pageIndex, pageSize: event.pageSize }));
+    const totalVisiblePages = Math.ceil(this.length / this.pageSize);
+    if (event.pageIndex === totalVisiblePages - 1 && this.prefetchedUsers.length > 0) {
+      this.store.dispatch(commitPrefetchedUsers({ users: this.prefetchedUsers }));
+      this.prefetchedUsers = [];
+      this.prefetchNextChunk();
+    }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.worker) {
+      debugger
       this.worker.terminate(); 
     }
   }

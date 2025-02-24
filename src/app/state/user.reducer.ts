@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadMoreUsersSuccess, loadUsersFailure, loadUsersSuccess, setPagination } from './user.actions';
+import { commitPrefetchedUsers, loadMoreUsersSuccess, setPagination } from './user.actions';
 import { User } from '../models/user.model';
 
 export interface UserState {
@@ -18,12 +18,6 @@ const initialState: UserState = {
 
 export const userReducer = createReducer(
   initialState,
-  
-  on(loadUsersSuccess, (state, { users }) => ({
-    ...state,
-    users,
-    length: users.length
-  })),
 
   on(loadMoreUsersSuccess, (state, { users }) => ({
     ...state,
@@ -35,5 +29,10 @@ export const userReducer = createReducer(
     ...state,
     pageIndex,
     pageSize
-  }))
+  })),
+  on(commitPrefetchedUsers, (state, { users }) => ({
+    ...state,
+    users: [...state.users, ...users],
+    length: state.users.length + users.length
+  })),
 );
