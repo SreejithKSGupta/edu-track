@@ -1,44 +1,67 @@
 .dialog-title {
     text-align: center;
     font-weight: 700;
-    background-color: #4a4a4a;
-    color: #fff;
+    color: #444;
     border-radius: 8px;
-    padding: 10px 0;
-    width: 80%;
-    margin: 0 auto 20px auto;
-}
-
-.student-form-container {
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
-
-    // Add a slight gradient background for a subtle modern touch
-    background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
-
-    // Use Bootstrap spacing and shadows
-
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .student-form-container {
+    
     .form-group {
-        label {
-            font-size: 1rem;
-        }
-
+      display: flex;
+      flex-direction: row;
+  
+      label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+        width: 20%;
+      }
+  
+      .input-container {
+        position: relative;
+        width: 80%;
+  
         .form-control,
         .form-select {
-            font-size: 1rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.25rem;
-            border: 1px solid #ced4da;
+          width: 100%;
+          padding: 8px;
+          font-size: 0.9rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          transition: 0.3s;
+          margin-bottom: 10px;
+  
+          &:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+          }
+  
+          &.error {
+            border-color: #dc3545;
+          }
         }
+  
+        .error-text {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 0.8rem;
+          color: #dc3545;
+          font-weight: 600;
+        }
+      }
     }
-
+  
     button {
-        font-size: 1.1rem;
-        font-weight: 600;
-        padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 8px;
+      border-radius: 6px;
     }
-}
-
-mat-dialog-actions {
-    padding: 0 1rem 1rem 1rem;
-}
+  }
+  

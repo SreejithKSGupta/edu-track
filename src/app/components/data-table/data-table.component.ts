@@ -9,7 +9,7 @@ import { loadMoreUsers, loadMoreUsersSuccess, loadUsers, setPagination } from '.
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
 import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
 @Component({
@@ -39,6 +39,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
     showPageSizeOptions = true;
     showFirstLastButtons = true;
     disabled = false;
+    isAddDialogOpen = false; // ✅ Flag for first dialog
+    isGetDialogOpen = false; // ✅ Flag for second dialog
+    addDialogRef!: MatDialogRef<any> | null;
+    getDialogRef!: MatDialogRef<any> | null;
 
   constructor(private store: Store,  public dialog: MatDialog) {
     this.users$ = this.store.select(selectAllUsers);
@@ -92,24 +96,65 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  openaddDialog() {
-    this.dialog.open(DialogboxaddComponent, {
-      position: { left: '10vw', top: '10vh' },
-      width: '50vw',
-      height: '100vw',
-      disableClose: true,
-      hasBackdrop: false 
-    });
+  
+
+  openAddDialog() {
+    if (!this.isAddDialogOpen) {
+      this.isAddDialogOpen = true;
+      this.addDialogRef = this.dialog.open(DialogboxaddComponent, {
+        position: { left: '5vw', top: '25vh' },
+        width: '40vw',
+        disableClose: true,
+        hasBackdrop: false
+      });
+
+      this.addDialogRef.afterClosed().subscribe(() => {
+        this.isAddDialogOpen = false;
+        this.addDialogRef = null;
+      });
+    } else {
+      this.closeAddDialog();
+    }
   }
 
-  opengetDialog() {
-    this.dialog.open(DialogboxgetComponent, {
-      position: { left: '55vw', top: '10vh' },
-      width: '50vw',
-      height: '70vw',
-      disableClose: true,
-      hasBackdrop: false
-    });
+  openGetDialog() {
+    if (!this.isGetDialogOpen) {
+      this.isGetDialogOpen = true;
+      this.getDialogRef = this.dialog.open(DialogboxgetComponent, {
+        position: { left: '45vw', top: '25vh' },
+        width: '40vw',
+        disableClose: true,
+        hasBackdrop: false
+      });
+
+      this.getDialogRef.afterClosed().subscribe(() => {
+        this.isGetDialogOpen = false;
+        this.getDialogRef = null;
+      });
+    } else {
+      this.closeGetDialog();
+    }
+  }
+
+  closeAddDialog() {
+    if (this.isAddDialogOpen && this.addDialogRef) {
+      this.addDialogRef.close();
+      this.isAddDialogOpen = false; // ✅ Reset flag
+      this.addDialogRef = null;
+    }
+  }
+
+  closeGetDialog() {
+    if (this.isGetDialogOpen && this.getDialogRef) {
+      this.getDialogRef.close();
+      this.isGetDialogOpen = false; // ✅ Reset flag
+      this.getDialogRef = null;
+    }
+  }
+
+  closeAllDialogs() {
+    this.closeAddDialog();
+    this.closeGetDialog();
   }
 }
 
