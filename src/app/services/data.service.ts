@@ -15,7 +15,7 @@ export class DataService {
   constructor(private http: HttpClient){}
 
   getUsers(start: number, limit: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.url}/student?_start=${start}&_limit=${limit}`);
+    return this.http.get<User[]>(`${this.url}/students?_start=${start}&_limit=${limit}`);
   }
 
   addStudent(studentData: any): Observable<User> {
