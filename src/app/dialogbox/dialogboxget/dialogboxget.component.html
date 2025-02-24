@@ -12,16 +12,17 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Submit</button>
       </form>
-  
-      <div class="student-data mt-4 p-3 bg-light border rounded" *ngIf="studentData">
-        <h3 class="mb-3">Student Data:</h3>
-        <p><strong>ID:</strong> {{ studentData.student_id }}</p>
-        <p><strong>Name:</strong> {{ studentData.student_name }}</p>
-        <p><strong>Email:</strong> {{ studentData.student_email }}</p>
-        <p><strong>Phone:</strong> {{ studentData.student_phone }}</p>
-        <p><strong>Gender:</strong> {{ studentData.gender }}</p>
-        <p><strong>Age:</strong> {{ studentData.age }}</p>
-      </div>
+      <!-- <div class="student-data mt-4 p-3 bg-light border rounded" *ngIf="studentData| async"> -->
+        <div *ngFor="let student of studentData">
+          <h3 class="mb-3">{{ student.student_name }}</h3>
+          <p><strong>ID:</strong> {{ student.student_id }}</p>
+          <p><strong>Name:</strong> {{ student.student_name }}</p>
+          <p><strong>Email:</strong> {{ student.student_email }}</p>
+          <p><strong>Phone:</strong> {{ student.student_phone }}</p>
+          <p><strong>Gender:</strong> {{ student.gender }}</p>
+        </div>
+        
+      <!-- </div> -->
     </div>
   </mat-dialog-content>
   <mat-dialog-actions class="justify-content-center mt-3">

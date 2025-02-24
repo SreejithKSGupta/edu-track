@@ -23,6 +23,7 @@ export class DataService {
   }
 
   getStudentById(studentId: string): Observable<User> {
+    console.log(studentId);
     return this.http.get<User>(`${this.url}/students/${studentId}`);
   }
 }
