@@ -12,10 +12,12 @@ import { selectAllUsers, selectUserPagination } from '../../state/user.selectors
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
 import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -155,6 +157,42 @@ export class DataTableComponent implements OnInit, OnDestroy {
   closeAllDialogs() {
     this.closeAddDialog();
     this.closeGetDialog();
+  }
+
+  editableState : any = {};
+  originalValues : any = {};
+
+  editCell(element: any, column: string) {
+    const key = `${element.student_id}-${column}`;
+    console.log(element._id);
+    
+    this.editableState[key] = true;
+    
+    if (!this.originalValues[key]) {
+      this.originalValues[key] = element[column];
+    }
+  }
+
+  saveCell(element: any, column: string) {
+    const key = `${element.student_id}-${column}`;
+    this.editableState[key] = false;
+
+    const originalValue = this.originalValues[key];
+  
+    const newValue = element[column];
+
+    if (originalValue !== newValue) {
+      console.log(`Changed ${column} from ${originalValue} to ${newValue}`);
+    }
+    console.log(newValue, originalValue);
+    
+    delete this.originalValues[key];
+
+  }
+
+  isEditing(element: any, column: string): boolean {
+    const key = `${element.student_id}-${column}`;
+    return !!this.editableState[key];
   }
 }
 

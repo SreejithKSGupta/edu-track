@@ -57,6 +57,11 @@ export class DashboardComponent {
             icon: 'school',
             link: '/department',
           },
+          {
+            title: 'Preferences',
+            icon: 'settings',
+            link: '/preferences',
+          },
         ];
       }
     }
