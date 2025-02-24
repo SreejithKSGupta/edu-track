@@ -1,7 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { UserState } from './user.reducer';
 
-// Select the user state
 export const selectUserState = createFeatureSelector<UserState>('users');
 
 export const selectAllUsers = createSelector(
@@ -9,7 +8,6 @@ export const selectAllUsers = createSelector(
   (state: UserState) => state.users
 );
 
-// Select pagination details
 export const selectUserPagination = createSelector(
   selectUserState,
   (state: UserState) => ({
@@ -19,7 +17,6 @@ export const selectUserPagination = createSelector(
   })
 );
 
-// Select paginated users (based on current page)
 export const selectPaginatedUsers = createSelector(
   selectUserState,
   (state: UserState) => {

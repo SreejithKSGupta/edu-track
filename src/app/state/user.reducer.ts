@@ -19,21 +19,18 @@ const initialState: UserState = {
 export const userReducer = createReducer(
   initialState,
   
-  // Load initial users
   on(loadUsersSuccess, (state, { users }) => ({
     ...state,
     users,
     length: users.length
   })),
 
-  // Load more users (append to state)
   on(loadMoreUsersSuccess, (state, { users }) => ({
     ...state,
     users: [...state.users, ...users],
     length: state.users.length + users.length
   })),
 
-  // Update pagination
   on(setPagination, (state, { pageIndex, pageSize }) => ({
     ...state,
     pageIndex,

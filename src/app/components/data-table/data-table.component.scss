@@ -1,9 +1,12 @@
+.table-container{
+    margin: 3rem;
+}
+
 .left, .right{
-    width: 48%;
+    width: 45%;
 }
 
 .left h1{
-    // width: 100px !important;
     color: rgb(36, 36, 36) ;
     font-weight: 700;
 }
@@ -13,7 +16,7 @@
     justify-content: end;
 }
 
-.right button{
+.right .btn{
     margin: 0 1rem;
 }
 
