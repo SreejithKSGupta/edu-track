@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-dialogboxadd',
@@ -14,7 +15,7 @@ import { NgIf } from '@angular/common';
 export class DialogboxaddComponent {
   studentForm!: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<DialogboxaddComponent>, private fb: FormBuilder) {}
+  constructor(public dialogRef: MatDialogRef<DialogboxaddComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
 
   ngOnInit(): void {
@@ -24,14 +25,22 @@ export class DialogboxaddComponent {
       student_email: ['', [Validators.required, Validators.email]],
       student_phone: ['', Validators.required],
       gender: ['', Validators.required],
-      age: [null] // optional field: no validators attached
     });
   }
 
   onSubmit(): void {
     if (this.studentForm.valid) {
-      console.log('Student Data:', this.studentForm.value);
-      // Handle the form submission (e.g., send to a backend service)
+      this.dataService.addStudent(this.studentForm.value).subscribe(
+        (response) => {
+          console.log('Student Data Saved:', response);
+          alert('Student added successfully!');
+          this.dialogRef.close(); // Close modal after success
+        },
+        (error) => {
+          console.error('Error saving student:', error);
+          alert('Failed to add student.');
+        }
+      );
     } else {
       this.studentForm.markAllAsTouched();
     }
