@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.left{
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color)!important;
+  cursor: pointer;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.notification-btn,.theme-toggle-btn  {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+}

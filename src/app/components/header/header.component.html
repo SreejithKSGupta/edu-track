@@ -1,0 +1,13 @@
+<header class="header">
+  <div class="left" (click)="openitem('')" routerLinkActive="router-link-active" >
+    Admin Dashboard
+  </div>
+  <div class="right">
+    <button class="notification-btn">
+      <span class="notification-icon">🔔</span>
+    </button>
+    <button class="theme-toggle-btn" (click)="toggleTheme()">
+      <span>{{ isDarkMode ? '🌙' : '🌞' }}</span>
+    </button>
+  </div>
+</header>
