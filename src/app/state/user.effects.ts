@@ -29,8 +29,10 @@ export class UserEffects {
         this.actions$.pipe(
           ofType(loadMoreUsers),
           delay(2000), 
-          mergeMap(() =>
-            this.dataService.getUsers(100, Number.MAX_SAFE_INTEGER).pipe( 
+          mergeMap(() =>{
+            console.log("hello world");
+            
+            return this.dataService.getUsers(100, Number.MAX_SAFE_INTEGER).pipe( 
               take(1),
               map(users => {
                 console.log(users.length);
@@ -38,7 +40,7 @@ export class UserEffects {
               }),
               catchError(error => of(loadMoreUsersFailure({ error: error.message })))
             )
-          )
+          })
         )
       );
   }
