@@ -13,14 +13,14 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
 import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
 import { FormsModule } from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [MatIconModule,CommonModule,MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule],
+  imports: [MatIconModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -40,10 +40,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   disabled = false;
-    isAddDialogOpen = false; // ✅ Flag for first dialog
-    isGetDialogOpen = false; // ✅ Flag for second dialog
-    addDialogRef!: MatDialogRef<any> | null;
-    getDialogRef!: MatDialogRef<any> | null;
+  isAddDialogOpen = false; // ✅ Flag for first dialog
+  isGetDialogOpen = false; // ✅ Flag for second dialog
+  addDialogRef!: MatDialogRef<any> | null;
+  getDialogRef!: MatDialogRef<any> | null;
 
   worker!: Worker
   subscriptions: Subscription[] = [];
@@ -74,6 +74,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
     )
     this.initWorker();
     this.prefetchNextChunk();
+  }
+
+  @HostListener('click', ['$event'])
+  stopPropagation(event: Event) {
+    console.log('Click event inside Parent Component!');
+    event.stopPropagation();
   }
 
   initWorker() {
@@ -220,9 +226,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // console.log("Edited data: " + newValue);
     // console.log("Edited data id: " + element._id);
     // console.log("Edited data field: " + column);
-    const updatedData = {[column]: newValue};
-    
-    this.dataService.updateStudentById(element._id, updatedData).subscribe(res=>{
+    const updatedData = { [column]: newValue };
+
+    this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
       alert("Updated...")
     })
 
@@ -235,6 +241,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
     return !!this.editableState[key];
   }
 
-  
+
 }
 
