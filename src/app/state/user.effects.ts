@@ -6,24 +6,9 @@ import { catchError, map, mergeMap, of, take } from 'rxjs';
 
 @Injectable()
 export class UserEffects {
-    // loadUsers$;
     loadMoreUsers$;
 
   constructor(private actions$: Actions, private dataService: DataService) {
-    // this.loadUsers$ = createEffect(() =>
-    //     this.actions$.pipe(
-    //       ofType(loadUsers),
-    //       mergeMap(() =>
-    //         this.dataService.getUsers(0,1000).pipe(
-    //           map((users) => {
-    //             console.log(users.length);
-    //             return loadUsersSuccess({ users })
-    //           }),
-    //           catchError((error) => of(loadUsersFailure({ error: error.message })))
-    //         )
-    //       )
-    //     )
-    //   );
 
       this.loadMoreUsers$ = createEffect(() =>
         this.actions$.pipe(
