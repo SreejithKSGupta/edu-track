@@ -6,8 +6,8 @@ import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
 import { commitPrefetchedUsers, loadMoreUsers, setPagination } from '../../state/user.actions';
-import { MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
@@ -44,7 +44,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   prefetchedUsers: User[] = [];
 
 
-  constructor(private store: Store,  public dialog: MatDialog) {
+  constructor(private store: Store, public dialog: MatDialog) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
   }
@@ -58,7 +58,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       })
     );
     this.subscriptions.push(
-      this.pagination$.subscribe(({length, pageSize, pageIndex})=>{
+      this.pagination$.subscribe(({ length, pageSize, pageIndex }) => {
         this.length = length;
         this.pageSize = pageSize;
         this.pageIndex = pageIndex;
@@ -69,27 +69,27 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.prefetchNextChunk();
   }
 
-  initWorker(){
-    
+  initWorker() {
+
     if (typeof Worker !== 'undefined') {
-      if(!this.worker){
+      if (!this.worker) {
 
         this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
         this.worker.onmessage = ({ data }) => {
           const fetchedUsers: User[] = data.users;
-        if (fetchedUsers && fetchedUsers.length > 0) {
-          this.prefetchedUsers = fetchedUsers;
-        }
+          if (fetchedUsers && fetchedUsers.length > 0) {
+            this.prefetchedUsers = fetchedUsers;
+          }
         };
       }
     }
   }
 
-  prefetchNextChunk(){
+  prefetchNextChunk() {
     if (this.worker) {
       console.log("prefetch");
-      
-      this.worker.postMessage({ offset: this.length, limit: this.length+1000 });
+
+      this.worker.postMessage({ offset: this.length, limit: this.length + 1000 });
     }
   }
 
@@ -113,8 +113,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.worker) {
-      debugger
-      this.worker.terminate(); 
+      this.worker.terminate();
     }
   }
 
@@ -124,7 +123,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       width: '50vw',
       height: '100vw',
       disableClose: true,
-      hasBackdrop: false 
+      hasBackdrop: false
     });
   }
 
@@ -138,39 +137,46 @@ export class DataTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  editableState : any = {};
-  originalValues : any = {};
+  editableState: any = {};
+  originalValues: any = {};
 
   editCell(element: any, column: string) {
-    const key = `${element.student_id}-${column}`;
-    console.log(element._id);
-    
+    const key = `${element._id}-${column}`;
+
     this.editableState[key] = true;
-    
+
     if (!this.originalValues[key]) {
       this.originalValues[key] = element[column];
     }
+
+    this.dataSource.data = this.dataSource.data.map((item: any) =>
+      item._id === element._id ? { ...item } : item
+    );
+
   }
 
   saveCell(element: any, column: string) {
-    const key = `${element.student_id}-${column}`;
+    const key = `${element._id}-${column}`;
+    const newValue = element[column];
+    const index = this.dataSource.data.findIndex(item => item._id === element._id);
+    if (index !== -1) {
+      const updatedElement = { ...this.dataSource.data[index], [column]: newValue };
+      const updatedData = [...this.dataSource.data];
+      updatedData[index] = updatedElement;
+      this.dataSource.data = updatedData;
+    }
     this.editableState[key] = false;
 
-    const originalValue = this.originalValues[key];
-  
-    const newValue = element[column];
+    console.log("Edited data: " + newValue);
+    console.log("Edited data id: " + element._id);
+    console.log("Edited data field: " + column);
 
-    if (originalValue !== newValue) {
-      console.log(`Changed ${column} from ${originalValue} to ${newValue}`);
-    }
-    console.log(newValue, originalValue);
-    
     delete this.originalValues[key];
 
   }
 
   isEditing(element: any, column: string): boolean {
-    const key = `${element.student_id}-${column}`;
+    const key = `${element._id}-${column}`;
     return !!this.editableState[key];
   }
 }
