@@ -18,10 +18,6 @@ export class AdminserviceService {
   }
 
   checksignin(user:any):Observable<any>{
-    // const username = user.username;
-    // const password = user.password;
-    // const body = { username, password };
-    // console.log(body);
     return this.http.post('http://localhost:5000/users', user);
   }
 }

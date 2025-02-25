@@ -5,9 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
-import { loadMoreUsers, loadMoreUsersSuccess, loadUsers, setPagination } from '../../state/user.actions';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableModule} from '@angular/material/table';
+import { commitPrefetchedUsers, loadMoreUsers, setPagination } from '../../state/user.actions';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
@@ -15,6 +15,7 @@ import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget
 import { FormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-data-table',
@@ -35,58 +36,69 @@ export class DataTableComponent implements OnInit, OnDestroy {
   pageSize: number = 10;
   pageIndex: number = 0;
   pageSizeOptions: number[] = [10, 25, 50];
-
-  worker!: Worker
-  subscriptions: Subscription[] = [];
-
   hidePageSize = false;
-    showPageSizeOptions = true;
-    showFirstLastButtons = true;
-    disabled = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
     isAddDialogOpen = false; // ✅ Flag for first dialog
     isGetDialogOpen = false; // ✅ Flag for second dialog
     addDialogRef!: MatDialogRef<any> | null;
     getDialogRef!: MatDialogRef<any> | null;
 
-  constructor(private store: Store,  public dialog: MatDialog) {
+  worker!: Worker
+  subscriptions: Subscription[] = [];
+  currentOffset: number = 100;
+  prefetchedUsers: User[] = [];
+
+
+  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadUsers());
-
-    if (typeof Worker !== 'undefined') {
-      if(!this.worker){
-
-        this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
-        this.worker.onmessage = ({ data }) => {
-          this.store.dispatch(loadMoreUsers({ users: data.remainingUsers }));
-        };
-      }
-    }
+    this.store.dispatch(loadMoreUsers({ offset: 0, limit: 1000 }));
     this.subscriptions.push(
-      this.pagination$.subscribe(({length, pageSize, pageIndex})=>{
+      this.users$.subscribe(users => {
+        const startIndex = this.pageIndex * this.pageSize;
+        this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
+      })
+    );
+    this.subscriptions.push(
+      this.pagination$.subscribe(({ length, pageSize, pageIndex }) => {
         this.length = length;
         this.pageSize = pageSize;
         this.pageIndex = pageIndex;
         this.updatePaginatedUsers();
       })
     )
-    setTimeout(() => {
-      this.users$.subscribe(users => {
-        if (users.length > 10 && this.worker) {
-          this.worker.postMessage({ users: users.slice(100) });
-        }
-      });
-    }, 2000);
+    this.initWorker();
+    this.prefetchNextChunk();
   }
 
-  @HostListener('click', ['$event'])
-  stopPropagation(event: Event) {
-  console.log('Click event inside parent element'); // ✅ Debug log
-  event.stopPropagation();
-}
+  initWorker() {
+
+    if (typeof Worker !== 'undefined') {
+      if (!this.worker) {
+
+        this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
+        this.worker.onmessage = ({ data }) => {
+          const fetchedUsers: User[] = data.users;
+          if (fetchedUsers && fetchedUsers.length > 0) {
+            this.prefetchedUsers = fetchedUsers;
+          }
+        };
+      }
+    }
+  }
+
+  prefetchNextChunk() {
+    if (this.worker) {
+      console.log("prefetch");
+
+      this.worker.postMessage({ offset: this.length, limit: this.length + 1000 });
+    }
+  }
 
   updatePaginatedUsers() {
     this.users$.subscribe(users => {
@@ -97,12 +109,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   handlePageEvent(event: PageEvent) {
     this.store.dispatch(setPagination({ pageIndex: event.pageIndex, pageSize: event.pageSize }));
+    const totalVisiblePages = Math.ceil(this.length / this.pageSize);
+    if (event.pageIndex === totalVisiblePages - 1 && this.prefetchedUsers.length > 0) {
+      this.store.dispatch(commitPrefetchedUsers({ users: this.prefetchedUsers }));
+      this.prefetchedUsers = [];
+      this.prefetchNextChunk();
+    }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.worker) {
-      this.worker.terminate(); 
+      this.worker.terminate();
     }
   }
 
@@ -169,39 +187,51 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.closeGetDialog();
   }
 
-  editableState : any = {};
-  originalValues : any = {};
+  editableState: any = {};
+  originalValues: any = {};
 
   editCell(element: any, column: string) {
-    const key = `${element.student_id}-${column}`;
-    console.log(element._id);
-    
+    const key = `${element._id}-${column}`;
+
     this.editableState[key] = true;
-    
+
     if (!this.originalValues[key]) {
       this.originalValues[key] = element[column];
     }
+
+    this.dataSource.data = this.dataSource.data.map((item: any) =>
+      item._id === element._id ? { ...item } : item
+    );
+
   }
 
   saveCell(element: any, column: string) {
-    const key = `${element.student_id}-${column}`;
+    const key = `${element._id}-${column}`;
+    const newValue = element[column];
+    const index = this.dataSource.data.findIndex(item => item._id === element._id);
+    if (index !== -1) {
+      const updatedElement = { ...this.dataSource.data[index], [column]: newValue };
+      const updatedData = [...this.dataSource.data];
+      updatedData[index] = updatedElement;
+      this.dataSource.data = updatedData;
+    }
     this.editableState[key] = false;
 
-    const originalValue = this.originalValues[key];
-  
-    const newValue = element[column];
-
-    if (originalValue !== newValue) {
-      console.log(`Changed ${column} from ${originalValue} to ${newValue}`);
-    }
-    console.log(newValue, originalValue);
+    // console.log("Edited data: " + newValue);
+    // console.log("Edited data id: " + element._id);
+    // console.log("Edited data field: " + column);
+    const updatedData = {[column]: newValue};
     
+    this.dataService.updateStudentById(element._id, updatedData).subscribe(res=>{
+      alert("Updated...")
+    })
+
     delete this.originalValues[key];
 
   }
 
   isEditing(element: any, column: string): boolean {
-    const key = `${element.student_id}-${column}`;
+    const key = `${element._id}-${column}`;
     return !!this.editableState[key];
   }
 
