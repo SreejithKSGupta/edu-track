@@ -1,39 +1,23 @@
-.table-container{
-    margin: 3rem;
-}
-
-.left, .right{
-    width: 45%;
-}
-
-.left h1{
-    color: rgb(36, 36, 36) ;
-    font-weight: 700;
-}
-
-.right{
-    display: flex;
-    justify-content: end;
-}
-
-.right .btn{
-    margin: 0 1rem;
-}
 
 .mat-mdc-table{
     border: 1px solid black !important;
 }
 
-@media screen and (max-width: 720px) {
-    .left, .right{
-        width: 100%;
-    }
-    .right{
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    .right button{
-        margin: 1rem 1rem 1rem 0;
-    }
+#headingrow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 15px;
 }
+
+
+.btn-close {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important; 
+  }
+
+  #schstdbtn, #addstdbtn {
+    margin: 0px 5px;
+  }

@@ -34,7 +34,7 @@ export class DialogboxaddComponent {
         (response) => {
           console.log('Student Data Saved:', response);
           alert('Student added successfully!');
-          this.dialogRef.close(); // Close modal after success
+          this.dialogRef.close();
         },
         (error) => {
           console.error('Error saving student:', error);
