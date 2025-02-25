@@ -11,8 +11,10 @@
       <p><strong>Status:</strong> {{ message.read ? 'Read' : 'Unread' }}</p>
     </mat-card-content>
 
-    <mat-card-actions>
-      <button mat-flat-button >Mark as read</button>
+    <mat-card-actions *ngIf="!message.read">
+      <button mat-flat-button color="primary" (click)="markAsRead(message)">
+        Mark as Read
+      </button>
     </mat-card-actions>
   </mat-card>
 </div>

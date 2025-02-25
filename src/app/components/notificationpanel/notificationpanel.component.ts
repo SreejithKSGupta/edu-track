@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MatButton } from '@angular/material/button';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-notificationpanel',
-  imports: [MatCardModule,CommonModule
-  ],
+  imports: [MatCardModule, CommonModule,MatButtonModule],
   templateUrl: './notificationpanel.component.html',
-  styleUrl: './notificationpanel.component.scss'
+  styleUrls: ['./notificationpanel.component.scss']
 })
 export class NotificationpanelComponent {
 
-   notifications =[
+  notifications =[
     {
       title: 'New Message',
       type: 'user Added',
@@ -135,4 +134,7 @@ export class NotificationpanelComponent {
    }
   ]
 
+  markAsRead(message: any) {
+    message.read = true;  // Mark the message as read when the button is clicked
+  }
 }
