@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',
-  // imports: [ NotificationpanelComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
