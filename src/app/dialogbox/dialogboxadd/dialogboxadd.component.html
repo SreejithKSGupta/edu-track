@@ -1,58 +1,63 @@
-<div class="container my-3">
+<div class="container">
   <h2 class="dialog-title">Add User</h2>
   <mat-dialog-content>
-    <div class="student-form-container p-4 shadow-sm rounded">
+    <div class="student-form-container">
       <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-        <div class="form-group mb-3">
-          <label for="student_id" class="fw-bold">Student ID:</label>
-          <input id="student_id" type="text" formControlName="student_id" class="form-control" />
-          <div class="text-danger mt-1" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
-            Student ID is required.
+        <div class="form-group">
+          <label for="student_id">Student ID:</label>
+          <div class="input-container">
+            <input id="student_id" type="text" formControlName="student_id" class="form-control" [class.error]="studentForm.get('student_id')?.invalid && studentForm.get('student_id')?.touched"/>
+            <span class="error-text" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
+              Required
+            </span>
           </div>
         </div>
-  
-        <div class="form-group mb-3">
-          <label for="student_name" class="fw-bold">Name:</label>
-          <input id="student_name" type="text" formControlName="student_name" class="form-control" />
-          <div class="text-danger mt-1" *ngIf="studentForm.get('student_name')?.touched && studentForm.get('student_name')?.invalid">
-            Student Name is required.
+
+        <div class="form-group">
+          <label for="student_name">Name:</label>
+          <div class="input-container">
+            <input id="student_name" type="text" formControlName="student_name" class="form-control" [class.error]="studentForm.get('student_name')?.invalid && studentForm.get('student_name')?.touched"/>
+            <span class="error-text" *ngIf="studentForm.get('student_name')?.touched && studentForm.get('student_name')?.invalid">
+              Required
+            </span>
           </div>
         </div>
-  
-        <div class="form-group mb-3">
-          <label for="student_email" class="fw-bold">Email:</label>
-          <input id="student_email" type="email" formControlName="student_email" class="form-control" />
-          <div class="text-danger mt-1" *ngIf="studentForm.get('student_email')?.touched && studentForm.get('student_email')?.invalid">
-            <ng-container *ngIf="studentForm.get('student_email')?.errors?.['required']">
-              Email is required.
-            </ng-container>
-            <ng-container *ngIf="studentForm.get('student_email')?.errors?.['email']">
-              Invalid email address.
-            </ng-container>
+
+        <div class="form-group">
+          <label for="student_email">Email:</label>
+          <div class="input-container">
+            <input id="student_email" type="email" formControlName="student_email" class="form-control" [class.error]="studentForm.get('student_email')?.invalid && studentForm.get('student_email')?.touched"/>
+            <span class="error-text" *ngIf="studentForm.get('student_email')?.touched && studentForm.get('student_email')?.invalid">
+              {{ studentForm.get('student_email')?.errors?.['required'] ? 'Required' : 'Invalid email' }}
+            </span>
           </div>
         </div>
-  
-        <div class="form-group mb-3">
-          <label for="student_phone" class="fw-bold">Phone:</label>
-          <input id="student_phone" type="text" formControlName="student_phone" class="form-control" />
-          <div class="text-danger mt-1" *ngIf="studentForm.get('student_phone')?.touched && studentForm.get('student_phone')?.invalid">
-            Student Phone is required.
+
+        <div class="form-group">
+          <label for="student_phone">Phone:</label>
+          <div class="input-container">
+            <input id="student_phone" type="text" formControlName="student_phone" class="form-control" [class.error]="studentForm.get('student_phone')?.invalid && studentForm.get('student_phone')?.touched"/>
+            <span class="error-text" *ngIf="studentForm.get('student_phone')?.touched && studentForm.get('student_phone')?.invalid">
+              Required
+            </span>
           </div>
         </div>
-  
-        <div class="form-group mb-3">
-          <label for="gender" class="fw-bold">Gender:</label>
-          <select id="gender" formControlName="gender" class="form-select">
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-          <div class="text-danger mt-1" *ngIf="studentForm.get('gender')?.touched && studentForm.get('gender')?.invalid">
-            Gender is required.
+
+        <div class="form-group">
+          <label for="gender">Gender:</label>
+          <div class="input-container">
+            <select id="gender" formControlName="gender" class="form-select" [class.error]="studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched">
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="error-text" *ngIf="studentForm.get('gender')?.touched && studentForm.get('gender')?.invalid">
+              Required
+            </span>
           </div>
         </div>
-  
+
         <button type="submit" class="btn btn-primary w-100">Submit</button>
       </form>
     </div>

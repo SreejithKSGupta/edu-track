@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -9,16 +9,18 @@ import { commitPrefetchedUsers, loadMoreUsers, setPagination } from '../../state
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
 import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule],
+  imports: [MatIconModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -38,6 +40,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   disabled = false;
+  isAddDialogOpen = false; // ✅ Flag for first dialog
+  isGetDialogOpen = false; // ✅ Flag for second dialog
+  addDialogRef!: MatDialogRef<any> | null;
+  getDialogRef!: MatDialogRef<any> | null;
 
   worker!: Worker
   subscriptions: Subscription[] = [];
@@ -68,6 +74,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
     )
     this.initWorker();
     this.prefetchNextChunk();
+  }
+
+  @HostListener('click', ['$event'])
+  stopPropagation(event: Event) {
+    console.log('Click event inside Parent Component!');
+    event.stopPropagation();
   }
 
   initWorker() {
@@ -118,24 +130,67 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  openaddDialog() {
-    this.dialog.open(DialogboxaddComponent, {
-      position: { left: '10vw', top: '10vh' },
-      width: '50vw',
-      height: '100vw',
-      disableClose: true,
-      hasBackdrop: false
-    });
+  openAddDialog(event: Event) {
+    event.stopPropagation();  // ✅ Stops event from bubbling up
+    console.log("Dialogboxadd is opened");
+    if (!this.isAddDialogOpen) {
+      this.isAddDialogOpen = true;
+      this.addDialogRef = this.dialog.open(DialogboxaddComponent, {
+        position: { left: '5vw', top: '22vh' },
+        width: '40vw',
+        disableClose: true,
+        hasBackdrop: false
+      });
+
+      this.addDialogRef.afterClosed().subscribe(() => {
+        this.isAddDialogOpen = false;
+        this.addDialogRef = null;
+      });
+    } else {
+      this.closeAddDialog();
+    }
   }
 
-  opengetDialog() {
-    this.dialog.open(DialogboxgetComponent, {
-      position: { left: '55vw', top: '10vh' },
-      width: '50vw',
-      height: '70vw',
-      disableClose: true,
-      hasBackdrop: false
-    });
+  openGetDialog(event: Event) {
+    event.stopPropagation();  // ✅ Stops event from bubbling up
+    console.log("Dialogboxget is opened");
+    if (!this.isGetDialogOpen) {
+      this.isGetDialogOpen = true;
+      this.getDialogRef = this.dialog.open(DialogboxgetComponent, {
+        position: { left: '45vw', top: '25vh' },
+        width: '40vw',
+        disableClose: true,
+        hasBackdrop: false
+      });
+
+      this.getDialogRef.afterClosed().subscribe(() => {
+        this.isGetDialogOpen = false;
+        this.getDialogRef = null;
+      });
+    } else {
+      this.closeGetDialog();
+    }
+  }
+
+  closeAddDialog() {
+    if (this.isAddDialogOpen && this.addDialogRef) {
+      this.addDialogRef.close();
+      this.isAddDialogOpen = false; // ✅ Reset flag
+      this.addDialogRef = null;
+    }
+  }
+
+  closeGetDialog() {
+    if (this.isGetDialogOpen && this.getDialogRef) {
+      this.getDialogRef.close();
+      this.isGetDialogOpen = false; // ✅ Reset flag
+      this.getDialogRef = null;
+    }
+  }
+
+  closeAllDialogs() {
+    this.closeAddDialog();
+    this.closeGetDialog();
   }
 
   editableState: any = {};
@@ -171,9 +226,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // console.log("Edited data: " + newValue);
     // console.log("Edited data id: " + element._id);
     // console.log("Edited data field: " + column);
-    const updatedData = {[column]: newValue};
-    
-    this.dataService.updateStudentById(element._id, updatedData).subscribe(res=>{
+    const updatedData = { [column]: newValue };
+
+    this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
       alert("Updated...")
     })
 
@@ -185,5 +240,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     const key = `${element._id}-${column}`;
     return !!this.editableState[key];
   }
+
+
 }
 
