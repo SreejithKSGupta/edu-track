@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
 import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
 import { FormsModule } from '@angular/forms';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-data-table',
@@ -44,7 +45,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   prefetchedUsers: User[] = [];
 
 
-  constructor(private store: Store, public dialog: MatDialog) {
+  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
   }
@@ -167,9 +168,14 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
     this.editableState[key] = false;
 
-    console.log("Edited data: " + newValue);
-    console.log("Edited data id: " + element._id);
-    console.log("Edited data field: " + column);
+    // console.log("Edited data: " + newValue);
+    // console.log("Edited data id: " + element._id);
+    // console.log("Edited data field: " + column);
+    const updatedData = {[column]: newValue};
+    
+    this.dataService.updateStudentById(element._id, updatedData).subscribe(res=>{
+      alert("Updated...")
+    })
 
     delete this.originalValues[key];
 
