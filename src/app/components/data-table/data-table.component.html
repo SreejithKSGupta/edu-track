@@ -1,23 +1,14 @@
 <div class="table-container">
-  <div>
-    <button class="btn btn-secondary btn-close" 
-            (click)="closeAllDialogs()" 
-            [class.hidden]="!(isAddDialogOpen || isGetDialogOpen)">
-    </button>
-  </div>
-  
-  <div class=" d-flex justify-content-between row">
-    <div class="left">
-      <h1 class="text-uppercase">Students Details</h1>
-    </div>
+  <div id="headingrow">
+      <h2 class="text-uppercase">Students Details</h2>
     <div class="right">
-      <button class="btn btn-success " (click)="openAddDialog()">ADD USER</button>
-      <button class="btn btn-danger" (click)="openGetDialog()">GET USER</button>
+      <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)"> <mat-icon>person_add</mat-icon>ADD USER</button>
+      <button mat-flat-button  id="schstdbtn" (click)="openGetDialog($event)"> <mat-icon>search</mat-icon>GET USER</button>
     </div>
   </div>
 
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" class="table-striped">
       <ng-container matColumnDef="ID">
         <th mat-header-cell *matHeaderCellDef> ID </th>
         <td mat-cell *matCellDef="let element"> 
@@ -77,3 +68,8 @@
     </mat-paginator>
   </div>
 </div>
+
+
+<button class="btn-close "  *ngIf="(isAddDialogOpen || isGetDialogOpen)" mat-fab aria-label="close Modals" (click)="closeAllDialogs()">
+  <mat-icon>close</mat-icon>
+</button>

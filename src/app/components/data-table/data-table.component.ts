@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -13,11 +13,13 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
 import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
 import { FormsModule } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, FormsModule],
+  imports: [MatIconModule,CommonModule,MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -80,6 +82,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
+  @HostListener('click', ['$event'])
+  stopPropagation(event: Event) {
+  console.log('Click event inside parent element'); // ✅ Debug log
+  event.stopPropagation();
+}
+
   updatePaginatedUsers() {
     this.users$.subscribe(users => {
       const startIndex = this.pageIndex * this.pageSize;
@@ -98,13 +106,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  
-
-  openAddDialog() {
+  openAddDialog(event: Event) {
+    event.stopPropagation();  // ✅ Stops event from bubbling up
+    console.log("Dialogboxadd is opened");
     if (!this.isAddDialogOpen) {
       this.isAddDialogOpen = true;
       this.addDialogRef = this.dialog.open(DialogboxaddComponent, {
-        position: { left: '5vw', top: '25vh' },
+        position: { left: '5vw', top: '22vh' },
         width: '40vw',
         disableClose: true,
         hasBackdrop: false
@@ -119,7 +127,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  openGetDialog() {
+  openGetDialog(event: Event) {
+    event.stopPropagation();  // ✅ Stops event from bubbling up
+    console.log("Dialogboxget is opened");
     if (!this.isGetDialogOpen) {
       this.isGetDialogOpen = true;
       this.getDialogRef = this.dialog.open(DialogboxgetComponent, {
@@ -194,5 +204,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     const key = `${element.student_id}-${column}`;
     return !!this.editableState[key];
   }
+
+  
 }
 
