@@ -6,7 +6,6 @@
   width: 100%;
 }
 
-// Student form container
 .student-form-container {
 
   .form-group {
@@ -64,7 +63,6 @@
   }
 }
 
-// Student data section styling
 .student-data {
   background-color: var(--surface-color);
   border-radius: 0.25rem;
@@ -87,4 +85,9 @@
       color: var(--text-color);
     }
   }
+}
+
+.mat-mdc-dialog-inner-container {
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px #333 !important;
 }
