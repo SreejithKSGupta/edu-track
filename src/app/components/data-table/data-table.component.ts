@@ -188,7 +188,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeAllDialogs() {
+  closeAllDialogs(event: Event) {
+    event.stopPropagation(); 
+    console.log("Close button is clicked");
     this.closeAddDialog();
     this.closeGetDialog();
   }

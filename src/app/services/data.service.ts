@@ -10,7 +10,6 @@ import { HttpClient } from '@angular/common/http';
 export class DataService {
 
   private readonly url = 'http://localhost:5000';
-  // private url = 'http://localhost:3000';
 
   constructor(private http: HttpClient){}
 
