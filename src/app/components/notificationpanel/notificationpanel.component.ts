@@ -1,25 +1,41 @@
 import { NotificationService } from './../../services/notification.service';
-import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { CommonModule, DatePipe } from '@angular/common';
-import {MatButtonModule} from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-notificationpanel',
-  imports: [MatCardModule, CommonModule,MatButtonModule],
+  standalone: true,
+  imports: [MatCardModule, CommonModule, MatButtonModule],
   templateUrl: './notificationpanel.component.html',
-  styleUrls: ['./notificationpanel.component.scss']
+  styleUrls: ['./notificationpanel.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]  // Allow unknown elements
 })
-export class NotificationpanelComponent {
+export class NotificationpanelComponent implements AfterViewInit {
   notifications: any[] = [];
+
   constructor(private notificationService: NotificationService) {}
 
-  ngOnInit(){
-    console.log("notification panel")
-    this.notifications =  this.notificationService.getnotifications();
+  ngOnInit() {
+    console.log("Notification panel initialized");
+    this.notifications = this.notificationService.getnotifications();
   }
 
-  markAsRead(message: any) {
-    message.read = true;  // Mark the message as read when the button is clicked
+  ngAfterViewInit() {
+    customElements.whenDefined('notifications-panel').then(() => {
+      const panel = document.querySelector('notifications-panel') as any;
+
+      if (panel) {
+        panel.notifications = this.notifications;
+
+        panel.addEventListener('onmarkasread', (event: CustomEvent) => {
+          const notificationId = event.detail;
+          this.notifications = this.notifications.map((notif) =>
+            notif.id === notificationId ? { ...notif, read: true } : notif
+          );
+        });
+      }
+    });
   }
 }

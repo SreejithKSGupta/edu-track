@@ -3,6 +3,7 @@ import { ThemeService } from '../../services/theme.service';
 import { Router } from '@angular/router';
 import { NotificationpanelComponent } from '../notificationpanel/notificationpanel.component';
 import { MatDialog } from '@angular/material/dialog';
+import { NotificationService } from './../../services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +12,12 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class HeaderComponent {
   isDarkMode: boolean = false;
+    notifications: any[] = [];
 
-  constructor(private themeService: ThemeService,private router: Router,private dialog: MatDialog) {}
+  constructor(private themeService: ThemeService,private router: Router,private dialog: MatDialog, private notificationService: NotificationService) {}
 
   ngOnInit() {
+    this.notifications =  this.notificationService.getnotifications();
 
   }
 
@@ -36,7 +39,5 @@ export class HeaderComponent {
         height: '500px',
         data: { name: 'Notification Panel' }
       });
-
   }
-
 }

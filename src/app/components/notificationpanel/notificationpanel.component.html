@@ -1,20 +1,3 @@
 <div id="notificationsbox">
-  <mat-card *ngFor="let message of notifications" class="message-card">
-    <mat-card-header>
-      <mat-card-title>{{ message.title }}</mat-card-title>
-      <mat-card-subtitle>{{ message.timestamp | date: 'short' }}</mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-card-content>
-      <p><strong>Message Type:</strong> {{ message.type }}</p>
-      <p><strong>Message:</strong> {{ message.message }}</p>
-      <p><strong>Status:</strong> {{ message.read ? 'Read' : 'Unread' }}</p>
-    </mat-card-content>
-
-    <mat-card-actions *ngIf="!message.read">
-      <button mat-flat-button color="primary" (click)="markAsRead(message)">
-        Mark as Read
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <notifications-panel></notifications-panel>
 </div>
