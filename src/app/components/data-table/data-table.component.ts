@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DataService } from '../../services/data.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-data-table',
@@ -31,7 +32,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   users$: Observable<User[]>;
   pagination$: Observable<{ length: number; pageSize: number; pageIndex: number }>;
-
+  editableState: any = {};
+  originalValues: any = {};
   length: number = 0;
   pageSize: number = 10;
   pageIndex: number = 0;
@@ -41,7 +43,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   showFirstLastButtons = true;
   disabled = false;
   isAddDialogOpen = false;
-  isGetDialogOpen = false; 
+  isGetDialogOpen = false;
   addDialogRef!: MatDialogRef<any> | null;
   getDialogRef!: MatDialogRef<any> | null;
 
@@ -51,7 +53,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   prefetchedUsers: User[] = [];
 
 
-  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService) {
+  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService, private notficationservice:NotificationService) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
   }
@@ -131,7 +133,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   openAddDialog(event: Event) {
-    event.stopPropagation(); 
+    event.stopPropagation();
     console.log("Dialogboxadd is opened");
     if (!this.isAddDialogOpen) {
       this.isAddDialogOpen = true;
@@ -152,7 +154,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   openGetDialog(event: Event) {
-    event.stopPropagation(); 
+    event.stopPropagation();
     console.log("Dialogboxget is opened");
     if (!this.isGetDialogOpen) {
       this.isGetDialogOpen = true;
@@ -189,14 +191,11 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   closeAllDialogs(event: Event) {
-    event.stopPropagation(); 
+    event.stopPropagation();
     console.log("Close button is clicked");
     this.closeAddDialog();
     this.closeGetDialog();
   }
-
-  editableState: any = {};
-  originalValues: any = {};
 
   editCell(element: any, column: string) {
     const key = `${element._id}-${column}`;
@@ -206,7 +205,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     });
 
     this.editableState[key] = true;
-    
+
 
     if (!this.originalValues[key]) {
       this.originalValues[key] = element[column];
@@ -230,22 +229,30 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
     this.editableState[key] = false;
     const updatedData = { [column]: newValue };
-    if (this.originalValues[key]!==newValue) { 
+    console.log(updatedData,this.originalValues,key,index);
+    if (this.originalValues[key]!==newValue) {
       this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
         alert("Updated...")
+      })
+      let notification = {
+        title:`details modified for ${key}`,
+        message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
+        read:false,
+        data:[]
+      }
+      this.notficationservice.sendnotification(notification).subscribe(res => {
+        console.log(res);
       })
     }
 
     delete this.originalValues[key];
-
   }
 
   isEditing(element: any, column: string): boolean {
     const key = `${element._id}-${column}`;
     const isEdit = this.editableState[key] ?? false;
     // console.log(isEdit, key);
-    
+
     return isEdit;
   }
 }
-
