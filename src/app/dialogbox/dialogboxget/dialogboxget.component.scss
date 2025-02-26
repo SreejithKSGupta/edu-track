@@ -16,7 +16,7 @@
     label {
       font-size: 0.9rem;
       font-weight: 600;
-      color: #333;
+      color: var(--greycolor);
       margin-bottom: 5px;
       width: 30%;
     }
@@ -66,7 +66,7 @@
 
 // Student data section styling
 .student-data {
-  background-color: #fff;
+  background-color: var(--surface-color);
   border-radius: 0.25rem;
   padding: 15px;
   border: 1px solid #ddd;
@@ -80,10 +80,11 @@
   p {
     font-size: 1rem;
     margin-bottom: 5px;
+    color: var(--text-color);
 
     strong {
       font-weight: 600;
-      color: #343a40;
+      color: var(--text-color);
     }
   }
 }

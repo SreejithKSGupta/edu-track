@@ -16,7 +16,7 @@ import { log } from 'console';
 })
 export class DialogboxgetComponent {
   studentForm!: FormGroup;
-  studentData: any; // Change to an array instead of a single object
+  studentData: any;
 
   constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
@@ -32,11 +32,11 @@ export class DialogboxgetComponent {
       console.log(studentId);
       
       this.dataService.getStudentById(studentId).subscribe(
-        (students) => { // expecting an array of students
+        (students) => { 
           if (students) {
-            this.studentData = students;  // Assigning array
+            this.studentData = students; 
           } else {
-            this.studentData = [];  // Empty array if no students found
+            this.studentData = []; 
             alert('Student not found!');
           }
         },
