@@ -19,7 +19,10 @@ export class NotificationpanelComponent {
 
   ngOnInit() {
     console.log("Notification panel initialized");
-    this.notifications = this.notificationService.getnotifications();
+    this.notificationService.getnotifications().subscribe((data) => {
+      this.notifications = data;
+      console.log(this.notifications);
+    })
   }
 
   markAsRead(event: any) {

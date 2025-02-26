@@ -16,10 +16,7 @@ export class HeaderComponent {
 
   constructor(private themeService: ThemeService,private router: Router,private dialog: MatDialog, private notificationService: NotificationService) {}
 
-  ngOnInit() {
-    this.notifications =  this.notificationService.getnotifications();
 
-  }
 
 
   toggleTheme() {
