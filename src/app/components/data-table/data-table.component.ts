@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DataService } from '../../services/data.service';
+import { MyCustomElementComponent } from "../../my-custom-element/my-custom-element.component";
 
 @Component({
   selector: 'app-data-table',
@@ -23,7 +24,8 @@ import { DataService } from '../../services/data.service';
   imports: [MatIconModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DataTableComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ID', 'Name', 'Email', 'Phone', 'Gender'];
