@@ -1,6 +1,13 @@
+.mat-mdc-table {
+  border: 1px solid black !important;
+}
 
-.mat-mdc-table{
-    border: 1px solid black !important;
+#headingrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 15px;
 }
 
 #headingrow{
@@ -15,12 +22,11 @@
   margin: 3rem;
 }
 
-.btn-close {
-    position: fixed !important;
-    bottom: 20px !important;
-    right: 20px !important; 
-  }
 
-  #schstdbtn, #addstdbtn {
-    margin: 0px 5px;
-  }
+.mat-mdc-row {
+  height: auto !important;
+}
+
+.mat-mdc-cell {
+  padding: 11px 10px !important;
+}
