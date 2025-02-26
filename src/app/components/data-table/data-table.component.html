@@ -69,6 +69,6 @@
 
 
 <button class="btn-close " *ngIf="(isAddDialogOpen || isGetDialogOpen)" mat-fab aria-label="close Modals"
-  (click)="closeAllDialogs()">
+  (click)="closeAllDialogs($event)">
   <mat-icon>close</mat-icon>
 </button>
