@@ -42,8 +42,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   disabled = false;
-  isAddDialogOpen = false; // ✅ Flag for first dialog
-  isGetDialogOpen = false; // ✅ Flag for second dialog
+  isAddDialogOpen = false;
+  isGetDialogOpen = false; 
   addDialogRef!: MatDialogRef<any> | null;
   getDialogRef!: MatDialogRef<any> | null;
 
@@ -133,12 +133,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   openAddDialog(event: Event) {
-    event.stopPropagation();  // ✅ Stops event from bubbling up
+    event.stopPropagation(); 
     console.log("Dialogboxadd is opened");
     if (!this.isAddDialogOpen) {
       this.isAddDialogOpen = true;
       this.addDialogRef = this.dialog.open(DialogboxaddComponent, {
-        position: { left: '5vw', top: '22vh' },
+        position: { left: '0vw', top: '22vh' },
         width: '40vw',
         disableClose: true,
         hasBackdrop: false
@@ -154,13 +154,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   openGetDialog(event: Event) {
-    event.stopPropagation();  // ✅ Stops event from bubbling up
+    event.stopPropagation(); 
     console.log("Dialogboxget is opened");
     if (!this.isGetDialogOpen) {
       this.isGetDialogOpen = true;
       this.getDialogRef = this.dialog.open(DialogboxgetComponent, {
-        position: { left: '45vw', top: '25vh' },
-        width: '40vw',
+        position: { left: '38vw', top: '22vh' },
+        width: '35vw',
         disableClose: true,
         hasBackdrop: false
       });
@@ -177,7 +177,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   closeAddDialog() {
     if (this.isAddDialogOpen && this.addDialogRef) {
       this.addDialogRef.close();
-      this.isAddDialogOpen = false; // ✅ Reset flag
+      this.isAddDialogOpen = false;
       this.addDialogRef = null;
     }
   }
@@ -185,7 +185,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   closeGetDialog() {
     if (this.isGetDialogOpen && this.getDialogRef) {
       this.getDialogRef.close();
-      this.isGetDialogOpen = false; // ✅ Reset flag
+      this.isGetDialogOpen = false;
       this.getDialogRef = null;
     }
   }
@@ -229,10 +229,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this.dataSource.data = updatedData;
     }
     this.editableState[key] = false;
-
-    // console.log("Edited data: " + newValue);
-    // console.log("Edited data id: " + element._id);
-    // console.log("Edited data field: " + column);
     const updatedData = { [column]: newValue };
     if (this.originalValues[key]!==newValue) { 
       this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
@@ -251,7 +247,5 @@ export class DataTableComponent implements OnInit, OnDestroy {
     
     return isEdit;
   }
-
-
 }
 

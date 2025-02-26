@@ -29,7 +29,7 @@ export class DataService {
 
   updateStudentById(_id: string, data: any): Observable<User>{
     console.log(data, _id);
-    
+    debugger
     return this.http.put<User>(`${this.url}/students/${_id}`, data);
   }
 }
