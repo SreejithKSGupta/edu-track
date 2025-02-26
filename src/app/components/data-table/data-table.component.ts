@@ -199,7 +199,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
   editCell(element: any, column: string) {
     const key = `${element._id}-${column}`;
 
+    Object.keys(this.editableState).forEach((k) => {
+      this.editableState[k] = false;
+    });
+
     this.editableState[key] = true;
+    
 
     if (!this.originalValues[key]) {
       this.originalValues[key] = element[column];
@@ -227,10 +232,11 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // console.log("Edited data id: " + element._id);
     // console.log("Edited data field: " + column);
     const updatedData = { [column]: newValue };
-
-    this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
-      alert("Updated...")
-    })
+    if (this.originalValues[key]!==newValue) { 
+      this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
+        alert("Updated...")
+      })
+    }
 
     delete this.originalValues[key];
 
@@ -238,7 +244,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   isEditing(element: any, column: string): boolean {
     const key = `${element._id}-${column}`;
-    return !!this.editableState[key];
+    const isEdit = this.editableState[key] ?? false;
+    // console.log(isEdit, key);
+    
+    return isEdit;
   }
 
 

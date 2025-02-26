@@ -8,9 +8,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 5px 15px;
+    margin: 0.5rem 0px;
 }
 
+.table-container{
+  margin: 3rem;
+}
 
 .btn-close {
     position: fixed !important;
