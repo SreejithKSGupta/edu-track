@@ -10,16 +10,18 @@
   margin: 5px 15px;
 }
 
-.btn-close {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
+#headingrow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0px;
 }
 
-#schstdbtn,
-#addstdbtn {
-  margin: 0px 5px;
+.table-container{
+  margin: 3rem;
 }
+
 
 .mat-mdc-row {
   height: auto !important;
