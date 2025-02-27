@@ -40,27 +40,27 @@ export class DashboardComponent {
           {
             title: 'Student Management',
             icon: 'account_circle',
-            link: '/student',
+            link: 'student',
           },
           {
             title: 'Teacher Management',
             icon: 'work',
-            link: '/teacher',
+            link: 'teacher',
           },
           {
             title: 'Course Management',
             icon: 'library_books',
-            link: '/course',
+            link: 'course',
           },
           {
             title: 'Department Management',
             icon: 'school',
-            link: '/department',
+            link: 'department',
           },
           {
             title: 'Preferences',
             icon: 'settings',
-            link: '/preferences',
+            link: 'preferences',
           },
         ];
       }
