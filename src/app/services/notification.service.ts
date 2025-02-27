@@ -8,16 +8,14 @@ import { Observable, map } from 'rxjs';
 export class NotificationService {
 
   constructor(private http: HttpClient){}
-
-  notificationurl = "http://localhost:5000/notifications"
-  sendnotificationurl="http://localhost:5000/send-notification";
+  private readonly url = "http://localhost:5000";
 
   getnotifications(): Observable<any[]>{
-    return this.http.get<any[]>(this.notificationurl);
+    return this.http.get<any[]>(`${this.url}/notifications`);
   }
 
   sendnotification(notification: any): Observable<any> {
-    return this.http.post<any>(this.sendnotificationurl, notification);
+    return this.http.post<any>(`${this.url}/send-notification`, notification);
   }
 
   getnotificationcount(): Observable<number> {

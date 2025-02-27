@@ -28,6 +28,7 @@ import { AdminserviceService } from '../../services/adminservice.service';
 export class SigninComponent {
   username: string = '';
   password: string = '';
+  user_id: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
   isSignUp: boolean = false;
@@ -71,6 +72,8 @@ export class SigninComponent {
    this.adminService.checksignin(user).subscribe(
     (response) => {
       console.log(response);
+      this.user_id= response.user._id;
+      debugger
       if (response) {
         this.setUserCookie();
         this.router.navigate(['/dashboard']);
@@ -86,18 +89,19 @@ export class SigninComponent {
 
 
   private setUserCookie() {
+    console.log(this.user_id);
+    debugger
     const encryptedUsername = CryptoJS.AES.encrypt(
       this.username,
       'your-secret-key'
     ).toString();
-    const encryptedPassword = CryptoJS.AES.encrypt(
-      this.password,
+    const encryptedUserID = CryptoJS.AES.encrypt(
+      this.user_id,
       'your-secret-key'
     ).toString();
 
-    // Store encrypted data in cookies
     this.cookieService.set('username', encryptedUsername);
-    this.cookieService.set('password', encryptedPassword);
+    this.cookieService.set('user_id', encryptedUserID);
 
     console.log('Login successful');
   }
