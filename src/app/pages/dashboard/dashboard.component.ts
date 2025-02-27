@@ -10,7 +10,6 @@ import {
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { CalendarboxComponent } from '../../components/calendarbox/calendarbox.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +20,6 @@ import { CalendarboxComponent } from '../../components/calendarbox/calendarbox.c
     MatIconModule,
     CdkDropList,
     CdkDrag,
-    CalendarboxComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

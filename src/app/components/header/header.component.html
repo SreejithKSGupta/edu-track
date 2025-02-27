@@ -1,13 +1,22 @@
 <header class="header">
-  <div class="left" (click)="openitem('')" routerLinkActive="router-link-active" >
-    AdManage
+  <div class="left">
+    <a [routerLink]="'/'" class="brand" routerLinkActive="router-link-active">AdManage</a>
   </div>
   <div class="right">
-    <button class="notification-btn" (click)="openNotifications()">
-      <span class="notification-icon">🔔</span>
+    <button mat-icon-button class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
+      <mat-icon [matBadge]="notificationcount" >notifications</mat-icon>
     </button>
-    <button class="theme-toggle-btn" (click)="toggleTheme()">
-      <span>{{ isDarkMode ? '🌙' : '🌞' }}</span>
+
+    <button mat-icon-button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Toggle Theme">
+      <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
     </button>
+
+    <a mat-icon-button [routerLink]="'/calendar'" routerLinkActive="router-link-active" aria-label="Calendar">
+      <mat-icon>calendar_month</mat-icon>
+    </a>
+
+    <a mat-icon-button [routerLink]="'/signin'" routerLinkActive="router-link-active" aria-label="Sign In">
+      <mat-icon>{{authstate? 'logout': 'account_circle'}}</mat-icon>
+    </a>
   </div>
 </header>
