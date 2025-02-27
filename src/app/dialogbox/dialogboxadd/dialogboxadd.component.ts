@@ -6,7 +6,8 @@ import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
 import { DataService } from '../../services/data.service';
-import { read } from 'fs';
+import CryptoJS from 'crypto-js';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-dialogboxadd',
   imports: [MatDialogContent, MatDialogActions, NgIf, ReactiveFormsModule],
@@ -15,8 +16,13 @@ import { read } from 'fs';
 })
 export class DialogboxaddComponent {
   studentForm!: FormGroup;
+  user_id: string;
 
-  constructor(public dialogRef: MatDialogRef<DialogboxaddComponent>, private fb: FormBuilder, private dataService: DataService, private notificationService: NotificationService) {}
+  constructor(public dialogRef: MatDialogRef<DialogboxaddComponent>, private fb: FormBuilder, private dataService: DataService, private notificationService: NotificationService, private cookie : CookieService) {
+    const encryptUserID = this.cookie.get('user_id');
+            const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+            this.user_id = decryptUserID;
+  }
 
 
   ngOnInit(): void {
@@ -36,8 +42,7 @@ export class DialogboxaddComponent {
         title: `${this.studentForm.value.student_name} added`,
         type: 'student added',
         message: `Student ID: ${this.studentForm.value.student_id}, Name: ${this.studentForm.value.student_name}`,
-        read: false,
-        data: []
+        read: [this.user_id]
 
 
       }

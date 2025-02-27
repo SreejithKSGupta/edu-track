@@ -16,7 +16,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "typeRoots": ["node_modules/@types"],
-    "types": ["node", "eslint", "bonjour", "estree", "json-schema"]
+    "types": ["node", "eslint", "bonjour", "estree", "json-schema", "jest"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
