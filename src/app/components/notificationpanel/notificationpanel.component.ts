@@ -10,7 +10,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   imports: [MatCardModule, CommonModule, MatButtonModule],
   templateUrl: './notificationpanel.component.html',
   styleUrls: ['./notificationpanel.component.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]  // Allow unknown elements
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NotificationpanelComponent {
   notifications: any[] = [];

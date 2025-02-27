@@ -4,13 +4,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
-
 import {
   CdkDragDrop,
   CdkDrag,
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
+import { CalendarboxComponent } from '../../components/calendarbox/calendarbox.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +21,7 @@ import {
     MatIconModule,
     CdkDropList,
     CdkDrag,
+    CalendarboxComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
