@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DataService } from '../../services/data.service';
 import { NotificationService } from '../../services/notification.service';
+import { CookieService } from 'ngx-cookie-service';
+import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-data-table',
@@ -51,11 +53,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   currentOffset: number = 100;
   prefetchedUsers: User[] = [];
+  user_id: string = '';
 
 
-  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService, private notficationservice:NotificationService) {
+  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService, private notficationservice:NotificationService, private cookie: CookieService) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
+
+    const encryptUserID = this.cookie.get('user_id');
+        const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+        this.user_id = decryptUserID;
   }
 
   ngOnInit(): void {
@@ -237,8 +244,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       let notification = {
         title:`details modified for ${key}`,
         message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
-        read:false,
-        data:[]
+        read:[this.user_id],
       }
       this.notficationservice.sendnotification(notification).subscribe(res => {
         console.log(res);
