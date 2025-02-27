@@ -1,1 +1,14 @@
-<mwl-calendar-month-view id="calview" [viewDate]="viewDate"></mwl-calendar-month-view>
+<div class="calendar-container">
+  <div class="calendar-header">
+ <button mat-flat-button (click)="addEvent()">Add Event</button>
+  </div>
+
+  <mwl-calendar-month-view id="calview"
+    [viewDate]="viewDate"
+    [events]="events"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked({date: $event.day.date, events: $event.day.events})"
+    (eventTimesChanged)="eventTimesChanged($event)"
+    (eventClicked)="deleteEvent($event.event)">
+  </mwl-calendar-month-view>
+</div>
