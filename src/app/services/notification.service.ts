@@ -10,45 +10,13 @@ export class NotificationService {
   constructor(private http: HttpClient){}
 
   notificationurl = "http://localhost:5000/notifications"
-  // notifications =[
-  //   {
-  //     title: 'New Message',
-  //     type: 'user Added',
-  //     message: 'You have a new message from Jane Smith.',
-  //     timestamp: '2023-10-02T11:30:00Z',
-  //     read: false,
-  //     data:[]
-  //  },
-  //  {
-  //     title: 'New Message',
-  //     type: 'user Added',
-  //     message: 'You have a new message from James Lee.',
-  //     timestamp: '2023-10-02T12:00:00Z',
-  //     read: false,
-  //     data:[]
-  //  },
-  //  {
-  //     title: 'New Message',
-  //     type: 'user details edited',
-  //     message: 'You have a new message from Robert Brown.',
-  //     timestamp: '2023-10-02T13:15:00Z',
-  //     read: false,
-  //     data:[]
-  //  },
-  //  {
-  //     title: 'New Message',
-  //     type: 'user Added',
-  //     message: 'You have a new message from Emily Davis.',
-  //     timestamp: '2023-10-03T09:20:00Z',
-  //     read: false,
-  //     data:[]
-  //  }
-  // ]
+  sendnotificationurl="http://localhost:5000/send-notification";
 
   getnotifications(): Observable<any[]>{
     return this.http.get<any[]>(this.notificationurl);
-
-  }
   }
 
-
+  sendnotification(notification: any): Observable<any> {
+    return this.http.post<any>(this.sendnotificationurl, notification);
+  }
+  }
