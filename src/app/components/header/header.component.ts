@@ -38,7 +38,6 @@ export class HeaderComponent {
 
   toggleTheme() {
     this.themeService.toggleTheme();
-    console.log('Theme toggled');
   }
 
   openitem(link: string) {
@@ -46,7 +45,6 @@ export class HeaderComponent {
   }
 
   openNotifications() {
-    console.log('Opening Notifications');
     this.dialog.open(NotificationpanelComponent, {
       position: { right: '5vw', top: '10vh' },
       width: '400px',

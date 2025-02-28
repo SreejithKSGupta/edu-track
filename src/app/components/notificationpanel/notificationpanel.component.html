@@ -1,6 +1,7 @@
 <div id="notificationsbox">
   <notifications-panel
     [notifications]="notifications"
+    (closePopupp)="closepopup()"
     (onmarkasread)="markAsRead($event)">
   </notifications-panel>
 </div>
