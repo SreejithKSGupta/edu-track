@@ -8,5 +8,8 @@
     "not and_ff <= 132",
     "not firefox <= 135",
     "not opera <= 114"
-  ]
+  ],
+  "hints": {
+    "button-type": "off"
+  }
 }

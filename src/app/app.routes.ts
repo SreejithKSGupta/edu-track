@@ -4,6 +4,7 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { AppComponent } from './app.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
+import { CalendarboxComponent } from './components/calendarbox/calendarbox.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -12,4 +13,6 @@ export const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'student', component: DataTableComponent },
   { path: 'preferences', component: PreferencesComponent },
+  { path: 'calendar', component: CalendarboxComponent },
+
 ];

@@ -1,0 +1,15 @@
+#calview {
+  width: clamp(200px,50vw,600px)!important;
+}
+
+.calendar-header button{
+ margin: 10px 5px;
+}
+
+.cal-cell{
+  background-color: var(--surface-color) !important;
+}
+
+.cal-month-view .cal-day-cell {
+background-color: purple !important;
+}
