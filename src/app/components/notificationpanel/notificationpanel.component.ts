@@ -3,8 +3,7 @@ import { NotificationService } from './../../services/notification.service';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, destroyPlatform } from '@angular/core';
-
+import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-notificationpanel',
@@ -15,29 +14,20 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, destroyPlatform } from '@angular/cor
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NotificationpanelComponent {
-  notifications: any[] = [];
-  user_id: string = '';
+  user_id:any;
 
-  constructor(private notificationService: NotificationService, private adminservice:AdminserviceService) {
-    this.user_id =  this.adminservice.getuserid();
-  }
+  notifications = computed(() =>
+    this.notificationService.notifications().filter(notif => !notif.read.includes(this.user_id))
+  );
 
-  ngOnInit() {
-    this.notificationService.getnotifications().subscribe((data) => {
-      this.notifications = data;
-      this.notifications = this.notifications.filter((notif) => !notif.read.includes(this.user_id));
-    })
+  constructor(private notificationService: NotificationService, private adminservice: AdminserviceService) {
+    this.user_id = this.adminservice.getuserid();
+
   }
 
   markAsRead(event: any) {
     const notificationId = event.detail._id;
-    this.notifications = this.notifications.filter(
-      (notif) => notif._id !== notificationId
-    );
-      this.notificationService.markNotifAsRead(notificationId);
+    this.notificationService.markNotifAsRead(notificationId);
   }
 
-  closepopup(){
-
-   }
 }

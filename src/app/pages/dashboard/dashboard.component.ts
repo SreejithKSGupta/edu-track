@@ -61,6 +61,11 @@ export class DashboardComponent {
             icon: 'settings',
             link: 'preferences',
           },
+          {
+            title: 'Calendar',
+            icon: 'calendar_today',
+            link: 'calendar',
+          },
         ];
       }
     }

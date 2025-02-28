@@ -1,5 +1,5 @@
 import { AdminserviceService } from './../../services/adminservice.service';
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { Router } from '@angular/router';
 import { NotificationpanelComponent } from '../notificationpanel/notificationpanel.component';
@@ -8,19 +8,20 @@ import { NotificationService } from './../../services/notification.service';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-header',
-  imports: [MatIcon, MatButtonModule, RouterModule,MatBadgeModule],
+  standalone: true,
+  imports: [MatIcon, MatButtonModule, RouterModule, MatBadgeModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  isDarkMode: boolean = false;
-  notifications: any[] = [];
-  authstate: boolean = true;
-  notificationcount = 0;
+  isDarkMode = false;
+  authstate :any;
+
+  notificationcount:any;
 
   constructor(
     private themeService: ThemeService,
@@ -29,11 +30,8 @@ export class HeaderComponent {
     private notificationService: NotificationService,
     private adminservice: AdminserviceService
   ) {
-    this.authstate = this.adminservice.checkauth();
-    console.log(this.authstate);
-   this.notificationService.getnotificationcount().subscribe(res=>{
-    this.notificationcount = res;
-   });
+    this.authstate = signal(this.adminservice.checkauth());
+    this.notificationcount = this.notificationService.unreadCount();
   }
 
   toggleTheme() {

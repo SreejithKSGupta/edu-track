@@ -1,48 +1,55 @@
-import { AdminserviceService } from './adminservice.service';
-import { Injectable } from '@angular/core';
+import { Injectable, Signal, signal, computed, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AdminserviceService } from './adminservice.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   private readonly url = "http://localhost:5000";
-  userid='';
-  constructor(private http: HttpClient,private adminservice:AdminserviceService){
-    this.userid =  this.adminservice.getuserid();
+  userid = '';
+
+  notifications = signal<any[]>([]);
+
+  unreadCount = computed(() =>
+    this.notifications().filter(notif => !notif.read.includes(this.userid)).length
+  );
+
+  constructor(private http: HttpClient, private adminservice: AdminserviceService) {
+    this.userid = this.adminservice.getuserid();
+    this.fetchNotifications();
   }
 
-  getnotifications(): Observable<any[]>{
-    return this.http.get<any[]>(`${this.url}/notifications`);
+  fetchNotifications(): void {
+    this.http.get<any[]>(`${this.url}/notifications`).subscribe({
+      next: (data) => this.notifications.set(data),
+      error: (err) => console.error("Error fetching notifications:", err)
+    });
   }
 
   sendnotification(notification: any): Observable<any> {
     return this.http.post<any>(`${this.url}/send-notification`, notification);
   }
 
-  getnotificationcount(): Observable<number> {
-    return this.getnotifications().pipe(
-      map((res) => {
-        let notifications = res.filter((notif) => !notif.read.includes(this.userid));
-        return notifications.length;
-      })
-    );
-  }
 
-  markNotifAsRead(notifId: string) {
-    const apiUrl = "http://localhost:5000/read-notification";
-    const payload = { user_id: this.userid }; // Ensure this.userid is defined
 
-    console.log("Marking notification as read:", this.userid, notifId);
+  markNotifAsRead(notifId: string): void {
+    const apiUrl = `${this.url}/read-notification/${notifId}`;
+    const payload = { user_id: this.userid };
 
-    this.http.put(apiUrl + `/${notifId}`, payload).subscribe({
-      next: (response) => {
-        console.log("Notification marked as read:", response);
+    this.http.put(apiUrl, payload).subscribe({
+      next: () => {
+        console.log("Notification marked as read:", notifId);
+        this.notifications.update(notifs =>
+          notifs.map(notif =>
+            notif._id === notifId
+              ? { ...notif, read: [...notif.read, this.userid] } // Mark as read
+              : notif
+          )
+        );
       },
-      error: (error) => {
-        console.error("Error marking notification as read:", error);
-      }
+      error: (error) => console.error("Error marking notification as read:", error)
     });
   }
 
