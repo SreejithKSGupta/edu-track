@@ -8,7 +8,7 @@ import { AdminserviceService } from './adminservice.service';
 })
 export class NotificationService {
   private readonly url = "http://localhost:5000";
-  userid = '';
+  userid;
 
   notifications = signal<any[]>([]);
 

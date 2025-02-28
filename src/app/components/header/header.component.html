@@ -3,8 +3,8 @@
     <a [routerLink]="'/'" class="brand" routerLinkActive="router-link-active">AdManage</a>
   </div>
   <div class="right">
-    <button mat-icon-button class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
-      <mat-icon [matBadge]="notificationcount()" >notifications</mat-icon>
+    <button mat-icon-button  class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
+      <mat-icon [matBadge]="notificationCount()" >notifications</mat-icon>
     </button>
 
     <button mat-icon-button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Toggle Theme">
@@ -16,7 +16,7 @@
     </a>
 
     <a mat-icon-button [routerLink]="'/signin'" routerLinkActive="router-link-active" aria-label="Sign In">
-      <mat-icon>{{authstate()? 'logout': 'account_circle'}}</mat-icon>
+      <mat-icon (click)="logout()">{{ authState() ? 'logout' : 'account_circle' }}</mat-icon>
     </a>
   </div>
 </header>

@@ -11,9 +11,7 @@ import { HeaderComponent } from './components/header/header.component';
 })
 export class AppComponent {
   title = 'edu-track';
-  constructor(public themeService: ThemeService) {}
-
-  ngOnInit() {
+  constructor(public themeService: ThemeService) {
     this.themeService.initializeTheme();
   }
 }

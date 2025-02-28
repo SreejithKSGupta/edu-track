@@ -1,7 +1,6 @@
 import { AdminserviceService } from './../../services/adminservice.service';
-import { Component, signal, computed } from '@angular/core';
+import { Component} from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
-import { Router } from '@angular/router';
 import { NotificationpanelComponent } from '../notificationpanel/notificationpanel.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from './../../services/notification.service';
@@ -9,39 +8,34 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
-  imports: [MatIcon, MatButtonModule, RouterModule, MatBadgeModule],
+  imports:[MatIcon,MatButtonModule,MatBadgeModule,RouterModule,NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   isDarkMode = false;
-  authstate = signal(false);
-
-  notificationcount:any;
+  authState: any;
+  notificationCount: any;
 
   constructor(
     private themeService: ThemeService,
-    private router: Router,
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private adminservice: AdminserviceService
   ) {
-    this.authstate.set(this.adminservice.checkauth());
-
-    this.notificationcount = this.notificationService.unreadCount;
+    this.authState = this.adminservice.isAuthenticated;
+    this.notificationCount = this.notificationService.unreadCount;
   }
 
   toggleTheme() {
     this.themeService.toggleTheme();
   }
 
-  openitem(link: string) {
-    this.router.navigate([`/${link}`]);
-  }
+
 
   openNotifications() {
     this.dialog.open(NotificationpanelComponent, {
@@ -50,5 +44,9 @@ export class HeaderComponent {
       height: '500px',
       data: { name: 'Notification Panel' },
     });
+  }
+
+  logout() {
+    this.adminservice.logout();
   }
 }
