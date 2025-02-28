@@ -3,8 +3,10 @@
     <a [routerLink]="'/'" class="brand" routerLinkActive="router-link-active">AdManage</a>
   </div>
   <div class="right">
-    <button mat-icon-button  class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
-      <mat-icon [matBadge]="notificationCount()" >notifications</mat-icon>
+    <button mat-icon-button *ngIf="authState()"   class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
+      <mat-icon *ngIf="notificationCount()>0" [matBadge]="notificationCount()" >notifications</mat-icon>
+      <mat-icon *ngIf="notificationCount()==0" >notifications</mat-icon>
+
     </button>
 
     <button mat-icon-button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Toggle Theme">
