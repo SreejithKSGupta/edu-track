@@ -1,5 +1,5 @@
 import { AdminserviceService } from './../../services/adminservice.service';
-import { Component, computed, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { Router } from '@angular/router';
 import { NotificationpanelComponent } from '../notificationpanel/notificationpanel.component';
@@ -19,7 +19,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 })
 export class HeaderComponent {
   isDarkMode = false;
-  authstate :any;
+  authstate = signal(false);
 
   notificationcount:any;
 
@@ -30,8 +30,9 @@ export class HeaderComponent {
     private notificationService: NotificationService,
     private adminservice: AdminserviceService
   ) {
-    this.authstate = signal(this.adminservice.checkauth());
-    this.notificationcount = this.notificationService.unreadCount();
+    this.authstate.set(this.adminservice.checkauth());
+
+    this.notificationcount = this.notificationService.unreadCount;
   }
 
   toggleTheme() {
