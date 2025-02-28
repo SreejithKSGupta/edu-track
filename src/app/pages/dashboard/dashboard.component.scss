@@ -32,6 +32,7 @@ mat-card{
   text-align: center;
   padding: var(--padding);
   border-radius: var(--border-radius);
+  transition-duration: 200ms;
   &:hover{
     box-shadow: var(--box-shadow);
     cursor: pointer;

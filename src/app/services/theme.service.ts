@@ -1,4 +1,3 @@
-// theme.service.ts
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({
@@ -14,7 +13,6 @@ export class ThemeService {
 
   initializeTheme() {
     if(typeof window !== 'undefined'){
-    // Check for saved theme or system preference
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
