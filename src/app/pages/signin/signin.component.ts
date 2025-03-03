@@ -7,8 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import CryptoJS from 'crypto-js';
-import { CookieService } from 'ngx-cookie-service';
 import { AdminserviceService } from '../../services/adminservice.service';
 
 @Component({
@@ -28,31 +26,25 @@ import { AdminserviceService } from '../../services/adminservice.service';
 export class SigninComponent {
   username: string = '';
   password: string = '';
+  user_id: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
   isSignUp: boolean = false;
 
-  constructor(
-    private router: Router,
-     private cookieService: CookieService,
-     private adminService: AdminserviceService
-    ) {}
+  constructor(private router: Router, private adminService: AdminserviceService) {}
 
-    ngOnInit(): void {
-      if (typeof window !== 'undefined') {
-        const encryptedUsername = this.cookieService.get('username');
-        if (encryptedUsername) {
-          let choise = confirm('You are already logged in. Do you want to log out?');
-          if(choise){
-            this.cookieService.delete('username');
-            this.cookieService.delete('password');
-          }
-          else{
-            this.router.navigate(['/dashboard']);
-          }
+  ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      if (this.adminService.isAuthenticated()) {
+        let choice = confirm('You are already logged in. Do you want to log out?');
+        if (choice) {
+          this.adminService.logout();
+        } else {
+          this.router.navigate(['/dashboard']);
         }
       }
     }
+  }
 
   onSubmit() {
     if (this.isSignUp) {
@@ -63,56 +55,40 @@ export class SigninComponent {
   }
 
   private login() {
-    const user={
-      username:this.username,
-      password:this.password,
-      name:this.username
-    }
-   this.adminService.checksignin(user).subscribe(
-    (response) => {
+    const user = {
+      username: this.username,
+      password: this.password,
+      name: this.username,
+    };
+
+    this.adminService.checksignin(user).subscribe((response) => {
       console.log(response);
+      this.user_id = response.user._id;
+
       if (response) {
-        this.setUserCookie();
+        // ✅ Call AdminserviceService to set user session
+        this.adminService.setUserCookie(this.user_id, this.username);
         this.router.navigate(['/dashboard']);
       } else {
         this.errorMessage = 'Invalid username or password';
       }
-    })
-
-    // else {
-    //   this.errorMessage = 'Invalid username or password';
-    // }
-  }
-
-
-  private setUserCookie() {
-    const encryptedUsername = CryptoJS.AES.encrypt(
-      this.username,
-      'your-secret-key'
-    ).toString();
-    const encryptedPassword = CryptoJS.AES.encrypt(
-      this.password,
-      'your-secret-key'
-    ).toString();
-
-    // Store encrypted data in cookies
-    this.cookieService.set('username', encryptedUsername);
-    this.cookieService.set('password', encryptedPassword);
-
-    console.log('Login successful');
+    });
   }
 
   private signup() {
     if (this.password === this.confirmPassword) {
-      this.setUserCookie();
       const userData = {
         username: this.username,
         password: this.password,
         name: this.username,
-
       };
-      this.savaNewUser(userData);
-      this.router.navigate(['/dashboard']);
+
+      this.adminService.addUser(userData).subscribe((res) => {
+        console.log(res);
+        // ✅ Call AdminserviceService to set user session after signup
+        this.adminService.setUserCookie(res.user._id, this.username);
+        this.router.navigate(['/dashboard']);
+      });
     } else {
       this.errorMessage = 'Passwords do not match';
     }
@@ -120,15 +96,6 @@ export class SigninComponent {
 
   toggleSignUp() {
     this.isSignUp = !this.isSignUp;
-    this.errorMessage = ''; // Clear error message when toggling
+    this.errorMessage = '';
   }
-
-  private savaNewUser(userData: { username: string; password: string; name:string }) {
-    this.adminService.addUser(userData).subscribe(res=>{
-      console.log(res);
-    });
-  }
-
 }
-
-

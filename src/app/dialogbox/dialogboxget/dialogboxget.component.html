@@ -1,28 +1,30 @@
 <div class="container my-3">
   <h2 class="dialog-title">Get User</h2>
   <mat-dialog-content>
-    <div class="student-form-container p-4 shadow-sm rounded">
+    <div class="student-form-container p-4">
       <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label for="student_id" class="form-label fw-bold">Student ID:</label>
-          <input id="student_id" type="text" formControlName="student_id" class="form-control" />
-          <div class="text-danger mt-1" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
-            Student ID is required.
+        <div class="form-group">
+          <label for="student_id">Student ID:</label>
+          <div class="input-container">
+            <input id="student_id" type="text" formControlName="student_id" class="form-control" [class.error]="studentForm.get('student_id')?.invalid && studentForm.get('student_id')?.touched"/>
+            <span class="error-text" *ngIf="studentForm.get('student_id')?.touched && studentForm.get('student_id')?.invalid">
+              Required
+            </span>
           </div>
         </div>
+
         <button type="submit" class="btn btn-primary w-100">Submit</button>
       </form>
-      <!-- <div class="student-data mt-4 p-3 bg-light border rounded" *ngIf="studentData| async"> -->
-        <div *ngFor="let student of studentData">
-          <h3 class="mb-3">{{ student.student_name }}</h3>
-          <p><strong>ID:</strong> {{ student.student_id }}</p>
-          <p><strong>Name:</strong> {{ student.student_name }}</p>
-          <p><strong>Email:</strong> {{ student.student_email }}</p>
-          <p><strong>Phone:</strong> {{ student.student_phone }}</p>
-          <p><strong>Gender:</strong> {{ student.gender }}</p>
-        </div>
-        
-      <!-- </div> -->
+
+      <div *ngFor="let student of studentData" class="student-data mt-4 p-3 border rounded">
+        <h3 class="mb-3">{{ student.student_name }}</h3>
+        <p><strong>ID:</strong> {{ student.student_id }}</p>
+        <p><strong>Name:</strong> {{ student.student_name }}</p>
+        <p><strong>Email:</strong> {{ student.student_email }}</p>
+        <p><strong>Phone:</strong> {{ student.student_phone }}</p>
+        <p><strong>Gender:</strong> {{ student.gender }}</p>
+      </div>
+
     </div>
   </mat-dialog-content>
   <mat-dialog-actions class="justify-content-center mt-3">

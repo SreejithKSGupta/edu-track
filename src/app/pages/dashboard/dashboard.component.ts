@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
-
 import {
   CdkDragDrop,
   CdkDrag,
@@ -40,27 +39,32 @@ export class DashboardComponent {
           {
             title: 'Student Management',
             icon: 'account_circle',
-            link: '/student',
+            link: 'student',
           },
           {
             title: 'Teacher Management',
             icon: 'work',
-            link: '/teacher',
+            link: 'teacher',
           },
           {
             title: 'Course Management',
             icon: 'library_books',
-            link: '/course',
+            link: 'course',
           },
           {
             title: 'Department Management',
             icon: 'school',
-            link: '/department',
+            link: 'department',
           },
           {
             title: 'Preferences',
             icon: 'settings',
-            link: '/preferences',
+            link: 'preferences',
+          },
+          {
+            title: 'Calendar',
+            icon: 'calendar_today',
+            link: 'calendar',
           },
         ];
       }

@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@400..700&family=Jersey+15&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Oswald:wght@200..700&family=Pacifico&family=Barriecito&family=Lilita+One&family=Permanent+Marker&family=Press+Start+2P&display=swap');
-
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 :root {
   --primary-color: #0084ff;
   --secondary-color: #ffd740;
@@ -20,6 +20,7 @@
 
   --background-color: #fcfcfc;
   --text-color: #000000;
+  --greytext:#202020;
   --surface-color: #ffffff;
   --hover-color: rgba(0, 0, 0, 0.04);
   --border-color: #e0e0e0;
@@ -31,6 +32,7 @@
 .dark-theme, .dark {
   --background-color: #3f3e3e;
   --text-color: #ffffff;
+  --greytext:#cecece;
   --surface-color: #242424;
   --hover-color: rgba(255, 255, 255, 0.08);
   --border-color: #484848;
@@ -151,7 +153,6 @@ h1,h2,h3,h4,h5,h6 {
 
 .mat-mdc-dialog {
   &-container {
-    background-color: var(--surface-color) !important;
     color: var(--text-color) !important;
     border-radius: var(--border-radius) !important;
     padding: var(--padding) !important;

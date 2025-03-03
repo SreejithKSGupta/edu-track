@@ -9,8 +9,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class DataService {
 
-  private url = 'http://localhost:5000';
-  // private url = 'http://localhost:3000/students';
+  private readonly url = 'http://localhost:5000';
 
   constructor(private http: HttpClient){}
 
@@ -25,5 +24,11 @@ export class DataService {
   getStudentById(studentId: string): Observable<User> {
     console.log(studentId);
     return this.http.get<User>(`${this.url}/students/${studentId}`);
+  }
+
+  updateStudentById(_id: string, data: any): Observable<User>{
+    console.log(data, _id);
+    debugger
+    return this.http.put<User>(`${this.url}/students/${_id}`, data);
   }
 }

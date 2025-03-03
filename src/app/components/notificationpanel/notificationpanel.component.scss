@@ -1,0 +1,45 @@
+#notificationsbox {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  z-index: 999;
+  width: 100%;
+}
+
+.message-card {
+  margin:10px ;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.message-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.mat-card-subtitle {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.mat-card-content {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+@media (max-width: 600px) {
+  #notificationsbox {
+    width: 100%;
+  }
+}

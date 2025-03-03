@@ -12,17 +12,30 @@ import { UserEffects } from './state/user.effects';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideHttpClient } from '@angular/common/http';
 
+// Import Calendar Modules
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes), 
-    provideClientHydration(withEventReplay()), 
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
     provideAnimationsAsync(),
     provideStore(),
     provideState('users', userReducer),
     provideEffects(UserEffects),
-    provideStoreDevtools({maxAge:25}),
-    importProvidersFrom(MatPaginatorModule),
-    provideHttpClient()
+    provideStoreDevtools({ maxAge: 25 }),
+    importProvidersFrom(MatPaginatorModule,
+      BrowserAnimationsModule, //import this if you have not already imported
+      CalendarModule.forRoot({
+        provide: DateAdapter,
+        useFactory: adapterFactory,
+      })
+      ),
+    provideHttpClient(),
+    provideAnimations()
   ]
 };

@@ -1,60 +1,74 @@
 <div class="table-container">
-
-  
-  <div class="py-3 d-flex justify-content-between row">
-    <div class="left">
-      <h1 class="text-uppercase">Students Details</h1>
-    </div>
+  <div id="headingrow">
+    <h2 class="text-uppercase">Students Details</h2>
     <div class="right">
-      <button class="btn btn-secondary btn1" (click)="openaddDialog()">Open First Dialog</button>
-      <button class="btn btn-secondary btn2" (click)="opengetDialog()">Open Second Dialog</button>
+      <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)"> <mat-icon>person_add</mat-icon>ADD
+        USER</button>
+      <button mat-flat-button id="schstdbtn" (click)="openGetDialog($event)"> <mat-icon>search</mat-icon>GET
+        USER</button>
     </div>
   </div>
-  
-  
+
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-      
+    <table mat-table [dataSource]="dataSource" class="table-striped">
       <ng-container matColumnDef="ID">
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.student_id}} </td>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="!isEditing(element, 'student_id')" (click)="editCell(element, 'student_id')">
+            {{element.student_id}}
+          </div>
+          <input *ngIf="isEditing(element, 'student_id')" title="student_id" [(ngModel)]="element.student_id" (blur)="saveCell(element, 'student_id')" />
+        </td>
       </ng-container>
-      
       <ng-container matColumnDef="Name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.student_name}} </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="Email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.student_email}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Phone">
-          <th mat-header-cell *matHeaderCellDef> Phone </th>
-          <td mat-cell *matCellDef="let element"> {{element.student_phone}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Gender">
-          <th mat-header-cell *matHeaderCellDef> Gender </th>
-          <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
-        </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="!isEditing(element, 'student_name')" (click)="editCell(element, 'student_name')">
+            {{element.student_name}}
+          </div>
+          <input *ngIf="isEditing(element, 'student_name')" title="student_name" [(ngModel)]="element.student_name" (blur)="saveCell(element, 'student_name')" />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="!isEditing(element, 'student_email')" (click)="editCell(element, 'student_email')">
+            {{element.student_email}}</div>
+          <input *ngIf="isEditing(element, 'student_email')" title="student-email" [(ngModel)]="element.student_email"
+            (blur)="saveCell(element, 'student_email')" />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Phone">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="!isEditing(element, 'student_phone')" (click)="editCell(element, 'student_phone')">
+            {{element.student_phone}}</div>
+          <input *ngIf="isEditing(element, 'student_phone')" title="student-phone" [(ngModel)]="element.student_phone"
+            (blur)="saveCell(element, 'student_phone')" />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Gender">
+        <th mat-header-cell *matHeaderCellDef> Gender </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="!isEditing(element, 'gender')" (click)="editCell(element, 'gender')">{{element.gender}}</div>
+          <input *ngIf="isEditing(element, 'gender')" title="gender" [(ngModel)]="element.gender"
+            (blur)="saveCell(element, 'gender')" />
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
-      <mat-paginator #paginator
-      class="demo-paginator"
-      (page)="handlePageEvent($event)"
-      [length]="length"
-      [pageSize]="pageSize"
-      [disabled]="disabled"
-      [showFirstLastButtons]="showFirstLastButtons"
-      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-      [hidePageSize]="hidePageSize"
-      [pageIndex]="pageIndex"
-      aria-label="Select page">
+    <mat-paginator #paginator class="demo-paginator" (page)="handlePageEvent($event)" [length]="length"
+      [pageSize]="pageSize" [disabled]="disabled" [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []" [hidePageSize]="hidePageSize"
+      [pageIndex]="pageIndex" aria-label="Select page">
     </mat-paginator>
-    
-  <!-- </div> -->
-  
+  </div>
 </div>
+
+
+<button class="btn-close " *ngIf="(isAddDialogOpen || isGetDialogOpen)" mat-fab aria-label="close Modals"
+  (click)="closeAllDialogs($event)">
+  <mat-icon>close</mat-icon>
+</button>
