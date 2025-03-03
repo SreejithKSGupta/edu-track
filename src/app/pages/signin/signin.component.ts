@@ -66,7 +66,6 @@ export class SigninComponent {
       this.user_id = response.user._id;
 
       if (response) {
-        // ✅ Call AdminserviceService to set user session
         this.adminService.setUserCookie(this.user_id, this.username);
         this.router.navigate(['/dashboard']);
       } else {
@@ -85,7 +84,6 @@ export class SigninComponent {
 
       this.adminService.addUser(userData).subscribe((res) => {
         console.log(res);
-        // ✅ Call AdminserviceService to set user session after signup
         this.adminService.setUserCookie(res.user._id, this.username);
         this.router.navigate(['/dashboard']);
       });
