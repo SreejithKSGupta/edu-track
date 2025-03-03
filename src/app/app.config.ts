@@ -16,6 +16,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +35,7 @@ export const appConfig: ApplicationConfig = {
         useFactory: adapterFactory,
       })
       ),
-    provideHttpClient()
+    provideHttpClient(),
+    provideAnimations()
   ]
 };

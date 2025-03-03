@@ -16,12 +16,14 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DialogboxaddComponent {
   studentForm!: FormGroup;
-  user_id: string;
+  user_id: string = '';
 
-  constructor(public dialogRef: MatDialogRef<DialogboxaddComponent>, private fb: FormBuilder, private dataService: DataService, private notificationService: NotificationService, private cookie : CookieService) {
+  constructor(public dialogRef: MatDialogRef<DialogboxaddComponent>, private fb: FormBuilder, private dataService: DataService, private notificationService: NotificationService, private cookie: CookieService) {
     const encryptUserID = this.cookie.get('user_id');
-            const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
-            this.user_id = decryptUserID;
+    if (encryptUserID) {
+      const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+      this.user_id = decryptUserID;
+    }
   }
 
 
