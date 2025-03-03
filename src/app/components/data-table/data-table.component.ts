@@ -61,26 +61,32 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.pagination$ = this.store.select(selectUserPagination);
 
     const encryptUserID = this.cookie.get('user_id');
+    if (encryptUserID) {
         const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
         this.user_id = decryptUserID;
+    }
   }
 
   ngOnInit(): void {
     this.store.dispatch(loadMoreUsers({ offset: 0, limit: 1000 }));
-    this.subscriptions.push(
-      this.users$.subscribe(users => {
-        const startIndex = this.pageIndex * this.pageSize;
-        this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
-      })
-    );
-    this.subscriptions.push(
-      this.pagination$.subscribe(({ length, pageSize, pageIndex }) => {
-        this.length = length;
-        this.pageSize = pageSize;
-        this.pageIndex = pageIndex;
-        this.updatePaginatedUsers();
-      })
-    )
+    if (this.users$) {
+      this.subscriptions.push(
+        this.users$.subscribe(users => {
+          const startIndex = this.pageIndex * this.pageSize;
+          this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
+        })
+      );
+    }
+    if(this.pagination$) {
+      this.subscriptions.push(
+        this.pagination$.subscribe(({ length, pageSize, pageIndex }) => {
+          this.length = length;
+          this.pageSize = pageSize;
+          this.pageIndex = pageIndex;
+          this.updatePaginatedUsers();
+        })
+      );
+    }
     this.initWorker();
     this.prefetchNextChunk();
   }
@@ -225,6 +231,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   saveCell(element: any, column: string) {
+
     const key = `${element._id}-${column}`;
     const newValue = element[column];
     const index = this.dataSource.data.findIndex(item => item._id === element._id);
@@ -237,7 +244,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.editableState[key] = false;
     const updatedData = { [column]: newValue };
     console.log(updatedData,this.originalValues,key,index);
-    if (this.originalValues[key]!==newValue) {
+    if (this.originalValues[key]!==newValue && this.user_id!=='' && this.user_id!==undefined) {
       this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
         alert("Updated...")
       })
