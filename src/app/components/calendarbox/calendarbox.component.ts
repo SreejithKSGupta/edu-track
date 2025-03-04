@@ -87,11 +87,8 @@ export class CalendarboxComponent {
     if (isSameMonth(date, this.viewDate)) {
       if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen) || events.length === 0) {
         this.activeDayIsOpen = false;
-        console.log(date, "closed");
       } else {
         this.activeDayIsOpen = true;
-        console.log(date, "open");
-
       }
       this.viewDate = date;
     }
@@ -104,7 +101,6 @@ export class CalendarboxComponent {
       }
       return iEvent;
     });
-    console.log('Dropped or resized', event);
   }
 
   addEvent(): void {

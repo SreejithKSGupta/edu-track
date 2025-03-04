@@ -64,7 +64,6 @@ export class AdminserviceService {
     this.userId.set(userId);
     this.username.set(username);
 
-    console.log('User session updated');
   }
 
   logout() {

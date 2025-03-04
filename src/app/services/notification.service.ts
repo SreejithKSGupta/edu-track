@@ -40,11 +40,10 @@ export class NotificationService {
 
     this.http.put(apiUrl, payload).subscribe({
       next: () => {
-        console.log("Notification marked as read:", notifId);
         this.notifications.update(notifs =>
           notifs.map(notif =>
             notif._id === notifId
-              ? { ...notif, read: [...notif.read, this.userid] } // Mark as read
+              ? { ...notif, read: [...notif.read, this.userid] } 
               : notif
           )
         );
