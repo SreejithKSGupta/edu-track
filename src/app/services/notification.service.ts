@@ -27,7 +27,6 @@ export class NotificationService {
       error: (err) => console.error("Error fetching notifications:", err)
     });
   }
-
   sendnotification(notification: any): Observable<any> {
     return this.http.post<any>(`${this.url}/send-notification`, notification);
   }
