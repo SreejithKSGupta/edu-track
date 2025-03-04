@@ -27,8 +27,6 @@ export class DialogboxgetComponent {
   onSubmit(): void {
     if (this.studentForm.valid) {
       const studentId = this.studentForm.value.student_id;
-      console.log(studentId);
-      
       this.dataService.getStudentById(studentId).subscribe(
         (students) => { 
           if (students) {

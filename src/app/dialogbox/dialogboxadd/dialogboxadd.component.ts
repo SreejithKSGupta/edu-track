@@ -51,7 +51,6 @@ export class DialogboxaddComponent {
 
       this.dataService.addStudent(this.studentForm.value).subscribe(
         (response) => {
-          console.log('Student Data Saved:', response);
           alert('Student added successfully!');
           this.dialogRef.close();
         },
