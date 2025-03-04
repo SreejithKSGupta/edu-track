@@ -27,7 +27,6 @@ export class NotificationService {
       error: (err) => console.error("Error fetching notifications:", err)
     });
   }
-
   sendnotification(notification: any): Observable<any> {
     return this.http.post<any>(`${this.url}/send-notification`, notification);
   }
@@ -43,7 +42,7 @@ export class NotificationService {
         this.notifications.update(notifs =>
           notifs.map(notif =>
             notif._id === notifId
-              ? { ...notif, read: [...notif.read, this.userid] } 
+              ? { ...notif, read: [...notif.read, this.userid] }
               : notif
           )
         );

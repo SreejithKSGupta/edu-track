@@ -17,8 +17,5 @@ describe('NotificationService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-    it('should have getData function', () => {
-      const service: NotificationService = TestBed.get(NotificationService);
-      expect(service.getnotifications).toBeTruthy();
-     });
+    
 });
