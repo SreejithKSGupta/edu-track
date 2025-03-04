@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { DashboardComponent } from './dashboard.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragExit, CdkDragHandle, CdkDragMove, CdkDragPlaceholder, CdkDragPreview, CdkDragRelease, CdkDragStart, Point } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragExit, CdkDragMove, CdkDragRelease, CdkDragStart } from '@angular/cdk/drag-drop';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { EventEmitter, SimpleChanges } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -50,9 +50,10 @@ describe('DashboardComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.adminpages.length).toBe(5);
+    expect(component.adminpages.length).toBe(6);
     expect(component.adminpages[0].title).toBe('Student Management');
     expect(component.adminpages[4].title).toBe('Preferences');
+    expect(component.adminpages[5].title).toBe('Calendar');
   });
 
   fit('should redirect to signin page if no user is signed in', () => {

@@ -13,7 +13,6 @@ export class AdminserviceService {
   private userId = signal<string | null>(null);
   private username = signal<string | null>(null);
 
-  // ✅ Computed signal for authentication status
   isAuthenticated = computed(() => this.username() !== null);
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
@@ -53,7 +52,6 @@ export class AdminserviceService {
     }
   }
 
-  // ✅ Moved from SigninComponent: Set user cookies & signals
   setUserCookie(userId: string, username: string) {
     const encryptedUsername = CryptoJS.AES.encrypt(username, 'your-secret-key').toString();
     const encryptedUserID = CryptoJS.AES.encrypt(userId, 'your-secret-key').toString();
