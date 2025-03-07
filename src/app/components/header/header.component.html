@@ -3,13 +3,13 @@
     <a [routerLink]="'/'" class="brand" routerLinkActive="router-link-active">AdManage</a>
   </div>
   <div class="right">
-    <button mat-icon-button *ngIf="authState()"   class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
+    <button mat-icon-button *ngIf="authState()" accesskey="n"  class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
       <mat-icon *ngIf="notificationCount()>0" [matBadge]="notificationCount()" >notifications</mat-icon>
       <mat-icon *ngIf="notificationCount()==0" >notifications</mat-icon>
 
     </button>
 
-    <button mat-icon-button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Toggle Theme">
+    <button mat-icon-button class="theme-toggle-btn" accesskey="t" (click)="toggleTheme()" aria-label="Toggle Theme">
       <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
     </button>
 
