@@ -42,7 +42,7 @@ export class NotificationService {
         this.notifications.update(notifs =>
           notifs.map(notif =>
             notif._id === notifId
-              ? { ...notif, read: [...notif.read, this.userid] }
+              ? { ...notif, read: [...notif.read, this.userid] } 
               : notif
           )
         );
