@@ -27,7 +27,6 @@ export class NotificationService {
       error: (err) => console.error("Error fetching notifications:", err)
     });
   }
-
   sendnotification(notification: any): Observable<any> {
     return this.http.post<any>(`${this.url}/send-notification`, notification);
   }
@@ -40,11 +39,10 @@ export class NotificationService {
 
     this.http.put(apiUrl, payload).subscribe({
       next: () => {
-        console.log("Notification marked as read:", notifId);
         this.notifications.update(notifs =>
           notifs.map(notif =>
             notif._id === notifId
-              ? { ...notif, read: [...notif.read, this.userid] } // Mark as read
+              ? { ...notif, read: [...notif.read, this.userid] }
               : notif
           )
         );

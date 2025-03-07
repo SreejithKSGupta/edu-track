@@ -31,7 +31,6 @@ export class DashboardComponent {
     if (typeof window !== 'undefined') {
       const encryptedUsername = this.cookieService.get('username');
       if (!encryptedUsername) {
-        console.log("user not signed in")
         this.router.navigate(['/signin']);
       } else {
         const decryptedUsername = CryptoJS.AES.decrypt(encryptedUsername, 'your-secret-key').toString(CryptoJS.enc.Utf8);

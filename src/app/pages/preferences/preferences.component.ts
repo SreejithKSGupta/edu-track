@@ -12,6 +12,5 @@ export class PreferencesComponent {
 
   toggleTheme() {
     this.themeService.toggleTheme();
-    console.log('Theme toggled');
   }
 }

@@ -56,7 +56,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   user_id: string = '';
 
 
-  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService, private notficationservice:NotificationService, private cookie: CookieService) {
+  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService, private notficationservice: NotificationService, private cookie: CookieService) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
 
@@ -249,9 +249,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
         alert("Updated...")
       })
       let notification = {
-        title:`details modified for ${key}`,
+        title: `details modified for ${key}`,
         message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
-        read:[this.user_id],
+        read: [this.user_id],
       }
       this.notficationservice.sendnotification(notification).subscribe(res => {
         console.log(res);
