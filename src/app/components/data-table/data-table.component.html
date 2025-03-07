@@ -2,9 +2,9 @@
   <div id="headingrow">
     <h2 class="text-uppercase">Students Details</h2>
     <div class="right">
-      <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)"> <mat-icon>person_add</mat-icon>ADD
+      <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)" accesskey="a"> <mat-icon>person_add</mat-icon>ADD
         USER</button>
-      <button mat-flat-button id="schstdbtn" (click)="openGetDialog($event)"> <mat-icon>search</mat-icon>GET
+      <button mat-flat-button id="schstdbtn" (click)="openGetDialog($event)" accesskey="g"> <mat-icon>search</mat-icon>GET
         USER</button>
     </div>
   </div>
@@ -69,6 +69,6 @@
 
 
 <button class="btn-close " *ngIf="(isAddDialogOpen || isGetDialogOpen)" mat-fab aria-label="close Modals"
-  (click)="closeAllDialogs($event)">
+  (click)="closeAllDialogs($event)" accesskey="x" title="x">
   <mat-icon>close</mat-icon>
 </button>

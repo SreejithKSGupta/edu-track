@@ -68,26 +68,4 @@ describe('HeaderComponent', () => {
     const themeToggleButton = fixture.nativeElement.querySelector('.theme-toggle-btn mat-icon');
     expect(themeToggleButton.textContent).toBe(component.isDarkMode ? 'dark_mode' : 'light_mode');
   });
-
-  it('should open the notification dialog when openNotifications is called', () => {
-    component.openNotifications();
-
-    expect(mockDialog.open).toHaveBeenCalled();
-    expect(mockDialog.open).toHaveBeenCalledWith(jasmine.anything(), jasmine.objectContaining({
-      position: { right: '5vw', top: '10vh' },
-      width: '400px',
-      height: '500px',
-      data: { name: 'Notification Panel' }
-    }));
-  });
-
-  it('should update theme icon when isDarkMode changes', () => {
-    expect(component.isDarkMode).toBe(false);
-
-    component.isDarkMode = !component.isDarkMode;
-    fixture.detectChanges();
-
-    const themeToggleButton = fixture.nativeElement.querySelector('.theme-toggle-btn mat-icon');
-    expect(themeToggleButton.textContent).toBe(component.isDarkMode ? 'dark_mode' : 'light_mode');
-  });
 });

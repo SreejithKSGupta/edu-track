@@ -40,11 +40,11 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create the component', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should initialize adminpages array when user is signed in', () => {
+  it('should initialize adminpages array when user is signed in', () => {
     const encryptedUsername = 'encryptedUsername'; 
     mockCookieService.get.and.returnValue(encryptedUsername);
 
@@ -56,14 +56,14 @@ describe('DashboardComponent', () => {
     expect(component.adminpages[5].title).toBe('Calendar');
   });
 
-  fit('should redirect to signin page if no user is signed in', () => {
+  it('should redirect to signin page if no user is signed in', () => {
     mockCookieService.get.and.returnValue('');
     component.ngOnInit();
 
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/signin']);
   });
 
-  fit('should handle drag and drop functionality correctly', () => {
+  it('should handle drag and drop functionality correctly', () => {
     const mockCdkDrag: Partial<CdkDrag<any>> = {
       data: 'Student Management', 
       lockAxis: 'x',
@@ -102,20 +102,20 @@ describe('DashboardComponent', () => {
     expect(component.adminpages[1].title).toBe('Student Management');
   });
 
-  fit('should navigate to the correct link when openitem is called', () => {
+  it('should navigate to the correct link when openitem is called', () => {
     const link = 'student';
     component.openitem(link);
 
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/student']);
   });
 
-  fit('should navigate to signin if no username is found in the cookie', () => {
+  it('should navigate to signin if no username is found in the cookie', () => {
     mockCookieService.get.and.returnValue('');
     component.ngOnInit();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/signin']);
   });
 
-  fit('should navigate to the student management page on mat-card click', () => {
+  it('should navigate to the student management page on mat-card click', () => {
     const link = '/student';
     spyOn(component, 'openitem');
     component.openitem(link);
