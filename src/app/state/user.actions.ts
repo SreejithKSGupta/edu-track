@@ -4,7 +4,7 @@ import { User } from '../models/user.model';
 export const loadMoreUsers = createAction(
     '[User] Load More Users',
     props<{ offset: number; limit: number }>()
-  );
+);
 export const loadMoreUsersSuccess = createAction(
   '[User] Load More Users Success',
   props<{ users: User[] }>()

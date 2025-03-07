@@ -31,17 +31,17 @@ describe('DialogboxgetComponent', () => {
     fixture.detectChanges(); 
   });
 
-  fit('should create the component', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should initialize form with student_id as required', () => {
+  it('should initialize form with student_id as required', () => {
     expect(component.studentForm).toBeTruthy();
     expect(component.studentForm.get('student_id')).toBeTruthy();
     expect(component.studentForm.get('student_id')?.hasError('required')).toBeTruthy();
   });
 
-  fit('should call getStudentById when form is valid and submit', () => {
+  it('should call getStudentById when form is valid and submit', () => {
     const studentId = '123';
     mockDataService.getStudentById.and.returnValue(of({ id: '123', name: 'John Doe' }));
 
@@ -52,7 +52,7 @@ describe('DialogboxgetComponent', () => {
     expect(component.studentData).toEqual({ id: '123', name: 'John Doe' });
   });
 
-  fit('should display error message when student is not found', () => {
+  it('should display error message when student is not found', () => {
     const studentId = '999';
     mockDataService.getStudentById.and.returnValue(of(null));
 
@@ -63,7 +63,7 @@ describe('DialogboxgetComponent', () => {
     expect(component.studentData).toEqual([]); 
   });
 
-  fit('should handle error when fetching student data', () => {
+  it('should handle error when fetching student data', () => {
     const studentId = '123';
     mockDataService.getStudentById.and.returnValue(throwError('Error fetching student data'));
 
@@ -74,7 +74,7 @@ describe('DialogboxgetComponent', () => {
     expect(component.studentData).toEqual([]); 
   });
 
-  fit('should close the dialog when closeDialog is called', () => {
+  it('should close the dialog when closeDialog is called', () => {
     component.closeDialog();
     expect(mockDialogRef.close).toHaveBeenCalled();
   });

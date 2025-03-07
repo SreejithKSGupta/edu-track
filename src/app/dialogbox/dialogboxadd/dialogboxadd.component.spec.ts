@@ -34,11 +34,11 @@ describe('DialogboxaddComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create the component', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should initialize the form correctly', () => {
+  it('should initialize the form correctly', () => {
     expect(component.studentForm).toBeDefined();
     expect(component.studentForm.get('student_id')).toBeTruthy();
     expect(component.studentForm.get('student_name')).toBeTruthy();
@@ -47,7 +47,7 @@ describe('DialogboxaddComponent', () => {
     expect(component.studentForm.get('gender')).toBeTruthy();
   });
 
-  fit('should validate the form when all Fields are required', () => {
+  it('should validate the form when all Fields are required', () => {
     const studentIdControl = component.studentForm.get('student_id');
     studentIdControl?.setValue('');
     expect(studentIdControl?.valid).toBeFalsy();
@@ -65,7 +65,7 @@ describe('DialogboxaddComponent', () => {
     expect(genderControl?.valid).toBeFalsy();
   });
 
-  fit('should validate the email format', () => {
+  it('should validate the email format', () => {
     const emailControl = component.studentForm.get('student_email');
     emailControl?.setValue('invalid-email');
     expect(emailControl?.valid).toBeFalsy();
@@ -73,7 +73,7 @@ describe('DialogboxaddComponent', () => {
     expect(emailControl?.valid).toBeTruthy();
   });
 
-  fit('should submit form and call addStudent service when form is valid', () => {
+  it('should submit form and call addStudent service when form is valid', () => {
     component.studentForm.setValue({
       student_id: '123',
       student_name: 'John Doe',
@@ -92,7 +92,7 @@ describe('DialogboxaddComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  fit('should not call addStudent if form is invalid', () => {
+  it('should not call addStudent if form is invalid', () => {
     component.studentForm.setValue({
       student_id: '',
       student_name: '',
@@ -110,7 +110,7 @@ describe('DialogboxaddComponent', () => {
     expect(mockNotificationService.sendnotification).not.toHaveBeenCalled();
   });
 
-  fit('should display validation error messages when fields are invalid and touched', () => {
+  it('should display validation error messages when fields are invalid and touched', () => {
     component.studentForm.get('student_id')?.markAsTouched();
     fixture.detectChanges();
     component.studentForm.get('student_name')?.markAsTouched();
@@ -127,12 +127,12 @@ describe('DialogboxaddComponent', () => {
     expect(errorText.textContent).toContain('Required');
   });
 
-  fit('should close the dialog when closeDialog is called', () => {
+  it('should close the dialog when closeDialog is called', () => {
     component.closeDialog();
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  fit('should handle error in submitting student data', () => {
+  it('should handle error in submitting student data', () => {
     component.studentForm.setValue({
       student_id: '123',
       student_name: 'John Doe',
@@ -152,7 +152,7 @@ describe('DialogboxaddComponent', () => {
     expect(window.alert).toHaveBeenCalledWith('Failed to add student.');
   });
 
-  fit('should handle error in submitting student data', () => {
+  it('should handle error in submitting student data', () => {
     component.studentForm.setValue({
       student_id: '123',
       student_name: 'John Doe',
@@ -172,7 +172,7 @@ describe('DialogboxaddComponent', () => {
     expect(window.alert).toHaveBeenCalledWith('Failed to add student.');
   });
   
-  fit('should show success alert when student is added successfully', () => {
+  it('should show success alert when student is added successfully', () => {
     component.studentForm.setValue({
       student_id: '123',
       student_name: 'John Doe',
