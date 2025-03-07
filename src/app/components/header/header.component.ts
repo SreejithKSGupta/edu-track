@@ -8,10 +8,11 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports:[MatIcon,MatButtonModule,MatBadgeModule,RouterModule],
+  imports:[MatIcon,MatButtonModule,MatBadgeModule,RouterModule, NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
