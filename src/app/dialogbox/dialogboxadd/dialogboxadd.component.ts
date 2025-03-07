@@ -8,6 +8,7 @@ import { NgIf } from '@angular/common';
 import { DataService } from '../../services/data.service';
 import CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-dialogboxadd',
   imports: [MatDialogContent, MatDialogActions, NgIf, ReactiveFormsModule],
@@ -17,6 +18,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class DialogboxaddComponent {
   studentForm!: FormGroup;
   user_id: string = '';
+  subscription: Subscription | undefined;
+
 
   constructor(public dialogRef: MatDialogRef<DialogboxaddComponent>, private fb: FormBuilder, private dataService: DataService, private notificationService: NotificationService, private cookie: CookieService) {
     const encryptUserID = this.cookie.get('user_id');
@@ -74,5 +77,11 @@ export class DialogboxaddComponent {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
