@@ -38,32 +38,32 @@ export class DashboardComponent {
           {
             title: 'Student Management',
             icon: 'account_circle',
-            link: 'student',
+            link: 'admin/student',
           },
           {
             title: 'Teacher Management',
             icon: 'work',
-            link: 'teacher',
+            link: 'admin/teacher',
           },
           {
             title: 'Course Management',
             icon: 'library_books',
-            link: 'course',
+            link: 'admin/course',
           },
           {
             title: 'Department Management',
             icon: 'school',
-            link: 'department',
+            link: 'admin/department',
           },
           {
             title: 'Preferences',
             icon: 'settings',
-            link: 'preferences',
+            link: 'admin/preferences',
           },
           {
             title: 'Calendar',
             icon: 'calendar_today',
-            link: 'calendar',
+            link: 'admin/calendar',
           },
         ];
       }

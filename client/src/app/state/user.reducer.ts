@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { commitPrefetchedUsers, loadMoreUsersSuccess, setPagination } from './user.actions';
+import { commitPrefetchedUsers, loadMoreUsersSuccess, setPagination, updateUserData } from './user.actions';
 import { User } from '../models/user.model';
 
 export interface UserState {
@@ -35,4 +35,10 @@ export const userReducer = createReducer(
     users: [...state.users, ...users],
     length: state.users.length + users.length
   })),
+  on(updateUserData, (state, {id, changes})=>({
+    ...state,
+    users: state.users.map(user=>
+      user._id === id ? {...user, ...changes} : user
+    )
+  }))
 );
