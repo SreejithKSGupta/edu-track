@@ -26,6 +26,6 @@ export class DataService {
   }
 
   updateStudentById(_id: string, data: any): Observable<User>{
-    return this.http.put<User>(`${this.url}/students/${_id}`, data);
+    return this.http.put<User>(`${this.url}/students/${_id}`, data, { responseType: 'text' as 'json' });
   }
 }
