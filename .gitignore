@@ -6,12 +6,16 @@
 /out-tsc
 /bazel-out
 
-# Node
-/node_modules
+# Node Modules (for both server and client)
+node_modules/
+
+# Logs and Debug Files
 npm-debug.log
 yarn-error.log
+pnpm-debug.log
+lerna-debug.log
 
-# IDEs and editors
+# IDEs and Editors
 .idea/
 .project
 .classpath
@@ -30,6 +34,7 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
+client/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage
@@ -37,6 +42,17 @@ yarn-error.log
 testem.log
 /typings
 
-# System files
+# Build Output (Client and Server)
+client/dist/
+client/tmp/
+
+# Environment Files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# System Files
 .DS_Store
 Thumbs.db

@@ -10,42 +10,42 @@
           "style": "scss"
         }
       },
-      "root": "",
-      "sourceRoot": "src",
+      "root": "client",
+      "sourceRoot": "client/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/edu-track",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "outputPath": "dist/client",
+            "index": "client/src/index.html",
+            "browser": "client/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "client/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/assets/notification-element"
+              "client/src/assets/notification-element"
 ,
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "client/public"
               }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
-              "src/styles.scss",
+              "client/src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "src/assets/notificationspanel/main.js"
+              "client/src/assets/notificationspanel/main.js"
             ],
-            "server": "src/main.server.ts",
+            "server": "client/src/main.server.ts",
             "prerender": true,
             "ssr": {
-              "entry": "src/server.ts"
+              "entry": "client/src/server.ts"
             },
             "webWorkerTsConfig": "tsconfig.worker.json"
           },
@@ -100,12 +100,12 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "client/public"
               }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
-              "src/styles.scss",
+              "client/src/styles.scss",
               "node_modules/angular-calendar/css/angular-calendar.css",
 
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
