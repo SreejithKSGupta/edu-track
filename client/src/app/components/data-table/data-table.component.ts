@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription, tap } from 'rxjs';
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
@@ -62,8 +62,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     const encryptUserID = this.cookie.get('user_id');
     if (encryptUserID) {
-        const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
-        this.user_id = decryptUserID;
+      const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+      this.user_id = decryptUserID;
     }
   }
 
@@ -71,13 +71,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadMoreUsers({ offset: 0, limit: 1000 }));
     if (this.users$) {
       this.subscriptions.push(
-        this.users$.subscribe(users => {
-          const startIndex = this.pageIndex * this.pageSize;
-          this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
+        this.users$.pipe(
+          map(users => {
+            const startIndex = this.pageIndex * this.pageSize;
+            return users.slice(startIndex, startIndex + this.pageSize);
+          })
+        ).subscribe(pagedUsers => {
+          this.dataSource.data = pagedUsers;
         })
       );
     }
-    if(this.pagination$) {
+
+    if (this.pagination$) {
       this.subscriptions.push(
         this.pagination$.subscribe(({ length, pageSize, pageIndex }) => {
           this.length = length;
@@ -122,10 +127,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   updatePaginatedUsers() {
-    this.users$.subscribe(users => {
-      const startIndex = this.pageIndex * this.pageSize;
-      this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
-    });
+    this.users$.pipe(
+      map(users => {
+        const startIndex = this.pageIndex * this.pageSize;
+        return users.slice(startIndex, startIndex + this.pageSize);
+      })
+    ).subscribe(pagedUsers => this.dataSource.data = pagedUsers)
   }
 
   handlePageEvent(event: PageEvent) {
@@ -243,20 +250,17 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
     this.editableState[key] = false;
     const updatedData = { [column]: newValue };
-    console.log(updatedData,this.originalValues,key,index);
-    if (this.originalValues[key]!==newValue && this.user_id!=='' && this.user_id!==undefined) {
-      this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
-        // alert("Updated...")
-        this.store.dispatch(updateUserData({id: element._id, changes: updatedData}))
-      })
+    console.log(updatedData, this.originalValues, key, index);
+    if (this.originalValues[key] !== newValue && this.user_id !== '' && this.user_id !== undefined) {
+      this.dataService.updateStudentById(element._id, updatedData).pipe(tap(() =>
+        this.store.dispatch(updateUserData({ id: element._id, changes: updatedData }))
+      )).subscribe()
       let notification = {
         title: `details modified for ${key}`,
         message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
         read: [this.user_id],
       }
-      this.notficationservice.sendnotification(notification).subscribe(res => {
-        console.log(res);
-      })
+      this.notficationservice.sendnotification(notification).subscribe()
     }
 
     delete this.originalValues[key];
