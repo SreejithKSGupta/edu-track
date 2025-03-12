@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
-import { commitPrefetchedUsers, loadMoreUsers, setPagination } from '../../state/user.actions';
+import { commitPrefetchedUsers, loadMoreUsers, setPagination, updateUserData } from '../../state/user.actions';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
@@ -210,7 +210,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.closeGetDialog();
   }
 
-  editCell(element: any, column: string) {
+  editCell(element: any, column: string): void {
     const key = `${element._id}-${column}`;
 
     Object.keys(this.editableState).forEach((k) => {
@@ -230,7 +230,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   }
 
-  saveCell(element: any, column: string) {
+  saveCell(element: any, column: string): void {
 
     const key = `${element._id}-${column}`;
     const newValue = element[column];
@@ -246,7 +246,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     console.log(updatedData,this.originalValues,key,index);
     if (this.originalValues[key]!==newValue && this.user_id!=='' && this.user_id!==undefined) {
       this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
-        alert("Updated...")
+        // alert("Updated...")
+        this.store.dispatch(updateUserData({id: element._id, changes: updatedData}))
       })
       let notification = {
         title: `details modified for ${key}`,
@@ -264,8 +265,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
   isEditing(element: any, column: string): boolean {
     const key = `${element._id}-${column}`;
     const isEdit = this.editableState[key] ?? false;
-    // console.log(isEdit, key);
-
+    // if (isEdit) {
+    //   
+    // }
     return isEdit;
   }
 }

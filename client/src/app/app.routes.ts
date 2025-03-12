@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { PreferencesComponent } from './pages/preferences/preferences.component';
+import { CalendarboxComponent } from './components/calendarbox/calendarbox.component';
+import { AuthGuard } from './guard/auth.guard';
 
 
 export const routes: Routes = [
