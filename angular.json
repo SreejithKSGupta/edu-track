@@ -20,14 +20,11 @@
             "outputPath": "dist/client",
             "index": "client/src/index.html",
             "browser": "client/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "client/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "client/src/assets/notification-element"
-,
+              "client/src/assets/notification-element",
               {
                 "glob": "**/*",
                 "input": "client/public"
@@ -51,6 +48,21 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/",
+              "buildOptimizer": true,
+              "browserTarget": true,
+              "buildOptimizer": true,
+              "vendorChunk": false,
+              "optimization": {
+                "scripts": true,
+                "styles": true
+              },
+              "extractLicenses": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
@@ -63,7 +75,7 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "allowedCommonJsDependencies": ["zone.js", "crypto.js"]
             },
             "development": {
               "optimization": false,
@@ -91,10 +103,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -107,7 +116,6 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "client/src/styles.scss",
               "node_modules/angular-calendar/css/angular-calendar.css",
-
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [],
