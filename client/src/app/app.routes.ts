@@ -1,27 +1,41 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { SigninComponent } from './pages/signin/signin.component';
-import { DataTableComponent } from './components/data-table/data-table.component';
 import { AppComponent } from './app.component';
-import { PreferencesComponent } from './pages/preferences/preferences.component';
-import { CalendarboxComponent } from './components/calendarbox/calendarbox.component';
 import { AuthGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'home', component: AppComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
-  { path: 'signin', component: SigninComponent },
+
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./pages/dashboard/dashboard.component')
+      .then(m => m.DashboardComponent),
+    canActivate: [AuthGuard] // Protect dashboard
+  },
+  {
+    path: 'signin',
+    loadComponent: () => import('./pages/signin/signin.component')
+      .then(m => m.SigninComponent)
+  },
   {
     path: 'admin',
-    canActivateChild: [AuthGuard],
+    canActivateChild: [AuthGuard], // Protect all child routes
     children: [
-      { path: 'student', component: DataTableComponent },
-      { path: 'preferences', component: PreferencesComponent },
-      { path: 'calendar', component: CalendarboxComponent },
+      {
+        path: 'student',
+        loadComponent: () => import('./components/data-table/data-table.component')
+          .then(m => m.DataTableComponent)
+      },
+      {
+        path: 'preferences',
+        loadComponent: () => import('./pages/preferences/preferences.component')
+          .then(m => m.PreferencesComponent)
+      },
+      {
+        path: 'calendar',
+        loadComponent: () => import('./components/calendarbox/calendarbox.component')
+          .then(m => m.CalendarboxComponent)
+      }
     ]
   }
-  // { path: 'student', component: DataTableComponent, canActivateChild: [AuthGuard] },
-  // { path: 'preferences', component: PreferencesComponent },
-  // { path: 'calendar', component: CalendarboxComponent },
 ];
