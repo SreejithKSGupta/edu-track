@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogboxaddComponent } from './dialogboxadd.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DataService } from '../../services/data.service';
-import { NotificationService } from '../../services/notification.service';
+import { DataService } from '../../../services/data.service';
+import { NotificationService } from '../../../services/notification.service';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
