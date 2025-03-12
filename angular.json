@@ -49,14 +49,7 @@
           "configurations": {
             "production": {
               "baseHref": "/",
-              "buildOptimizer": true,
-              "browserTarget": true,
-              "buildOptimizer": true,
-              "vendorChunk": false,
-              "optimization": {
-                "scripts": true,
-                "styles": true
-              },
+              "optimization": false,
               "extractLicenses": true,
               "sourceMap": false,
               "namedChunks": false,
@@ -75,7 +68,12 @@
                   "maximumError": "8kB"
                 }
               ],
-              "allowedCommonJsDependencies": ["zone.js", "crypto.js"]
+              "allowedCommonJsDependencies": [
+                "zone.js",
+                "crypto-js.js",
+                "compression"
+              ],
+              "serviceWorker": "client/ngsw-config.json"
             },
             "development": {
               "optimization": false,
