@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { CommonModule, NgIf } from '@angular/common';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../../services/data.service';
 
 @Component({
   selector: 'app-dialogboxget',
@@ -48,7 +48,7 @@ export class DialogboxgetComponent {
     }
   }
 
-  closeDialog() {
+  closeDialog(): void {
     this.dialogRef.close();
   }
 }

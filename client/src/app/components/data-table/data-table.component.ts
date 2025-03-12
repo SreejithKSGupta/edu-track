@@ -10,8 +10,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
-import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
+import { DialogboxaddComponent } from '../dialogbox/dialogboxadd/dialogboxadd.component';
+import { DialogboxgetComponent } from '../dialogbox/dialogboxget/dialogboxget.component';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -102,7 +102,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  initWorker() {
+  initWorker(): void {
 
     if (typeof Worker !== 'undefined') {
       if (!this.worker) {
@@ -118,7 +118,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  prefetchNextChunk() {
+  prefetchNextChunk(): void {
     if (this.worker) {
       console.log("prefetch");
 
@@ -126,7 +126,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  updatePaginatedUsers() {
+  updatePaginatedUsers(): void {
     this.users$.pipe(
       map(users => {
         const startIndex = this.pageIndex * this.pageSize;
@@ -135,7 +135,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     ).subscribe(pagedUsers => this.dataSource.data = pagedUsers)
   }
 
-  handlePageEvent(event: PageEvent) {
+  handlePageEvent(event: PageEvent): void {
     this.store.dispatch(setPagination({ pageIndex: event.pageIndex, pageSize: event.pageSize }));
     const totalVisiblePages = Math.ceil(this.length / this.pageSize);
     if (event.pageIndex === totalVisiblePages - 1 && this.prefetchedUsers.length > 0) {
@@ -152,7 +152,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  openAddDialog(event: Event) {
+  openAddDialog(event: Event): void {
     event.stopPropagation();
     console.log("Dialogboxadd is opened");
     if (!this.isAddDialogOpen) {
@@ -164,16 +164,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
         hasBackdrop: false
       });
 
-      this.addDialogRef.afterClosed().subscribe(() => {
-        this.isAddDialogOpen = false;
-        this.addDialogRef = null;
-      });
+      this.addDialogRef.afterClosed().pipe(
+        tap(()=>{
+          this.isAddDialogOpen = false;
+          this.addDialogRef = null;
+        })
+      ).subscribe();
     } else {
       this.closeAddDialog();
     }
   }
 
-  openGetDialog(event: Event) {
+  openGetDialog(event: Event): void {
     event.stopPropagation();
     console.log("Dialogboxget is opened");
     if (!this.isGetDialogOpen) {
@@ -185,16 +187,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
         hasBackdrop: false
       });
 
-      this.getDialogRef.afterClosed().subscribe(() => {
-        this.isGetDialogOpen = false;
-        this.getDialogRef = null;
-      });
+      this.getDialogRef.afterClosed().pipe(
+        tap(()=>{
+          this.isGetDialogOpen = false;
+          this.getDialogRef = null;
+        })
+      ).subscribe();
     } else {
       this.closeGetDialog();
     }
   }
 
-  closeAddDialog() {
+  closeAddDialog(): void {
     if (this.isAddDialogOpen && this.addDialogRef) {
       this.addDialogRef.close();
       this.isAddDialogOpen = false;
@@ -202,7 +206,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeGetDialog() {
+  closeGetDialog(): void {
     if (this.isGetDialogOpen && this.getDialogRef) {
       this.getDialogRef.close();
       this.isGetDialogOpen = false;
@@ -210,9 +214,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeAllDialogs(event: Event) {
+  closeAllDialogs(event: Event): void {
     event.stopPropagation();
-    console.log("Close button is clicked");
     this.closeAddDialog();
     this.closeGetDialog();
   }
@@ -269,9 +272,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
   isEditing(element: any, column: string): boolean {
     const key = `${element._id}-${column}`;
     const isEdit = this.editableState[key] ?? false;
-    // if (isEdit) {
-    //   
-    // }
     return isEdit;
   }
 }

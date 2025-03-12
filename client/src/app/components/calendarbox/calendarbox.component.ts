@@ -116,15 +116,15 @@ export class CalendarboxComponent {
     ];
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+  deleteEvent(eventToDelete: CalendarEvent): void {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
-  setView(view: CalendarView) {
+  setView(view: CalendarView): void {
     this.view = view;
   }
 
-  closeOpenMonthViewDay() {
+  closeOpenMonthViewDay(): void {
     this.activeDayIsOpen = false;
   }
 }

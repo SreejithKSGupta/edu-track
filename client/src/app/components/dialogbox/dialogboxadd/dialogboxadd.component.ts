@@ -1,11 +1,11 @@
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../../services/data.service';
 import CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
@@ -53,7 +53,7 @@ export class DialogboxaddComponent {
       }
 
       this.dataService.addStudent(this.studentForm.value).subscribe(
-        (response) => {
+        () => {
           alert('Student added successfully!');
           this.dialogRef.close();
         },
@@ -75,7 +75,7 @@ export class DialogboxaddComponent {
     }
   }
 
-  closeDialog() {
+  closeDialog(): void {
     this.dialogRef.close();
   }
 

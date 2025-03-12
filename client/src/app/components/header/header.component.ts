@@ -17,7 +17,7 @@ import { CommonModule, NgIf } from '@angular/common';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  isDarkMode = false;
+  isDarkMode: boolean = false;
   authState: any;
   notificationCount: any;
 
@@ -31,13 +31,13 @@ export class HeaderComponent {
     this.notificationCount = this.notificationService.unreadCount;
   }
 
-  toggleTheme() {
+  toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 
 
 
-  openNotifications() {
+  openNotifications(): void {
     this.dialog.open(NotificationpanelComponent, {
       position: { right: '5vw', top: '10vh' },
       width: '400px',
@@ -46,7 +46,7 @@ export class HeaderComponent {
     });
   }
 
-  logout() {
+  logout(): void {
     this.adminservice.logout();
   }
 }

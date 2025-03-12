@@ -25,15 +25,10 @@ import {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  constructor(private router: Router, private cookieService: CookieService) {}
+  constructor(private router: Router) {}
   adminpages:any;
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      const encryptedUsername = this.cookieService.get('username');
-      if (!encryptedUsername) {
-        this.router.navigate(['/signin']);
-      } else {
-        const decryptedUsername = CryptoJS.AES.decrypt(encryptedUsername, 'your-secret-key').toString(CryptoJS.enc.Utf8);
         this. adminpages = [
           {
             title: 'Student Management',
@@ -66,19 +61,18 @@ export class DashboardComponent {
             link: 'admin/calendar',
           },
         ];
-      }
     }
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.adminpages, event.previousIndex, event.currentIndex);
-    if (window) {
-      console.log(event.previousIndex, event.currentIndex, this.adminpages);
-    }
+    // if (window) {
+    //   console.log(event.previousIndex, event.currentIndex, this.adminpages);
+    // }
   }
 
 
-  openitem(link: string) {
+  openitem(link: string): void {
     this.router.navigate([`/${link}`]);
   }
 }

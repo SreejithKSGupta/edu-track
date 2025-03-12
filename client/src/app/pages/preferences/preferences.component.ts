@@ -10,7 +10,7 @@ export class PreferencesComponent {
   constructor(private themeService: ThemeService) {}
 
 
-  toggleTheme() {
+  toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 }
