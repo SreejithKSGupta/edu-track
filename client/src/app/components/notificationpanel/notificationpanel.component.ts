@@ -14,7 +14,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, signal, Signal } from '@an
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NotificationpanelComponent {
-  user_id:any;
+  user_id:string | null;
 
   notifications: Signal<any[]> = computed(() =>
     this.notificationService.notifications().filter(notif => !notif.read.includes(this.user_id))
@@ -22,7 +22,6 @@ export class NotificationpanelComponent {
 
   constructor(private notificationService: NotificationService, private adminservice: AdminserviceService) {
     this.user_id = this.adminservice.getuserid();
-
   }
 
   markAsRead(event: any): void {
