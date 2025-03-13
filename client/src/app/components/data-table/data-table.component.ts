@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription, tap } from 'rxjs';
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
@@ -10,8 +10,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
-import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
+import { DialogboxaddComponent } from '../dialogbox/dialogboxadd/dialogboxadd.component';
+import { DialogboxgetComponent } from '../dialogbox/dialogboxget/dialogboxget.component';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -62,8 +62,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     const encryptUserID = this.cookie.get('user_id');
     if (encryptUserID) {
-        const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
-        this.user_id = decryptUserID;
+      const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+      this.user_id = decryptUserID;
     }
   }
 
@@ -71,13 +71,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadMoreUsers({ offset: 0, limit: 1000 }));
     if (this.users$) {
       this.subscriptions.push(
-        this.users$.subscribe(users => {
-          const startIndex = this.pageIndex * this.pageSize;
-          this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
+        this.users$.pipe(
+          map(users => {
+            const startIndex = this.pageIndex * this.pageSize;
+            return users.slice(startIndex, startIndex + this.pageSize);
+          })
+        ).subscribe(pagedUsers => {
+          this.dataSource.data = pagedUsers;
         })
       );
     }
-    if(this.pagination$) {
+
+    if (this.pagination$) {
       this.subscriptions.push(
         this.pagination$.subscribe(({ length, pageSize, pageIndex }) => {
           this.length = length;
@@ -97,7 +102,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  initWorker() {
+  initWorker(): void {
 
     if (typeof Worker !== 'undefined') {
       if (!this.worker) {
@@ -113,7 +118,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  prefetchNextChunk() {
+  prefetchNextChunk(): void {
     if (this.worker) {
       console.log("prefetch");
 
@@ -121,14 +126,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  updatePaginatedUsers() {
-    this.users$.subscribe(users => {
-      const startIndex = this.pageIndex * this.pageSize;
-      this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
-    });
+  updatePaginatedUsers(): void {
+    this.users$.pipe(
+      map(users => {
+        const startIndex = this.pageIndex * this.pageSize;
+        return users.slice(startIndex, startIndex + this.pageSize);
+      })
+    ).subscribe(pagedUsers => this.dataSource.data = pagedUsers)
   }
 
-  handlePageEvent(event: PageEvent) {
+  handlePageEvent(event: PageEvent): void {
     this.store.dispatch(setPagination({ pageIndex: event.pageIndex, pageSize: event.pageSize }));
     const totalVisiblePages = Math.ceil(this.length / this.pageSize);
     if (event.pageIndex === totalVisiblePages - 1 && this.prefetchedUsers.length > 0) {
@@ -145,7 +152,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  openAddDialog(event: Event) {
+  openAddDialog(event: Event): void {
     event.stopPropagation();
     console.log("Dialogboxadd is opened");
     if (!this.isAddDialogOpen) {
@@ -157,16 +164,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
         hasBackdrop: false
       });
 
-      this.addDialogRef.afterClosed().subscribe(() => {
-        this.isAddDialogOpen = false;
-        this.addDialogRef = null;
-      });
+      this.addDialogRef.afterClosed().pipe(
+        tap(()=>{
+          this.isAddDialogOpen = false;
+          this.addDialogRef = null;
+        })
+      ).subscribe();
     } else {
       this.closeAddDialog();
     }
   }
 
-  openGetDialog(event: Event) {
+  openGetDialog(event: Event): void {
     event.stopPropagation();
     console.log("Dialogboxget is opened");
     if (!this.isGetDialogOpen) {
@@ -178,16 +187,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
         hasBackdrop: false
       });
 
-      this.getDialogRef.afterClosed().subscribe(() => {
-        this.isGetDialogOpen = false;
-        this.getDialogRef = null;
-      });
+      this.getDialogRef.afterClosed().pipe(
+        tap(()=>{
+          this.isGetDialogOpen = false;
+          this.getDialogRef = null;
+        })
+      ).subscribe();
     } else {
       this.closeGetDialog();
     }
   }
 
-  closeAddDialog() {
+  closeAddDialog(): void {
     if (this.isAddDialogOpen && this.addDialogRef) {
       this.addDialogRef.close();
       this.isAddDialogOpen = false;
@@ -195,7 +206,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeGetDialog() {
+  closeGetDialog(): void {
     if (this.isGetDialogOpen && this.getDialogRef) {
       this.getDialogRef.close();
       this.isGetDialogOpen = false;
@@ -203,9 +214,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeAllDialogs(event: Event) {
+  closeAllDialogs(event: Event): void {
     event.stopPropagation();
-    console.log("Close button is clicked");
     this.closeAddDialog();
     this.closeGetDialog();
   }
@@ -243,20 +253,17 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
     this.editableState[key] = false;
     const updatedData = { [column]: newValue };
-    console.log(updatedData,this.originalValues,key,index);
-    if (this.originalValues[key]!==newValue && this.user_id!=='' && this.user_id!==undefined) {
-      this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
-        // alert("Updated...")
-        this.store.dispatch(updateUserData({id: element._id, changes: updatedData}))
-      })
+    console.log(updatedData, this.originalValues, key, index);
+    if (this.originalValues[key] !== newValue && this.user_id !== '' && this.user_id !== undefined) {
+      this.dataService.updateStudentById(element._id, updatedData).pipe(tap(() =>
+        this.store.dispatch(updateUserData({ id: element._id, changes: updatedData }))
+      )).subscribe()
       let notification = {
         title: `details modified for ${key}`,
         message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
         read: [this.user_id],
       }
-      this.notficationservice.sendnotification(notification).subscribe(res => {
-        console.log(res);
-      })
+      this.notficationservice.sendnotification(notification).subscribe()
     }
 
     delete this.originalValues[key];
@@ -265,9 +272,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
   isEditing(element: any, column: string): boolean {
     const key = `${element._id}-${column}`;
     const isEdit = this.editableState[key] ?? false;
-    // if (isEdit) {
-    //   
-    // }
     return isEdit;
   }
 }

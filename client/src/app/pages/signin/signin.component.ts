@@ -46,7 +46,7 @@ export class SigninComponent {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.isSignUp) {
       this.signup();
     } else {
@@ -54,7 +54,7 @@ export class SigninComponent {
     }
   }
 
-  private login() {
+  private login(): void {
     const user = {
       username: this.username,
       password: this.password,
@@ -73,7 +73,7 @@ export class SigninComponent {
     });
   }
 
-  private signup() {
+  private signup(): void {
     if (this.password === this.confirmPassword) {
       const userData = {
         username: this.username,
@@ -90,7 +90,7 @@ export class SigninComponent {
     }
   }
 
-  toggleSignUp() {
+  toggleSignUp(): void {
     this.isSignUp = !this.isSignUp;
     this.errorMessage = '';
   }

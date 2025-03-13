@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogboxgetComponent } from './dialogboxget.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../../services/data.service';
 import { of, throwError } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
