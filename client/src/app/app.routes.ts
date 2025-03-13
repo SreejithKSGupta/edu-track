@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivateChild: [AuthGuard], // Protect all child routes
+    canActivateChild: [AuthGuard], 
     children: [
       {
         path: 'student',

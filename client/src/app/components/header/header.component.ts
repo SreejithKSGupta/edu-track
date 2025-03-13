@@ -18,8 +18,8 @@ import { CommonModule, NgIf } from '@angular/common';
 })
 export class HeaderComponent {
   isDarkMode: boolean = false;
-  authState: any;
-  notificationCount: any;
+  authState: Function;
+  notificationCount: Function;
 
   constructor(
     private themeService: ThemeService,
