@@ -2,9 +2,10 @@
   <div id="headingrow">
     <h2 class="text-uppercase">Students Details</h2>
     <div class="right">
-      <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)" accesskey="a"> <mat-icon>person_add</mat-icon>ADD
-        USER</button>
-      <button mat-flat-button id="schstdbtn" (click)="openGetDialog($event)" accesskey="g"> <mat-icon>search</mat-icon>GET
+      <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)" accesskey="a" matTooltip="Add a new user"
+        matTooltipPosition="above" matTooltipShowDelay="500"> <mat-icon>person_add</mat-icon>ADD USER</button>
+      <button mat-flat-button id="schstdbtn" (click)="openGetDialog($event)" accesskey="g" matTooltip="Get User"
+        matTooltipPosition="above" matTooltipShowDelay="500"> <mat-icon>search</mat-icon>GET
         USER</button>
     </div>
   </div>
@@ -17,7 +18,8 @@
           <div *ngIf="!isEditing(element, 'student_id')" (click)="editCell(element, 'student_id')">
             {{element.student_id}}
           </div>
-          <input *ngIf="isEditing(element, 'student_id')" title="student_id" [(ngModel)]="element.student_id" (blur)="saveCell(element, 'student_id')" />
+          <input *ngIf="isEditing(element, 'student_id')" title="student_id" [(ngModel)]="element.student_id"
+            (blur)="saveCell(element, 'student_id')" />
         </td>
       </ng-container>
       <ng-container matColumnDef="Name">
@@ -26,7 +28,8 @@
           <div *ngIf="!isEditing(element, 'student_name')" (click)="editCell(element, 'student_name')">
             {{element.student_name}}
           </div>
-          <input *ngIf="isEditing(element, 'student_name')" title="student_name" [(ngModel)]="element.student_name" (blur)="saveCell(element, 'student_name')" />
+          <input *ngIf="isEditing(element, 'student_name')" title="student_name" [(ngModel)]="element.student_name"
+            (blur)="saveCell(element, 'student_name')" />
         </td>
       </ng-container>
       <ng-container matColumnDef="Email">
