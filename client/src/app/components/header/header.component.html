@@ -5,7 +5,7 @@
   <div class="right">
     <button mat-icon-button *ngIf="authState()" accesskey="n"  class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
       <mat-icon *ngIf="notificationCount()>0" [matBadge]="notificationCount()" >notifications</mat-icon>
-      <mat-icon *ngIf="notificationCount()==0" >notifications</mat-icon>
+      <mat-icon *ngIf="notificationCount()===0" >notifications</mat-icon>
 
     </button>
 

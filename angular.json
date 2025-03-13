@@ -20,7 +20,9 @@
             "outputPath": "dist/client",
             "index": "client/src/index.html",
             "browser": "client/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "client/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -61,7 +63,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-
               "outputHashing": "all",
               "budgets": [
                 {
@@ -129,11 +130,23 @@
             "scripts": [],
             "webWorkerTsConfig": "client/tsconfig.worker.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "client/**/*.ts",
+              "client/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
