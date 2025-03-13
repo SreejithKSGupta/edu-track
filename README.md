@@ -8,6 +8,12 @@
 - Signals
 - web workers - https://v17.angular.io/guide/web-worker
 
+eslint
+npm install --save-dev eslint @angular-eslint/eslint-plugin @angular-eslint/eslint-plugin-template  eslint-plugin-import eslint-plugin-jsdoc eslint-plugin-prefer-arrow
+
+npm i @typescript-eslint/parser   npx eslint --init
+
+npm i @angular-eslint/template-parser --force
 
 ## required features
 - Calendar

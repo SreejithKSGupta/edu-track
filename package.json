@@ -11,6 +11,7 @@
     "client": "ng serve edu-track --host 0.0.0.0 --port 4200 --open",
     "client-prod": "ng serve edu-track --no-hmr --host 0.0.0.0 --port 4200 --open",
     "build": "ng build",
+    "lint": "eslint . --ext .ts,.html",
     "install-client": "cd client && ngcc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client:test": "cd client && ng test --ts-config=client/tsconfig.spec.json"
@@ -19,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@angular-builders/custom-webpack": "^19.0.0",
+    "@angular-eslint/template-parser": "^19.2.1",
     "@angular/animations": "^19.2.0",
     "@angular/cdk": "^19.2.1",
     "@angular/common": "^19.2.0",
@@ -38,6 +40,7 @@
     "@ngrx/entity": "^19.0.1",
     "@ngrx/store": "^19.0.1",
     "@ngrx/store-devtools": "^19.0.1",
+    "@typescript-eslint/parser": "^8.26.1",
     "@webcomponents/custom-elements": "^1.6.0",
     "angular-calendar": "^0.31.1",
     "bcryptjs": "^3.0.2",
@@ -58,8 +61,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.0",
+    "@angular-eslint/eslint-plugin": "^19.2.1",
+    "@angular-eslint/eslint-plugin-template": "^19.2.1",
     "@angular/cli": "^19.2.0",
     "@angular/compiler-cli": "^19.2.0",
+    "@eslint/js": "^9.22.0",
     "@fullhuman/postcss-purgecss": "^7.0.2",
     "@puppeteer/ng-schematics": "^0.7.0",
     "@types/bonjour": "^3.5.13",
@@ -72,12 +78,19 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^18.19.80",
     "concurrently": "^9.1.2",
+    "eslint": "^9.22.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^50.6.6",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-rxjs": "^5.0.3",
+    "globals": "^16.0.0",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.26.1"
   }
 }
