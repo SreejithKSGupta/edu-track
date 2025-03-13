@@ -49,7 +49,14 @@
           "configurations": {
             "production": {
               "baseHref": "/",
-              "optimization": false,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                "minify": true,
+                "inlineCritical": false
+                },
+              "fonts": true
+              },
               "extractLicenses": true,
               "sourceMap": false,
               "namedChunks": false,

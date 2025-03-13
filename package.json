@@ -10,7 +10,7 @@
     "server": "nodemon index.js",
     "client": "ng serve edu-track --host 0.0.0.0 --port 4200 --open",
     "client-prod": "ng serve edu-track --no-hmr --host 0.0.0.0 --port 4200 --open",
-    "build": "ng build",
+    "build": "ng build edu-track",
     "install-client": "cd client && ngcc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client:test": "cd client && ng test --ts-config=client/tsconfig.spec.json"
@@ -53,6 +53,7 @@
     "nodemon": "^3.1.9",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.8.1",
+    "terser-webpack-plugin": "^5.3.14",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
