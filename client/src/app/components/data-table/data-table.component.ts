@@ -8,6 +8,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { commitPrefetchedUsers, loadMoreUsers, setPagination, updateUserData } from '../../state/user.actions';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogboxaddComponent } from '../dialogbox/dialogboxadd/dialogboxadd.component';
@@ -23,7 +24,7 @@ import CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [MatIconModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule],
+  imports: [MatIconModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule, MatTooltipModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -98,8 +99,22 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   @HostListener('click', ['$event'])
   stopPropagation(event: Event) {
-    console.log('Click event inside Parent Component!');
     event.stopPropagation();
+    this.closeAllDialogs(event);
+  }
+  
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    if (event.target === document.body || event.target === document.documentElement || event.key === 'Escape') {
+      this.closeAllDialogs(event);
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickEvent(event: MouseEvent): void {
+    if (event.target === document.body || event.target === document.documentElement) {
+      this.closeAllDialogs(event);
+    }
   }
 
   initWorker(): void {
@@ -158,8 +173,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
     if (!this.isAddDialogOpen) {
       this.isAddDialogOpen = true;
       this.addDialogRef = this.dialog.open(DialogboxaddComponent, {
-        position: { left: '0vw', top: '22vh' },
-        width: '40vw',
         disableClose: true,
         hasBackdrop: false
       });
@@ -181,8 +194,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
     if (!this.isGetDialogOpen) {
       this.isGetDialogOpen = true;
       this.getDialogRef = this.dialog.open(DialogboxgetComponent, {
-        position: { left: '38vw', top: '22vh' },
-        width: '35vw',
         disableClose: true,
         hasBackdrop: false
       });
