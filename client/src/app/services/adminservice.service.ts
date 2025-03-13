@@ -8,7 +8,7 @@ import CryptoJS from 'crypto-js';
   providedIn: 'root',
 })
 export class AdminserviceService {
-  private url = 'http://localhost:5000/users';
+  private readonly url = 'http://localhost:5000';
 
   private userId = signal<string | null>(null);
   private username = signal<string | null>(null);
@@ -20,11 +20,11 @@ export class AdminserviceService {
   }
 
   addUser(user: any): Observable<any> {
-    return this.http.post('http://localhost:5000/create-user', user);
+    return this.http.post(`${this.url}/create-user`, user);
   }
 
   checksignin(user: any): Observable<any> {
-    return this.http.post('http://localhost:5000/users', user);
+    return this.http.post(`${this.url}/users`, user);
   }
 
   getuserid(): string | null {

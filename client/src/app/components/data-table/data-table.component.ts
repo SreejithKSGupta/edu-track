@@ -35,8 +35,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   users$: Observable<User[]>;
   pagination$: Observable<{ length: number; pageSize: number; pageIndex: number }>;
-  editableState: any = {};
-  originalValues: any = {};
+  editableState: {[key: string] : boolean} = {};
+  originalValues: {[key: string] : string} = {};
   length: number = 0;
   pageSize: number = 10;
   pageIndex: number = 0;
@@ -240,11 +240,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     this.editableState[key] = true;
 
-
+    
     if (!this.originalValues[key]) {
       this.originalValues[key] = element[column];
     }
-
+    console.log(this.originalValues);
+    
     this.dataSource.data = this.dataSource.data.map((item: any) =>
       item._id === element._id ? { ...item } : item
     );

@@ -48,7 +48,6 @@ const colors: Record<string, EventColor> = {
 
 export class CalendarboxComponent {
   view: CalendarView = CalendarView.Month;
-  CalendarView = CalendarView;
   viewDate: Date = new Date();
   refresh = new Subject<void>();
   activeDayIsOpen: boolean = true;
