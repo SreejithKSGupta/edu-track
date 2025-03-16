@@ -3,7 +3,7 @@ import { NotificationService } from '../../services/notification.service';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, signal, Signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, Signal } from '@angular/core';
 
 @Component({
   selector: 'app-notificationpanel',

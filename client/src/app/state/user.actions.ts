@@ -26,5 +26,5 @@ export const commitPrefetchedUsers = createAction(
 
 export const updateUserData = createAction(
   '[User] Update Data',
-  props<{id: any; changes: Partial<User>}>()
+  props<{id: string; changes: Partial<User>}>()
 )

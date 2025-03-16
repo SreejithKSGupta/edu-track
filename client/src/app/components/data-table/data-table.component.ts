@@ -20,6 +20,7 @@ import { DataService } from '../../services/data.service';
 import { NotificationService } from '../../services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
+import { DataElement } from '../../models/dataElement.model';
 
 @Component({
   selector: 'app-data-table',
@@ -231,7 +232,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.closeGetDialog();
   }
 
-  editCell(element: any, column: string): void {
+  editCell(element: DataElement, column: string): void {
+    console.log(element);
+    
     const key = `${element._id}-${column}`;
 
     Object.keys(this.editableState).forEach((k) => {
@@ -244,15 +247,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
     if (!this.originalValues[key]) {
       this.originalValues[key] = element[column];
     }
-    console.log(this.originalValues);
-    
     this.dataSource.data = this.dataSource.data.map((item: any) =>
       item._id === element._id ? { ...item } : item
     );
 
   }
 
-  saveCell(element: any, column: string): void {
+  saveCell(element: DataElement, column: string): void {
 
     const key = `${element._id}-${column}`;
     const newValue = element[column];
@@ -270,7 +271,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this.dataService.updateStudentById(element._id, updatedData).pipe(tap(() =>
         this.store.dispatch(updateUserData({ id: element._id, changes: updatedData }))
       )).subscribe()
-      let notification = {
+      const notification = {
         title: `details modified for ${key}`,
         message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
         read: [this.user_id],
@@ -281,7 +282,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     delete this.originalValues[key];
   }
 
-  isEditing(element: any, column: string): boolean {
+  isEditing(element: DataElement, column: string): boolean {
     const key = `${element._id}-${column}`;
     const isEdit = this.editableState[key] ?? false;
     return isEdit;
