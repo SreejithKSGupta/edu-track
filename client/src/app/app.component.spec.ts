@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { ThemeService } from './services/theme.service';
 import { HttpClientModule } from '@angular/common/http';
-import { NotificationService } from './services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 

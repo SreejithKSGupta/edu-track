@@ -40,9 +40,9 @@ const colors: Record<string, EventColor> = {
 @Component({
   selector: 'app-calendarbox',
   imports: [CalendarModule,MatButton],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendarbox.component.html',
   styleUrl: './calendarbox.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 

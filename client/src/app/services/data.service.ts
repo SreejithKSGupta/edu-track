@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -17,15 +17,15 @@ export class DataService {
     return this.http.get<User[]>(`${this.url}/students?_start=${start}&_limit=${limit}`);
   }
 
-  addStudent(studentData: any): Observable<User> {
+  addStudent(studentData: unknown): Observable<User> {
     return this.http.post<User>(`${this.url}/create-student`, studentData);
   }
 
   getStudentById(studentId: string): Observable<User> {
-    return this.http.get<User>(`${this.url}/student/${studentId}`);
+    return this.http.get<User>(`${this.url}/students/${studentId}`);
   }
 
-  updateStudentById(_id: string, data: any): Observable<User>{
+  updateStudentById(_id: string, data: unknown): Observable<User>{
     return this.http.put<User>(`${this.url}/students/${_id}`, data, { responseType: 'text' as 'json' });
   }
 }

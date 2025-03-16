@@ -19,11 +19,11 @@ export class AdminserviceService {
     this.loadUserFromCookies();
   }
 
-  addUser(user: any): Observable<any> {
+  addUser(user: unknown): Observable<any> {
     return this.http.post(`${this.url}/create-user`, user);
   }
 
-  checksignin(user: any): Observable<any> {
+  checksignin(user: unknown): Observable<any> {
     return this.http.post(`${this.url}/users`, user);
   }
 

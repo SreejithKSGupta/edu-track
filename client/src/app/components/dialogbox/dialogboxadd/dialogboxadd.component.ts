@@ -1,5 +1,5 @@
 import { NotificationService } from '../../../services/notification.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './dialogboxadd.component.html',
   styleUrl: './dialogboxadd.component.scss'
 })
-export class DialogboxaddComponent {
+export class DialogboxaddComponent implements OnInit, OnDestroy{
   studentForm!: FormGroup;
   user_id: string = '';
   subscription: Subscription | undefined;
