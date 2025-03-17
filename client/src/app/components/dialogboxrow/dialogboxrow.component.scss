@@ -1,0 +1,19 @@
+#headingrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 15px;
+}
+
+#schstdbtn{
+  margin: 10px !important;
+}
+
+.btn-close{
+  position: fixed !important;
+  bottom: 10px !important;
+  right:10px !important;
+  opacity: 1 !important;
+
+}

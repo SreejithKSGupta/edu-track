@@ -1,0 +1,15 @@
+
+<div id="headingrow">
+  <h2 class="text-uppercase">Students Details</h2>
+  <div class="right">
+    <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)" accesskey="a" matTooltip="Add a new user"
+      matTooltipPosition="above" matTooltipShowDelay="500"> <mat-icon>person_add</mat-icon>ADD USER</button>
+    <button mat-flat-button id="schstdbtn" (click)="openGetDialog($event)" accesskey="g" matTooltip="Get User"
+      matTooltipPosition="above" matTooltipShowDelay="500"> <mat-icon>search</mat-icon>GET
+      USER</button>
+  </div>
+</div>
+<button class="btn-close " *ngIf="(isAddDialogOpen || isGetDialogOpen)" mat-fab aria-label="close Modals"
+  (click)="closeAllDialogs($event)" accesskey="x" title="x">
+  <mat-icon>close</mat-icon>
+</button>

@@ -14,7 +14,7 @@ import { DataService } from '../../../services/data.service';
 })
 export class DialogboxgetComponent implements OnInit {
   studentForm!: FormGroup;
-  studentData: unknown;
+  studentData: any;
 
   constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
