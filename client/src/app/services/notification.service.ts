@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AdminserviceService } from './adminservice.service';
 
-interface Noti {
+export interface Noti {
    title:string,
    type:string,
    message:string,

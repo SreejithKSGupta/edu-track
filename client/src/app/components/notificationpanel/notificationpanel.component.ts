@@ -1,3 +1,4 @@
+import { Noti } from '../../services/notification.service';
 import { AdminserviceService } from '../../services/adminservice.service';
 import { NotificationService } from '../../services/notification.service';
 import { MatCardModule } from '@angular/material/card';
@@ -16,8 +17,8 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, Signal } from '@angular/co
 export class NotificationpanelComponent {
   user_id:string | null;
 
-  notifications: Signal<string[]> = computed(() =>
-    this.notificationService.notifications().filter(notif => !notif.read.includes(this.user_id))
+  notifications: Signal<Noti[]> = computed(() =>
+    this.notificationService.notifications().filter(notif => !notif.read.includes(this.user_id!))
   );
 
   constructor(private notificationService: NotificationService, private adminservice: AdminserviceService) {
