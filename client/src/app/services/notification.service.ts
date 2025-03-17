@@ -3,6 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AdminserviceService } from './adminservice.service';
 
+interface Noti {
+   title:string,
+   type:string,
+   message:string,
+   _id?: string,
+   read: (string | null)[],
+   data: string[]
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,10 +19,10 @@ export class NotificationService {
   private readonly url = "http://localhost:5000";
   userid;
 
-  notifications = signal<any[]>([]);
+  notifications = signal<Noti[]>([]);
 
   unreadCount = computed(() =>
-    this.notifications().filter(notif => !notif.read.includes(this.userid)).length
+    this.notifications().filter(notif => !notif.read.includes(this.userid!)).length
   );
 
   constructor(private http: HttpClient, private adminservice: AdminserviceService) {
@@ -22,13 +31,17 @@ export class NotificationService {
   }
 
   fetchNotifications(): void {
-    this.http.get<any[]>(`${this.url}/notifications`).subscribe({
+    this.http.get<
+    { read: (string | null)[]; title: string; type: string; message: string; _id?: string; data: string[]; }[]
+    >(`${this.url}/notifications`).subscribe({
+
+
       next: (data) => this.notifications.set(data),
       error: (err) => console.error("Error fetching notifications:", err)
     });
   }
-  sendnotification(notification: any): Observable<any> {
-    return this.http.post<any>(`${this.url}/send-notification`, notification);
+  sendnotification(notification: Noti): Observable<Noti> {
+    return this.http.post<Noti>(`${this.url}/send-notification`, notification);
   }
 
 
