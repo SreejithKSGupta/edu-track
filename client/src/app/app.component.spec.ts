@@ -13,15 +13,15 @@ describe('AppComponent', () => {
     themeServiceSpy = jasmine.createSpyObj('ThemeService', ['initializeTheme']);
 
     activatedRouteStub = {
-      params: of({ id: '123' }), 
-      queryParams: of({ mode: 'edit' }) 
+      params: of({ id: '123' }),
+      queryParams: of({ mode: 'edit' })
     };
 
     await TestBed.configureTestingModule({
-      imports: [AppComponent, HttpClientModule], 
+      imports: [AppComponent, HttpClientModule],
       providers: [
         { provide: ThemeService, useValue: themeServiceSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteStub }, 
+        { provide: ActivatedRoute, useValue: activatedRouteStub },
       ],
     }).compileComponents();
   });
@@ -33,7 +33,7 @@ describe('AppComponent', () => {
   });
 
   it('should call initializeTheme on ThemeService', () => {
-    TestBed.createComponent(AppComponent); 
+    TestBed.createComponent(AppComponent);
     expect(themeServiceSpy.initializeTheme).toHaveBeenCalled();
   });
 });

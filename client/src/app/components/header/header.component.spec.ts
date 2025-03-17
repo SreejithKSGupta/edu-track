@@ -3,10 +3,10 @@ import { ThemeService } from '../../services/theme.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '../../services/notification.service';
-import { RouterTestingModule } from '@angular/router/testing'; 
+import { RouterTestingModule } from '@angular/router/testing';
 import { HeaderComponent } from './header.component';
 import { AdminserviceService } from '../../services/adminservice.service';
-import { MatIconModule } from '@angular/material/icon';  
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 
@@ -31,8 +31,8 @@ describe('HeaderComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([]), 
-        MatIconModule,                       
+        RouterTestingModule.withRoutes([]),
+        MatIconModule,
         MatButtonModule,
         MatBadgeModule,
         HeaderComponent
@@ -60,7 +60,7 @@ describe('HeaderComponent', () => {
 
     component.toggleTheme();
 
- 
+
     expect(mockThemeService.toggleTheme).toHaveBeenCalled();
 
     fixture.detectChanges();

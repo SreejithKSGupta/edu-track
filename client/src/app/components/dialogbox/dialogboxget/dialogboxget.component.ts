@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
@@ -12,9 +13,9 @@ import { DataService } from '../../../services/data.service';
   templateUrl: './dialogboxget.component.html',
   styleUrl: './dialogboxget.component.scss'
 })
-export class DialogboxgetComponent implements OnInit{
+export class DialogboxgetComponent implements OnInit {
   studentForm!: FormGroup;
-  studentData: any;
+  studentData: unknown;
 
   constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
@@ -28,11 +29,11 @@ export class DialogboxgetComponent implements OnInit{
     if (this.studentForm.valid) {
       const studentId = this.studentForm.value.student_id;
       this.dataService.getStudentById(studentId).subscribe(
-        (students) => { 
+        (students) => {
           if (students) {
-            this.studentData = students; 
+            this.studentData = students;
           } else {
-            this.studentData = []; 
+            this.studentData = [];
             alert('Student not found!');
           }
         },

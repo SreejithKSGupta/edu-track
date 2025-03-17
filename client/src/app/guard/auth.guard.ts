@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
+import {  CanActivate, CanActivateChild, GuardResult, MaybeAsync, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate, CanActivateChild{
     }
   }
 
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
+  canActivateChild(): MaybeAsync<GuardResult> {
     return this.canActivate();
   }
 

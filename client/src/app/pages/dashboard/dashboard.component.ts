@@ -24,7 +24,7 @@ import {
 })
 export class DashboardComponent implements OnInit {
   constructor(private router: Router) {}
-  adminpages:any;
+  adminpages:{title:string, icon:string, link:string}[]=[];
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
         this. adminpages = [
@@ -63,10 +63,9 @@ export class DashboardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>): void {
+    console.log( this.adminpages);
     moveItemInArray(this.adminpages, event.previousIndex, event.currentIndex);
-    // if (window) {
-    //   console.log(event.previousIndex, event.currentIndex, this.adminpages);
-    // }
+
   }
 
 

@@ -1,5 +1,6 @@
 import { NotificationService } from '../../../services/notification.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
@@ -15,7 +16,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './dialogboxadd.component.html',
   styleUrl: './dialogboxadd.component.scss'
 })
-export class DialogboxaddComponent implements OnInit, OnDestroy{
+export class DialogboxaddComponent implements OnInit , OnDestroy{
   studentForm!: FormGroup;
   user_id: string = '';
   subscription: Subscription | undefined;
@@ -42,7 +43,7 @@ export class DialogboxaddComponent implements OnInit, OnDestroy{
   onSubmit(): void {
     if (this.studentForm.valid) {
 
-      let notification = {
+      const notification = {
         title: `${this.studentForm.value.student_name} added`,
         type: 'student added',
         message: `Student ID: ${this.studentForm.value.student_id}, Name: ${this.studentForm.value.student_name}`,

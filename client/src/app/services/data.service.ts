@@ -17,7 +17,7 @@ export class DataService {
     return this.http.get<User[]>(`${this.url}/students?_start=${start}&_limit=${limit}`);
   }
 
-  addStudent(studentData: unknown): Observable<User> {
+  addStudent(studentData: User): Observable<User> {
     return this.http.post<User>(`${this.url}/create-student`, studentData);
   }
 
@@ -25,7 +25,7 @@ export class DataService {
     return this.http.get<User>(`${this.url}/students/${studentId}`);
   }
 
-  updateStudentById(_id: string, data: unknown): Observable<User>{
+  updateStudentById(_id: string, data: {[x: string]: string;}): Observable<User>{
     return this.http.put<User>(`${this.url}/students/${_id}`, data, { responseType: 'text' as 'json' });
   }
 }

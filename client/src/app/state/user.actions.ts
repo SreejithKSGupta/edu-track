@@ -11,7 +11,7 @@ export const loadMoreUsersSuccess = createAction(
 );
 export const loadMoreUsersFailure = createAction(
   '[User] Load More Users Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
 export const setPagination = createAction(

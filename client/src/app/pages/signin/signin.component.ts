@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminserviceService } from '../../services/adminservice.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-signin',
@@ -61,11 +62,15 @@ export class SigninComponent implements OnInit {
       name: this.username,
     };
 
-    this.adminService.checksignin(user).subscribe((response) => {
-      this.user_id = response.user._id;
+    this.adminService.checksignin(user).subscribe((response: {message:string, user:User}) => {
+      console.log(response, typeof response)
+      if (response && response.user && response.user._id) {
+        this.user_id = response.user._id;
 
-      if (response) {
-        this.adminService.setUserCookie(this.user_id, this.username);
+        if (response) {
+          this.adminService.setUserCookie(this.user_id, this.username);
+          this.router.navigate(['/dashboard']);
+        }
         this.router.navigate(['/dashboard']);
       } else {
         this.errorMessage = 'Invalid username or password';
@@ -81,9 +86,14 @@ export class SigninComponent implements OnInit {
         name: this.username,
       };
 
-      this.adminService.addUser(userData).subscribe((res) => {
-        this.adminService.setUserCookie(res.user._id, this.username);
-        this.router.navigate(['/dashboard']);
+      this.adminService.addUser(userData).subscribe((res:{message:string, user:User}) => {
+        console.log(res, typeof res)
+        if (res && res.user && res.user._id) {
+          this.adminService.setUserCookie(res.user._id, this.username);
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.errorMessage = 'Signup failed. Please try again.';
+        }
       });
     } else {
       this.errorMessage = 'Passwords do not match';
