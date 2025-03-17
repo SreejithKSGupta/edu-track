@@ -1,15 +1,106 @@
-.mat-mdc-table {
-  border: 1px solid black !important;
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+
+  .mat-elevation-z8 {
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+
+    &.table-striped {
+      tr:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+    }
+
+    th {
+      font-weight: 600;
+      padding: 1rem 0.75rem;
+    }
+
+    td {
+      padding: 0.75rem;
+      vertical-align: middle;
+    }
+
+    .editable-cell {
+      padding: 0.5rem;
+      min-height: 1.5rem;
+      cursor: pointer;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+
+      &:focus {
+        outline: 2px solid #3f51b5;
+        background-color: rgba(63, 81, 181, 0.08);
+      }
+    }
+
+    .editable-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #3f51b5;
+      border-radius: 3px;
+      outline: none;
+      background-color: #fff;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.25);
+      }
+    }
+  }
+
+  mat-paginator {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
 }
 
-.table-container{
-  margin: 3rem;
+@media (max-width: 768px) {
+  .table-container {
+    table {
+      th, td {
+        padding: 0.5rem;
+      }
+    }
+  }
 }
 
-.mat-mdc-row {
-  height: auto !important;
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+
+    &.active {
+      background-color: #3f51b5;
+      color: white;
+      border-color: #3f51b5;
+    }
+  }
 }
 
-.mat-mdc-cell {
-  padding: 11px 10px !important;
+.no-data {
+  text-align: center;
+  padding: 1rem !important;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.54);
 }
