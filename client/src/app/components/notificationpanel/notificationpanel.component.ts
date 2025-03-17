@@ -25,8 +25,8 @@ export class NotificationpanelComponent {
     this.user_id = this.adminservice.getuserid();
   }
 
-  markAsRead(event:CustomEvent): void {
-    const notificationId = event.detail._id;
+  markAsRead(event:Event ): void {
+    const notificationId = (event as CustomEvent).detail._id;
     this.notificationService.markNotifAsRead(notificationId);
   }
 

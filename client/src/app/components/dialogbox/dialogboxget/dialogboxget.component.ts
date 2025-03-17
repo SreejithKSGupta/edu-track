@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
@@ -15,7 +14,7 @@ import { DataService } from '../../../services/data.service';
 })
 export class DialogboxgetComponent implements OnInit {
   studentForm!: FormGroup;
-  studentData: unknown;
+  studentData: any;
 
   constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
