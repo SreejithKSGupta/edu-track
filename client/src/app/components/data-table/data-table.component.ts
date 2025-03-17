@@ -21,6 +21,15 @@ import { NotificationService } from '../../services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
 
+enum StudentColumns {
+  ID = 'ID',
+  Name = 'Name',
+  Email = 'Email',
+  Phone = 'Phone',
+  Gender = 'Gender',
+}
+
+
 @Component({
   selector: 'app-data-table',
   standalone: true,
@@ -28,8 +37,11 @@ import CryptoJS from 'crypto-js';
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
 })
+
+
 export class DataTableComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['ID', 'Name', 'Email', 'Phone', 'Gender'];
+
+  displayedColumns: string[] = Object.values(StudentColumns);
   dataSource = new MatTableDataSource<User>([]);
 
   users$: Observable<User[]>;
