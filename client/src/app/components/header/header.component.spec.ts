@@ -9,15 +9,16 @@ import { AdminserviceService } from '../../services/adminservice.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
+import { Dialog } from '@angular/cdk/dialog';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  let mockThemeService: any;
-  let mockRouter: any;
-  let mockDialog: any;
-  let mockNotificationService: any;
-  let mockAdminservice: any;
+  let mockThemeService: ThemeService;
+  let mockRouter: Router;
+  let mockDialog: Dialog;
+  let mockNotificationService: NotificationService;
+  let mockAdminservice: AdminserviceService;
 
   beforeEach(async () => {
     mockThemeService = jasmine.createSpyObj('ThemeService', ['toggleTheme']);
@@ -26,8 +27,8 @@ describe('HeaderComponent', () => {
     mockNotificationService = jasmine.createSpyObj('NotificationService', ['getNotifications', 'unreadCount']);
     mockAdminservice = jasmine.createSpyObj('AdminserviceService', ['isAuthenticated', 'logout']);
 
-    mockAdminservice.isAuthenticated = true;
-    mockNotificationService.unreadCount = jasmine.createSpy().and.returnValue(5);
+    // mockAdminservice.isAuthenticated = () => true;
+    // (mockNotificationService.unreadCount as jasmine.Spy).and.returnValue(5);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -56,7 +57,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should toggle theme when toggleTheme is called', () => {
-    mockThemeService.toggleTheme.and.callThrough();
+    mockThemeService.toggleTheme();
 
     component.toggleTheme();
 
