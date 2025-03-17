@@ -230,7 +230,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.closeGetDialog();
   }
 
-  editCell(element: User, column: string): void {
+  editCell(element: { _id: string; student_id: string; }, column: string): void {
     const key = `${element._id}-${column}`;
 
     Object.keys(this.editableState).forEach((k) => {
@@ -240,8 +240,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.editableState[key] = true;
 
 
-    if (!this.originalValues[key] && element[column as keyof User]) {
-      this.originalValues[key] = element[column as keyof User] as string;
+    if (!this.originalValues[key] && element[column as keyof typeof element]) {
+      this.originalValues[key] = element[column as keyof typeof element] as string;
     }
     console.log(this.originalValues);
 
