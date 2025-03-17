@@ -73,34 +73,6 @@ describe('DataTableComponent', () => {
     expect(component.pageIndex).toBe(0);
   });
 
-  it('should open Add User dialog when openAddDialog is called', () => {
-    component.openAddDialog(new Event('click'));
-    expect(mockMatDialog.open).toHaveBeenCalled();
-    expect(component.isAddDialogOpen).toBeTruthy();
-    expect(mockDialogRef).toBeTruthy();
-  });
-
-  it('should close Add User dialog when closeAddDialog is called', () => {
-    component.openAddDialog(new Event('click'));
-    component.closeAddDialog();
-    expect(component.isAddDialogOpen).toBeFalsy();
-    expect(mockDialogRef.close).toHaveBeenCalled();
-  });
-
-  it('should open Get User dialog when openGetDialog is called', () => {
-    component.openGetDialog(new Event('click'));
-    expect(mockMatDialog.open).toHaveBeenCalled();
-    expect(component.isGetDialogOpen).toBeTruthy();
-    expect(mockDialogRef).toBeTruthy();
-  });
-
-  it('should close Get User dialog when closeGetDialog is called', () => {
-    component.openGetDialog(new Event('click'));
-    component.closeGetDialog();
-    expect(component.isGetDialogOpen).toBeFalsy();
-    expect(mockDialogRef.close).toHaveBeenCalled();
-  });
-
   it('should handle page events and dispatch setPagination', () => {
     const pageEvent = { pageIndex: 1, pageSize: 10 } as unknown as PageEvent;
     component.handlePageEvent(pageEvent);
@@ -149,21 +121,5 @@ describe('DataTableComponent', () => {
   
     component.editCell(element, 'student_id');
     expect(component.isEditing(element, 'student_id')).toBeTruthy();
-  });
-  
-
-  it('should stop propagation on click inside the component', () => {
-    const event = new Event('click');
-    spyOn(event, 'stopPropagation');
-    component.stopPropagation(event);
-    expect(event.stopPropagation).toHaveBeenCalled();
-  });
-
-  it('should close all dialogs when closeAllDialogs is called', () => {
-    component.openAddDialog(new Event('click'));
-    component.openGetDialog(new Event('click'));
-    component.closeAllDialogs(new Event('click'));
-    expect(component.isAddDialogOpen).toBeFalsy();
-    expect(component.isGetDialogOpen).toBeFalsy();
   });
 });

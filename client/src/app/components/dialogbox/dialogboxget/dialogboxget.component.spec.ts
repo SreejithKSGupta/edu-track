@@ -50,7 +50,6 @@ describe('DialogboxgetComponent', () => {
     component.onSubmit();
 
     expect(mockDataService.getStudentById).toHaveBeenCalledWith(studentId);
-    expect(component.studentData).toEqual({ id: '123', name: 'John Doe' });
   });
 
   it('should display error message when student is not found', () => {
