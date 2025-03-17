@@ -22,7 +22,7 @@ export class DataService {
   }
 
   getStudentById(studentId: string): Observable<User> {
-    return this.http.get<User>(`${this.url}/student/${studentId}`);
+    return this.http.get<User>(`${this.url}/students/${studentId}`);
   }
 
   updateStudentById(_id: string, data: {[x: string]: string;}): Observable<User>{

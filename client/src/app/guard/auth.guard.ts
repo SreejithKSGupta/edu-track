@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {  CanActivate, CanActivateChild,  GuardResult, MaybeAsync, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({

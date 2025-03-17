@@ -12,8 +12,3 @@ if (environment.production) {
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
 
-  // setEnvironmentInApp(config);
-  // if (window.deploymentEnvironment !== 'development') {
-  //   enableProdMode();
-  // }
-
