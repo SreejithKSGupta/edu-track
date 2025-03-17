@@ -15,7 +15,7 @@
       <ng-container matColumnDef="ID">
         <th mat-header-cell *matHeaderCellDef> ID </th>
         <td mat-cell *matCellDef="let element">
-          <div *ngIf="!isEditing(element, 'student_id')" (click)="editCell(element, 'student_id')">
+          <div *ngIf="!isEditing(element, 'student_id')" (click)="editCell(element, 'student_id')" (keydown.enter)="editCell(element, 'student_id')" tabindex="0">
             {{element.student_id}}
           </div>
           <input *ngIf="isEditing(element, 'student_id')" title="student_id" [(ngModel)]="element.student_id"
@@ -25,7 +25,7 @@
       <ng-container matColumnDef="Name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let element">
-          <div *ngIf="!isEditing(element, 'student_name')" (click)="editCell(element, 'student_name')">
+          <div *ngIf="!isEditing(element, 'student_name')" (click)="editCell(element, 'student_name')" (keydown.enter)="editCell(element, 'student_name')" tabindex="0">
             {{element.student_name}}
           </div>
           <input *ngIf="isEditing(element, 'student_name')" title="student_name" [(ngModel)]="element.student_name"
@@ -35,7 +35,7 @@
       <ng-container matColumnDef="Email">
         <th mat-header-cell *matHeaderCellDef> Email </th>
         <td mat-cell *matCellDef="let element">
-          <div *ngIf="!isEditing(element, 'student_email')" (click)="editCell(element, 'student_email')">
+          <div *ngIf="!isEditing(element, 'student_email')" (click)="editCell(element, 'student_email')" (keydown.enter)="editCell(element, 'student_email')" tabindex="0">
             {{element.student_email}}</div>
           <input *ngIf="isEditing(element, 'student_email')" title="student-email" [(ngModel)]="element.student_email"
             (blur)="saveCell(element, 'student_email')" />
@@ -44,7 +44,7 @@
       <ng-container matColumnDef="Phone">
         <th mat-header-cell *matHeaderCellDef> Phone </th>
         <td mat-cell *matCellDef="let element">
-          <div *ngIf="!isEditing(element, 'student_phone')" (click)="editCell(element, 'student_phone')">
+          <div *ngIf="!isEditing(element, 'student_phone')" (click)="editCell(element, 'student_phone')" (keydown.enter)="editCell(element, 'student_phone')" tabindex="0">
             {{element.student_phone}}</div>
           <input *ngIf="isEditing(element, 'student_phone')" title="student-phone" [(ngModel)]="element.student_phone"
             (blur)="saveCell(element, 'student_phone')" />
@@ -53,7 +53,7 @@
       <ng-container matColumnDef="Gender">
         <th mat-header-cell *matHeaderCellDef> Gender </th>
         <td mat-cell *matCellDef="let element">
-          <div *ngIf="!isEditing(element, 'gender')" (click)="editCell(element, 'gender')">{{element.gender}}</div>
+          <div *ngIf="!isEditing(element, 'gender')" (click)="editCell(element, 'gender')" (keydown.enter)="editCell(element, 'gender')" tabindex="0">{{element.gender}}</div>
           <input *ngIf="isEditing(element, 'gender')" title="gender" [(ngModel)]="element.gender"
             (blur)="saveCell(element, 'gender')" />
         </td>

@@ -3,6 +3,13 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
+import { User } from '../models/user.model';
+
+interface MiniUser {
+    username: string;
+    password: string;
+    name: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +26,12 @@ export class AdminserviceService {
     this.loadUserFromCookies();
   }
 
-  addUser(user: any): Observable<any> {
-    return this.http.post(`${this.url}/create-user`, user);
+  addUser(user:MiniUser): Observable<{message:string, user:User}> {
+    return this.http.post(`${this.url}/create-user`, user) as unknown as Observable<{message:string, user:User}>;
   }
 
-  checksignin(user: any): Observable<any> {
-    return this.http.post(`${this.url}/users`, user);
+  checksignin(user: MiniUser): Observable<{message:string, user:User}> {
+    return this.http.post(`${this.url}/users`, user) as unknown as Observable<{message:string, user:User}>;
   }
 
   getuserid(): string | null {

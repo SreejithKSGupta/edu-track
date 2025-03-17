@@ -1,5 +1,5 @@
 import { AdminserviceService } from '../../services/adminservice.service';
-import { Component} from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { NotificationpanelComponent } from '../notificationpanel/notificationpanel.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,8 +18,8 @@ import { CommonModule, NgIf } from '@angular/common';
 })
 export class HeaderComponent {
   isDarkMode: boolean = false;
-  authState: unknown;
-  notificationCount: unknown;
+  authState: Signal<boolean>;
+  notificationCount:Signal<number>;
 
   constructor(
     private themeService: ThemeService,

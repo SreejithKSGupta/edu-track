@@ -5,6 +5,7 @@ import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { CommonModule, NgIf } from '@angular/common';
 import { DataService } from '../../../services/data.service';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-dialogboxget',
@@ -14,7 +15,7 @@ import { DataService } from '../../../services/data.service';
 })
 export class DialogboxgetComponent implements OnInit {
   studentForm!: FormGroup;
-  studentData: any;
+  studentData: unknown;
 
   constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 

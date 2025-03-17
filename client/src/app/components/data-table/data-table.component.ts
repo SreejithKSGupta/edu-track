@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription, tap } from 'rxjs';
@@ -27,7 +27,6 @@ import CryptoJS from 'crypto-js';
   imports: [MatIconModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule, MatTooltipModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class DataTableComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ID', 'Name', 'Email', 'Phone', 'Gender'];
@@ -47,8 +46,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
   disabled = false;
   isAddDialogOpen = false;
   isGetDialogOpen = false;
-  addDialogRef!: MatDialogRef<any> | null;
-  getDialogRef!: MatDialogRef<any> | null;
+  addDialogRef!: MatDialogRef<unknown> | null;
+  getDialogRef!: MatDialogRef<unknown> | null;
 
   worker!: Worker
   subscriptions: Subscription[] = [];
@@ -231,7 +230,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.closeGetDialog();
   }
 
-  editCell(element: any, column: string): void {
+  editCell(element: User, column: string): void {
     const key = `${element._id}-${column}`;
 
     Object.keys(this.editableState).forEach((k) => {
@@ -241,21 +240,21 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.editableState[key] = true;
 
 
-    if (!this.originalValues[key]) {
-      this.originalValues[key] = element[column];
+    if (!this.originalValues[key] && element[column as keyof User]) {
+      this.originalValues[key] = element[column as keyof User] as string;
     }
     console.log(this.originalValues);
 
-    this.dataSource.data = this.dataSource.data.map((item: any) =>
+    this.dataSource.data = this.dataSource.data.map((item: User) =>
       item._id === element._id ? { ...item } : item
     );
 
   }
 
-  saveCell(element: any, column: string): void {
+  saveCell(element: User, column: string): void {
 
     const key = `${element._id}-${column}`;
-    const newValue = element[column];
+    const newValue = element[column as keyof User];
     const index = this.dataSource.data.findIndex(item => item._id === element._id);
     if (index !== -1) {
       const updatedElement = { ...this.dataSource.data[index], [column]: newValue };
@@ -281,7 +280,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     delete this.originalValues[key];
   }
 
-  isEditing(element: any, column: string): boolean {
+  isEditing(element: User, column: string): boolean {
     const key = `${element._id}-${column}`;
     const isEdit = this.editableState[key] ?? false;
     return isEdit;

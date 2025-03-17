@@ -42,7 +42,7 @@ export class DialogboxaddComponent implements OnInit , OnDestroy{
   onSubmit(): void {
     if (this.studentForm.valid) {
 
-      let notification = {
+      const notification = {
         title: `${this.studentForm.value.student_name} added`,
         type: 'student added',
         message: `Student ID: ${this.studentForm.value.student_id}, Name: ${this.studentForm.value.student_name}`,
