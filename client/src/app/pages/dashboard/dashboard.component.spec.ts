@@ -8,13 +8,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { EventEmitter } from '@angular/core';
+import { Dialog } from '@angular/cdk/dialog';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-  let mockRouter: any;
-  let mockCookieService: any;
-  let mockMatDialog: any;
+  let mockRouter: Router;
+  let mockCookieService: CookieService;
+  let mockMatDialog: Dialog;
 
   beforeEach(async () => {
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);

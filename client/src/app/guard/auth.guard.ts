@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {  CanActivate, CanActivateChild, GuardResult, MaybeAsync, Router } from '@angular/router';
+import {  ActivatedRouteSnapshot, CanActivate, CanActivateChild, GuardResult, MaybeAsync, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
@@ -8,8 +8,9 @@ import { CookieService } from 'ngx-cookie-service';
 export class AuthGuard implements CanActivate, CanActivateChild{
   constructor(private router: Router, private cookie: CookieService) {}
 
-  canActivate(): boolean {
+  canActivate(p0: ActivatedRouteSnapshot): boolean {
     if (this.cookie.get('user_id')) {
+      console.log('User is authenticated',p0);
       return true;
     }else{
       this.router.navigate(['signin'])
@@ -17,8 +18,8 @@ export class AuthGuard implements CanActivate, CanActivateChild{
     }
   }
 
-  canActivateChild(): MaybeAsync<GuardResult> {
-    return this.canActivate();
+  canActivateChild(p0: ActivatedRouteSnapshot): MaybeAsync<GuardResult> {
+    return this.canActivate(p0);
   }
 
 }

@@ -6,12 +6,13 @@ import { of, throwError } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('DialogboxgetComponent', () => {
   let component: DialogboxgetComponent;
   let fixture: ComponentFixture<DialogboxgetComponent>;
-  let mockDataService: any;
-  let mockDialogRef: any;
+  let mockDataService: DataService;
+  let mockDialogRef: DialogRef;
 
   beforeEach(async () => {
     mockDataService = jasmine.createSpyObj('DataService', ['getStudentById']);
@@ -43,7 +44,7 @@ describe('DialogboxgetComponent', () => {
 
   it('should call getStudentById when form is valid and submit', () => {
     const studentId = '123';
-    mockDataService.getStudentById.and.returnValue(of({ id: '123', name: 'John Doe' }));
+    (mockDataService.getStudentById as jasmine.Spy).and.returnValue(of({ id: '123', name: 'John Doe' }));
 
     component.studentForm.setValue({ student_id: studentId });
     component.onSubmit();
@@ -54,7 +55,7 @@ describe('DialogboxgetComponent', () => {
 
   it('should display error message when student is not found', () => {
     const studentId = '999';
-    mockDataService.getStudentById.and.returnValue(of(null));
+    (mockDataService.getStudentById as jasmine.Spy).and.returnValue(of(null));
 
     component.studentForm.setValue({ student_id: studentId });
     component.onSubmit();
@@ -65,7 +66,7 @@ describe('DialogboxgetComponent', () => {
 
   it('should handle error when fetching student data', () => {
     const studentId = '123';
-    mockDataService.getStudentById.and.returnValue(throwError('Error fetching student data'));
+    (mockDataService.getStudentById as jasmine.Spy).and.returnValue(throwError('Error fetching student data'));
 
     component.studentForm.setValue({ student_id: studentId });
     component.onSubmit();

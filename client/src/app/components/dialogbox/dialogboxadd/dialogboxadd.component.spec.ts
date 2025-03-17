@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogboxaddComponent } from './dialogboxadd.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import {  MatDialogRef } from '@angular/material/dialog';
 import { DataService } from '../../../services/data.service';
 import { NotificationService } from '../../../services/notification.service';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('DialogboxaddComponent', () => {
   let component: DialogboxaddComponent;
   let fixture: ComponentFixture<DialogboxaddComponent>;
-  let mockDataService: any;
-  let mockNotificationService: any;
-  let mockDialogRef: any;
+  let mockDataService: DataService;
+  let mockNotificationService: NotificationService;
+  let mockDialogRef: DialogRef;
 
   beforeEach(async () => {
     mockDataService = jasmine.createSpyObj('DataService', ['addStudent']);
@@ -82,8 +83,8 @@ describe('DialogboxaddComponent', () => {
       gender: 'Male'
     });
 
-    mockDataService.addStudent.and.returnValue(of({}));
-    mockNotificationService.sendnotification.and.returnValue(of({}));
+    (mockDataService.addStudent as jasmine.Spy).and.returnValue(of({}));
+    (mockNotificationService.sendnotification as jasmine.Spy).and.returnValue(of({}));
 
     component.onSubmit();
 
@@ -101,8 +102,8 @@ describe('DialogboxaddComponent', () => {
       gender: ''
     });
 
-    mockDataService.addStudent.and.returnValue(of({}));
-    mockNotificationService.sendnotification.and.returnValue(of({}));
+    (mockDataService.addStudent as jasmine.Spy).and.returnValue(of({}));
+    (mockNotificationService.sendnotification as jasmine.Spy).and.returnValue(of({}));
 
     component.onSubmit();
 
@@ -141,8 +142,8 @@ describe('DialogboxaddComponent', () => {
       gender: 'Male'
     });
 
-    mockDataService.addStudent.and.returnValue(throwError('Error'));
-    mockNotificationService.sendnotification.and.returnValue(of({}));
+    (mockDataService.addStudent as jasmine.Spy).and.returnValue(throwError('Error'));
+    (mockNotificationService.sendnotification as jasmine.Spy).and.returnValue(of({}));
 
     spyOn(window, 'alert');
 
@@ -161,8 +162,8 @@ describe('DialogboxaddComponent', () => {
       gender: 'Male'
     });
   
-    mockDataService.addStudent.and.returnValue(throwError('Error saving student'));
-    mockNotificationService.sendnotification.and.returnValue(of({}));
+    (mockDataService.addStudent as jasmine.Spy).and.returnValue(throwError('Error saving student'));
+    (mockNotificationService.sendnotification as jasmine.Spy).and.returnValue(of({}));
   
     spyOn(window, 'alert');
   
@@ -181,8 +182,8 @@ describe('DialogboxaddComponent', () => {
       gender: 'Male'
     });
   
-    mockDataService.addStudent.and.returnValue(of({}));
-    mockNotificationService.sendnotification.and.returnValue(of({}));
+    (mockDataService.addStudent as jasmine.Spy).and.returnValue(of({}));
+    (mockNotificationService.sendnotification as jasmine.Spy).and.returnValue(of({}));
   
     spyOn(window, 'alert');
   
