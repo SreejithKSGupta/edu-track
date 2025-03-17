@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { ThemeService } from './services/theme.service';
 import { HttpClientModule } from '@angular/common/http';
-import { NotificationService } from './services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -14,15 +13,15 @@ describe('AppComponent', () => {
     themeServiceSpy = jasmine.createSpyObj('ThemeService', ['initializeTheme']);
 
     activatedRouteStub = {
-      params: of({ id: '123' }), 
-      queryParams: of({ mode: 'edit' }) 
+      params: of({ id: '123' }),
+      queryParams: of({ mode: 'edit' })
     };
 
     await TestBed.configureTestingModule({
-      imports: [AppComponent, HttpClientModule], 
+      imports: [AppComponent, HttpClientModule],
       providers: [
         { provide: ThemeService, useValue: themeServiceSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteStub }, 
+        { provide: ActivatedRoute, useValue: activatedRouteStub },
       ],
     }).compileComponents();
   });
@@ -34,7 +33,7 @@ describe('AppComponent', () => {
   });
 
   it('should call initializeTheme on ThemeService', () => {
-    TestBed.createComponent(AppComponent); 
+    TestBed.createComponent(AppComponent);
     expect(themeServiceSpy.initializeTheme).toHaveBeenCalled();
   });
 });

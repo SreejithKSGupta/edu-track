@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import CryptoJS from 'crypto-js';
-import { CookieService } from 'ngx-cookie-service';
 import {
   CdkDragDrop,
   CdkDrag,
@@ -24,7 +22,7 @@ import {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   constructor(private router: Router) {}
   adminpages:any;
   ngOnInit(): void {

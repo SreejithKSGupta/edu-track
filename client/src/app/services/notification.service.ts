@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal, computed, effect } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AdminserviceService } from './adminservice.service';
@@ -42,7 +42,7 @@ export class NotificationService {
         this.notifications.update(notifs =>
           notifs.map(notif =>
             notif._id === notifId
-              ? { ...notif, read: [...notif.read, this.userid] } 
+              ? { ...notif, read: [...notif.read, this.userid] }
               : notif
           )
         );

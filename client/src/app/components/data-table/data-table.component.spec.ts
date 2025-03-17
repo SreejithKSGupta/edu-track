@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataTableComponent } from './data-table.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { StoreModule, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { DataService } from '../../services/data.service';
@@ -26,7 +26,7 @@ describe('DataTableComponent', () => {
 
 
     mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']);
-    mockDialogRef.afterClosed = () => afterClosedSubject.asObservable(); 
+    mockDialogRef.afterClosed = () => afterClosedSubject.asObservable();
 
     mockDataService = jasmine.createSpyObj('DataService', ['updateStudentById', 'loadMoreUsers']);
     mockNotificationService = jasmine.createSpyObj('NotificationService', ['sendnotification']);
@@ -56,7 +56,7 @@ describe('DataTableComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(DataTableComponent);
-    component = fixture.componentInstance;  
+    component = fixture.componentInstance;
   });
 
   it('should create the component', () => {
@@ -103,7 +103,7 @@ describe('DataTableComponent', () => {
     const pageEvent = { pageIndex: 1, pageSize: 10 } as any;
     component.handlePageEvent(pageEvent);
     expect(mockStore.dispatch).toHaveBeenCalledWith(setPagination({ pageIndex: 1, pageSize: 10 }));
-  });   
+  });
 
   it('should update paginated users based on pagination settings', () => {
     spyOn(component, 'updatePaginatedUsers');

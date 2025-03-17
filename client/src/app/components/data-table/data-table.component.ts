@@ -102,7 +102,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     this.closeAllDialogs(event);
   }
-  
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
     if (event.target === document.body || event.target === document.documentElement || event.key === 'Escape') {
@@ -240,12 +240,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     this.editableState[key] = true;
 
-    
+
     if (!this.originalValues[key]) {
       this.originalValues[key] = element[column];
     }
     console.log(this.originalValues);
-    
+
     this.dataSource.data = this.dataSource.data.map((item: any) =>
       item._id === element._id ? { ...item } : item
     );
@@ -270,7 +270,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this.dataService.updateStudentById(element._id, updatedData).pipe(tap(() =>
         this.store.dispatch(updateUserData({ id: element._id, changes: updatedData }))
       )).subscribe()
-      let notification = {
+      const notification = {
         title: `details modified for ${key}`,
         message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
         read: [this.user_id],

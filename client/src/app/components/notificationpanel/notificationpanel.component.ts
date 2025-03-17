@@ -3,7 +3,7 @@ import { NotificationService } from '../../services/notification.service';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, signal, Signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, Signal } from '@angular/core';
 
 @Component({
   selector: 'app-notificationpanel',
@@ -16,7 +16,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, signal, Signal } from '@an
 export class NotificationpanelComponent {
   user_id:string | null;
 
-  notifications: Signal<any[]> = computed(() =>
+  notifications: Signal<string[]> = computed(() =>
     this.notificationService.notifications().filter(notif => !notif.read.includes(this.user_id))
   );
 
@@ -24,7 +24,7 @@ export class NotificationpanelComponent {
     this.user_id = this.adminservice.getuserid();
   }
 
-  markAsRead(event: any): void {
+  markAsRead(event:any): void {
     const notificationId = event.detail._id;
     this.notificationService.markNotifAsRead(notificationId);
   }

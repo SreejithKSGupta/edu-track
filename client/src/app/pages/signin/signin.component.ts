@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +23,7 @@ import { AdminserviceService } from '../../services/adminservice.service';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
 })
-export class SigninComponent {
+export class SigninComponent implements OnInit {
   username: string = '';
   password: string = '';
   user_id: string = '';
@@ -36,7 +36,7 @@ export class SigninComponent {
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       if (this.adminService.isAuthenticated()) {
-        let choice = confirm('You are already logged in. Do you want to log out?');
+        const choice = confirm('You are already logged in. Do you want to log out?');
         if (choice) {
           this.adminService.logout();
         } else {
