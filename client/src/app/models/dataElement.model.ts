@@ -1,5 +1,5 @@
 
 export interface DataElement {
   _id: string;
-  [key: string]: any;
+  [key: string]: string;
 }

@@ -20,7 +20,6 @@ import { DataService } from '../../services/data.service';
 import { NotificationService } from '../../services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
-import { DataElement } from '../../models/dataElement.model';
 
 @Component({
   selector: 'app-data-table',
