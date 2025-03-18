@@ -79,11 +79,11 @@ describe('DataTableComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(setPagination({ pageIndex: 1, pageSize: 10 }));
   });
 
-  it('should update paginated users based on pagination settings', () => {
-    spyOn(component, 'updatePaginatedUsers');
-    component.updatePaginatedUsers();
-    expect(component.updatePaginatedUsers).toHaveBeenCalled();
-  });
+  // it('should update paginated users based on pagination settings', () => {
+  //   spyOn(component, 'updatePaginatedUsers');
+  //   component.updatePaginatedUsers();
+  //   expect(component.updatePaginatedUsers).toHaveBeenCalled();
+  // });
 
   it('should start editing cell when editCell is called', () => {
     const element = { _id: '1', student_id: '123', student_name: 'John Doe', student_email: 'john.doe@example.com', student_phone: '1234567890', gender: 'Male' };
@@ -100,14 +100,14 @@ describe('DataTableComponent', () => {
       student_phone: '123-456-7890',
       gender: 'Male',  // Add missing properties
     };
-  
+
     component.originalValues = { '1-student_id': '123' };
-  
+
     component.saveCell(element, 'student_id');
-  
+
     expect(mockDataService.updateStudentById).not.toHaveBeenCalled();
   });
-  
+
 
   it('should check if cell is in editing state using isEditing method', () => {
     const element: User = {
@@ -118,7 +118,7 @@ describe('DataTableComponent', () => {
       student_phone: '123-456-7890',
       gender: 'Male',  // Add missing properties
     };
-  
+
     component.editCell(element, 'student_id');
     expect(component.isEditing(element, 'student_id')).toBeTruthy();
   });

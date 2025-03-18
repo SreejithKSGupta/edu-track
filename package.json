@@ -4,7 +4,7 @@
   "description": "Server file for student management data",
   "main": "index.js",
   "scripts": {
-  "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "ng serve edu-track --no-hmr --host 0.0.0.0 --port 4200 --open",
