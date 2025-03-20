@@ -52,6 +52,7 @@ client/tmp/
 .env.development
 .env.production
 .env.test
+client/src/environment/environment.ts
 
 # System Files
 .DS_Store

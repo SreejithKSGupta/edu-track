@@ -2,6 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AdminserviceService } from './adminservice.service';
+import { environment } from '../../environment/environment';
 
 export interface Noti {
    title:string,
@@ -16,7 +17,7 @@ export interface Noti {
   providedIn: 'root'
 })
 export class NotificationService {
-  private readonly url = "http://localhost:5000";
+  private readonly url = environment.apiUrl;
   userid;
 
   notifications = signal<Noti[]>([]);

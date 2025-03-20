@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class DataService {
 
-  private readonly url = 'http://localhost:5000';
+  private readonly url = environment.apiUrl;
 
   constructor(private http: HttpClient){}
 
