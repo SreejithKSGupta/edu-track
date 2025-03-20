@@ -42,8 +42,20 @@
 
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#1976d2">
-  <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#1976d2">
+  <script>
+    (function() {
+      if(typeof window!=undefined){
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+
+      if (initialTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    }
+    })();
+  </script>
 </head>
 <body class="mat-typography">
   <app-root></app-root>

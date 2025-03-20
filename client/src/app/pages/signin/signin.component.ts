@@ -32,7 +32,9 @@ export class SigninComponent implements OnInit {
   errorMessage: string = '';
   isSignUp: boolean = false;
 
-  constructor(private router: Router, private adminService: AdminserviceService) {}
+  constructor(private router: Router, private adminService: AdminserviceService) {
+    console.log("came to sign in");
+  }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
