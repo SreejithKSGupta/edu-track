@@ -21,8 +21,8 @@ export class DataService {
     return this.http.post<User>(`${this.url}/create-student`, studentData);
   }
 
-  getStudentById(studentId: string): Observable<User> {
-    return this.http.get<User>(`${this.url}/students/${studentId}`);
+  getStudentById(studentId: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/students/${studentId}`);
   }
 
   updateStudentById(_id: string, data: {[x: string]: string;}): Observable<User>{

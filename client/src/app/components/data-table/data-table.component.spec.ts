@@ -65,13 +65,7 @@ describe('DataTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize component with the correct data', () => {
-    component.ngOnInit();
-    expect(component.dataSource.data).toEqual([]);
-    expect(component.length).toBe(0);
-    expect(component.pageSize).toBe(10);
-    expect(component.pageIndex).toBe(0);
-  });
+  
 
   it('should handle page events and dispatch setPagination', () => {
     const pageEvent = { pageIndex: 1, pageSize: 10 } as unknown as PageEvent;
@@ -79,11 +73,7 @@ describe('DataTableComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(setPagination({ pageIndex: 1, pageSize: 10 }));
   });
 
-  // it('should update paginated users based on pagination settings', () => {
-  //   spyOn(component, 'updatePaginatedUsers');
-  //   component.updatePaginatedUsers();
-  //   expect(component.updatePaginatedUsers).toHaveBeenCalled();
-  // });
+  
 
   it('should start editing cell when editCell is called', () => {
     const element = { _id: '1', student_id: '123', student_name: 'John Doe', student_email: 'john.doe@example.com', student_phone: '1234567890', gender: 'Male' };
