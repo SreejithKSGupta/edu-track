@@ -6,6 +6,7 @@ import CryptoJS from 'crypto-js';
 import { User } from '../models/user.model';
 
 interface MiniUser {
+  _id?: string;
     username: string;
     password: string;
     name: string;
@@ -26,8 +27,8 @@ export class AdminserviceService {
     this.loadUserFromCookies();
   }
 
-  addUser(user:MiniUser): Observable<{message:string, user:User}> {
-    return this.http.post(`${this.url}/create-user`, user) as unknown as Observable<{message:string, user:User}>;
+  addUser(user:MiniUser): Observable<MiniUser> {
+    return this.http.post(`${this.url}/create-user`, user) as unknown as Observable<MiniUser>;
   }
 
   checksignin(user: MiniUser): Observable<{message:string, user:User}> {
