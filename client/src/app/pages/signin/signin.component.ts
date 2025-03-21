@@ -32,7 +32,9 @@ export class SigninComponent implements OnInit {
   errorMessage: string = '';
   isSignUp: boolean = false;
 
-  constructor(private router: Router, private adminService: AdminserviceService) {}
+  constructor(private router: Router, private adminService: AdminserviceService) {
+    console.log("came to sign in");
+  }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
@@ -86,10 +88,10 @@ export class SigninComponent implements OnInit {
         name: this.username,
       };
 
-      this.adminService.addUser(userData).subscribe((res:{message:string, user:User}) => {
-        console.log(res, typeof res)
-        if (res && res.user && res.user._id) {
-          this.adminService.setUserCookie(res.user._id, this.username);
+      this.adminService.addUser(userData).subscribe((res) => {
+        const userID = res._id;
+        if (res && userID && res.username) {
+          this.adminService.setUserCookie(userID, res.username);
           this.router.navigate(['/dashboard']);
         } else {
           this.errorMessage = 'Signup failed. Please try again.';

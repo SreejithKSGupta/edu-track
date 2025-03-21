@@ -6,7 +6,7 @@ import { environment } from './environment/environment.prod';
 
 if (environment.production) {
   if(typeof window!="undefined"){
-  // window.console.log = () => { }
+  window.console.log = () => { }
   }
 }
 bootstrapApplication(AppComponent, appConfig)
