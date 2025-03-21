@@ -16,7 +16,7 @@ export class AppComponent {
 
   constructor(public themeService: ThemeService) {
     this.themeService.initializeTheme();
-    this.translate.setDefaultLang('en');
+    this.translate.setDefaultLang('es');
   }
 
   switchLanguage(lang: string) {
