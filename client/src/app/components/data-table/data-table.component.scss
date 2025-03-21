@@ -11,8 +11,7 @@
 
   table {
     width: 100%;
-    min-width: 650px; // Added minimum width to ensure proper column spacing
-
+    min-width: 650px;
     &.table-striped {
       tr:nth-child(even) {
         background-color: rgba(0, 0, 0, 0.02);
@@ -22,13 +21,12 @@
     th {
       font-weight: 600;
       padding: 1rem 0.75rem;
-      white-space: nowrap; // Prevent header text from wrapping
+      white-space: nowrap;
     }
 
     td {
       padding: 0.75rem;
       vertical-align: middle;
-      word-break: break-word; // Allow cell content to break if needed
     }
 
     .editable-cell {
@@ -66,48 +64,26 @@
   }
 }
 
-// Improved responsive breakpoints
-@media (max-width: 992px) {
-  .table-container {
-    table {
-      min-width: 600px;
-    }
-  }
-}
+
+
 
 @media (max-width: 768px) {
-  .table-container {
-    table {
-      th, td {
-        padding: 0.5rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    .language-switcher {
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-  }
-}
-
-@media (max-width: 576px) {
   .table-container {
     table {
       min-width: 500px;
 
       th, td {
-        padding: 0.4rem;
-        font-size: 0.85rem;
+        padding: 0.1rem;
+        font-size: 0.55rem;
       }
     }
 
     .editable-cell {
-      padding: 0.3rem !important;
+      padding: 0.1rem !important;
     }
 
     .editable-input {
-      padding: 0.3rem !important;
+      padding: 0.1rem !important;
     }
 
     mat-paginator {
@@ -123,31 +99,9 @@
     }
   }
 
-  .language-switcher {
-    button {
-      font-size: 0.85rem;
-      padding: 0 8px;
-      min-width: 64px;
-    }
-  }
 }
 
-// Optional: Alternative card-based mobile view
-@media (max-width: 480px) {
-  // For extremely small devices, you could consider implementing a card-based view
-  // where each row becomes a card, but this would require changes to the HTML template as well
-}
 
-.language-switcher {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-
-  button.active {
-    background-color: #3f51b5;
-    color: white;
-  }
-}
 
 .no-data {
   text-align: center;
