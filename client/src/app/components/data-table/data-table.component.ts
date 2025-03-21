@@ -22,6 +22,7 @@ import { NotificationService } from '../../services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
 import { DialogboxrowComponent } from "../dialogboxrow/dialogboxrow.component";
+import { MatButtonModule } from '@angular/material/button';
 
 enum StudentColumnKey {
   ID = 'ID',
@@ -65,7 +66,8 @@ interface PaginationState {
     MatPaginatorModule,
     FormsModule,
     MatTooltipModule,
-    DialogboxrowComponent
+    DialogboxrowComponent,
+    MatButtonModule
   ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],

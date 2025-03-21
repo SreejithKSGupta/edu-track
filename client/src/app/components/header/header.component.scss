@@ -39,12 +39,19 @@
         font-size: 24px;
       }
     }
-  }
-}
 
-.dark-mode .header {
-  --header-bg: #121212;
-  --text-color: #fff;
-  --primary-color: #90caf9;
-  --primary-hover: #64b5f6;
+    .theme-switcher {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+    
+      mat-select {
+        width: 180px;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+    }    
+  }
 }
