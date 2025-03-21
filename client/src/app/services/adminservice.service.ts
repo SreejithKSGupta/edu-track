@@ -27,6 +27,8 @@ export class AdminserviceService {
     this.loadUserFromCookies();
   }
 
+    _id: any;
+
   addUser(user:MiniUser): Observable<MiniUser> {
     return this.http.post(`${this.url}/create-user`, user) as unknown as Observable<MiniUser>;
   }
