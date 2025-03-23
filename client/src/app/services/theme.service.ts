@@ -9,6 +9,7 @@ export class ThemeService {
   toggleTheme() {
     this.themeMode.set(this.themeMode() === 'light' ? 'dark' : 'light');
     document.documentElement.classList.toggle('dark', this.themeMode() === 'dark');
+    localStorage.setItem('theme',this.themeMode());
   }
 
   initializeTheme() {

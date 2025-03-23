@@ -2,24 +2,20 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/theme.service';
 import { HeaderComponent } from './components/header/header.component';
-import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from './services/language.service';
+
+import { LoadingcomponentComponent } from "./components/loadingcomponent/loadingcomponent.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, LoadingcomponentComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'edu-track';
-  private translate = inject(TranslateService);
-
-  constructor(public themeService: ThemeService) {
+  constructor(public themeService: ThemeService, public languageService: LanguageService) {
     this.themeService.initializeTheme();
-    this.translate.setDefaultLang('es');
-  }
-
-  switchLanguage(lang: string) {
-    this.translate.use(lang);
+    this.languageService.initializeLanguage();
   }
 }

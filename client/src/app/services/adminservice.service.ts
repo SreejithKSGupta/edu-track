@@ -4,19 +4,21 @@ import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
 import { User } from '../models/user.model';
+import { environment } from '../../environment/environment';
+
 
 interface MiniUser {
   _id?: string;
-    username: string;
-    password: string;
-    name: string;
+  username: string;
+  password: string;
+  name: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminserviceService {
-  private readonly url = 'http://localhost:5000';
+  private readonly url = environment.apiUrl;
 
   private userId = signal<string | null>(null);
   private username = signal<string | null>(null);
