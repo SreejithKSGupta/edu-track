@@ -60,7 +60,7 @@ function hexToRgb(hex: string): [number, number, number] | null {
 
 @Component({
   selector: 'app-header',
-  imports:[MatIcon,MatButtonModule,MatBadgeModule,RouterModule, NgIf, CommonModule,MatSelectModule,MatFormFieldModule,FormsModule],
+  imports:[MatIcon,MatButtonModule,MatBadgeModule,RouterModule, NgIf, CommonModule, MatMenuModule, MatSelectModule,MatFormFieldModule,FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
