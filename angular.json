@@ -27,7 +27,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "client/src/assets/notification-element",
-              "client/src/assets/i18n/es.json",
+              "client/src/assets/i18n/en.json",
               "client/src/assets/i18n/fr.json",
               "client/src/assets/i18n/sp.json",
               {

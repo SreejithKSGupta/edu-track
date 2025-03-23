@@ -1,11 +1,11 @@
 <div id="adminDashboard">
-  <h1 id="title">{{ 'TITLE' | translate }}</h1>
+  <h1 id="title">{{ 'DASHBOARD.TITLE' | translate }}</h1>
  <div id="managesection" cdkDropList cdkDropListOrientation="mixed" class="example-list" (cdkDropListDropped)="drop($event)">
   @for (adminitem of adminpages; track adminitem) {
     <mat-card cdkDrag (click)="openitem(adminitem.link)">
       <mat-icon aria-hidden="false" aria-label="card icon" fontIcon={{adminitem.icon}}></mat-icon>
         <mat-card-header>
-            <mat-card-title>{{adminitem.title}}</mat-card-title>
+            <mat-card-title>{{adminitem.title | translate }}</mat-card-title>
         </mat-card-header>
       </mat-card>  }
 </div>

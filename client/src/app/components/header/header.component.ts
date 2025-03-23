@@ -13,6 +13,7 @@ import { LanguageService } from '../../services/language.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { violet, blue, magenta, orange } from '../header/model.colors';
@@ -60,7 +61,7 @@ function hexToRgb(hex: string): [number, number, number] | null {
 
 @Component({
   selector: 'app-header',
-  imports:[MatIcon,MatButtonModule,MatBadgeModule,RouterModule, NgIf, CommonModule, MatMenuModule, MatSelectModule,MatFormFieldModule,FormsModule],
+  imports:[MatIcon,MatButtonModule,MatBadgeModule,RouterModule, NgIf, CommonModule, MatMenuModule, MatSelectModule,MatFormFieldModule,FormsModule, TranslateModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -70,7 +71,7 @@ export class HeaderComponent {
   notificationCount:Signal<number>;
 
   languages = [
-    { code: 'es', label: 'English' },
+    { code: 'en', label: 'English' },
     { code: 'fr', label: 'Français' },
     { code: 'sp', label: 'Español' },
   ];

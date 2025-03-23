@@ -1,3 +1,68 @@
 {
-    "Title":"Panel de administración"
+    "PROJECT": "AdManage",
+
+    "DASHBOARD": {
+      "TITLE": "Panel de administración",
+      "CARD_TITLE": {
+        "1": "Gestión de estudiantes",
+        "2": "Gestión de profesores",
+        "3": "Gestión de cursos",
+        "4": "Gestión de departamentos",
+        "5": "Preferencias",
+        "6": "Calendario"
+      }
+    },
+
+    "STUDENT_DASHBOARD": {
+      "TITLE": "Detalles del estudiante",
+      "BUTTONS": {
+        "MODAL_POPUP_1": {
+          "BTN_NAME": "Agregar usuario",
+          "TITLE": "AGREGAR USUARIO",
+          "INPUT_1": "ID del estudiante",
+          "INPUT_2": "Nombre",
+          "INPUT_3": "Correo electrónico",
+          "INPUT_4": "Teléfono",
+          "INPUT_5": "Género",
+          "BUTTON": {
+            "BTN_1": "Enviar",
+            "BTN_2": "Cerrar"
+          },
+          "REQUIRED": "Requerido"
+        },
+        "MODAL_POPUP_2": {
+          "BTN_NAME": "Obtener usuario",
+          "TITLE": "OBTENER USUARIO",
+          "INPUT_1": "ID del estudiante",
+          "OUTPUT": {
+            "1": {
+              "KEY": "ID"
+            },
+            "2": {
+              "KEY": "NOMBRE"
+            },
+            "3": {
+              "KEY": "CORREO ELECTRÓNICO"
+            },
+            "4": {
+              "KEY": "TELÉFONO"
+            },
+            "5": {
+              "KEY": "GÉNERO"
+            }
+          },
+          "BUTTON": {
+            "BTN_1": "Enviar",
+            "BTN_2": "Cerrar"
+          }
+        }
+      },
+      "TABLE_COLUMN": {
+        "1": "ID",
+        "2": "Nombre",
+        "3": "Correo electrónico",
+        "4": "Teléfono",
+        "5": "Género"
+      }
+    }
 }
