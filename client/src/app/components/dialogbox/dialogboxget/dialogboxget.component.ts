@@ -15,7 +15,7 @@ import { User } from '../../../models/user.model';
 })
 export class DialogboxgetComponent implements OnInit {
   studentForm!: FormGroup;
-  studentData:  User[] = [];
+  studentData:User[]=[];
 
   constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
 
@@ -25,20 +25,23 @@ export class DialogboxgetComponent implements OnInit {
     });
   }
 
+
   onSubmit(): void {
     if (this.studentForm.valid) {
       const studentId = this.studentForm.value.student_id;
       this.dataService.getStudentById(studentId).subscribe(
         (students) => {
           if (students) {
-            this.studentData = [students];
+            console.log(typeof(students),students);
+            
+            this.studentData = students;
+            console.log('Student data:', students[0]._id);
+            
           } else {
-            this.studentData = [];
             alert('Student not found!');
           }
         },
         (error) => {
-          this.studentData = [];
           console.error('Error fetching student:', error);
           alert('Error fetching student data. Please try again.');
         }

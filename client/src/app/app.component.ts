@@ -4,9 +4,11 @@ import { ThemeService } from './services/theme.service';
 import { HeaderComponent } from './components/header/header.component';
 import { LanguageService } from './services/language.service';
 
+import { LoadingcomponentComponent } from "./components/loadingcomponent/loadingcomponent.component";
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, LoadingcomponentComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

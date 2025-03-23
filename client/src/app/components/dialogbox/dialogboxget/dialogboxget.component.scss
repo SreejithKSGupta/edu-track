@@ -24,7 +24,7 @@
     label {
       font-size: 0.9rem;
       font-weight: 600;
-      color: var(--greycolor);
+      color: var(--greytext);
       margin-bottom: 5px;
       width: 30%;
     }
@@ -41,6 +41,7 @@
         border-radius: 4px;
         transition: 0.3s;
         margin-bottom: 15px;
+        color: var(--greytext);
 
         &:focus {
           border-color: #007bff;
