@@ -31,32 +31,32 @@ export class DashboardComponent implements OnInit {
     if (typeof window !== 'undefined') {
         this. adminpages = [
           {
-            title: 'Student Management',
+            title: 'DASHBOARD.CARD_TITLE.1',
             icon: 'account_circle',
             link: 'admin/student',
           },
           {
-            title: 'Teacher Management',
+            title: 'DASHBOARD.CARD_TITLE.2',
             icon: 'work',
             link: 'admin/teacher',
           },
           {
-            title: 'Course Management',
+            title: 'DASHBOARD.CARD_TITLE.3',
             icon: 'library_books',
             link: 'admin/course',
           },
           {
-            title: 'Department Management',
+            title: 'DASHBOARD.CARD_TITLE.4',
             icon: 'school',
             link: 'admin/department',
           },
           {
-            title: 'Preferences',
+            title: 'DASHBOARD.CARD_TITLE.5',
             icon: 'settings',
             link: 'admin/preferences',
           },
           {
-            title: 'Calendar',
+            title: 'DASHBOARD.CARD_TITLE.6',
             icon: 'calendar_today',
             link: 'admin/calendar',
           },

@@ -6,10 +6,11 @@ import { MatDialogActions } from '@angular/material/dialog';
 import { CommonModule, NgIf } from '@angular/common';
 import { DataService } from '../../../services/data.service';
 import { User } from '../../../models/user.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialogboxget',
-  imports: [MatDialogContent, MatDialogActions, ReactiveFormsModule, NgIf,CommonModule],
+  imports: [MatDialogContent, MatDialogActions, ReactiveFormsModule, NgIf,CommonModule, TranslateModule],
   templateUrl: './dialogboxget.component.html',
   styleUrl: './dialogboxget.component.scss'
 })

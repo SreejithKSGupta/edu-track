@@ -9,9 +9,10 @@ import { DataService } from '../../../services/data.service';
 import CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-dialogboxadd',
-  imports: [MatDialogContent, MatDialogActions, NgIf, ReactiveFormsModule],
+  imports: [MatDialogContent, MatDialogActions, NgIf, ReactiveFormsModule, TranslateModule],
   templateUrl: './dialogboxadd.component.html',
   styleUrl: './dialogboxadd.component.scss'
 })
