@@ -1,5 +1,5 @@
 <div id="adminDashboard">
-  <h1 id="title">Admin Dashboard</h1>
+  <h1 id="title">{{ 'TITLE' | translate }}</h1>
  <div id="managesection" cdkDropList cdkDropListOrientation="mixed" class="example-list" (cdkDropListDropped)="drop($event)">
   @for (adminitem of adminpages; track adminitem) {
     <mat-card cdkDrag (click)="openitem(adminitem.link)">

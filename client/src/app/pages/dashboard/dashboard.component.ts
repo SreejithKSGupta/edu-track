@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   CdkDragDrop,
   CdkDrag,
@@ -18,6 +19,7 @@ import {
     MatIconModule,
     CdkDropList,
     CdkDrag,
+    TranslateModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
