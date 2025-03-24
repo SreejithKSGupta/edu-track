@@ -45,13 +45,46 @@
       top: 16px;
       right: 16px;
       z-index: 10;
-    
+
       mat-select {
         width: 180px;
         background-color: white;
         border-radius: 4px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       }
-    }    
+    }
+  }
+}
+
+/* For the globe icon */
+.mat-icon-button {
+  color: var(--icon-color, #555);
+}
+
+.language-btn {
+  .mat-icon {
+    font-size: 24px;
+  }
+}
+
+/* Style for mat-menu */
+.mat-menu-panel {
+  width: 150px;
+  padding: 5px;
+  background-color: var(--menu-bg-color, #fff);
+}
+
+.mat-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+
+  mat-icon {
+    margin-right: 10px;
   }
 }

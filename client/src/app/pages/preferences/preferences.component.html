@@ -1,8 +1,7 @@
 <div id="preferenceslist">
-
   <div class="preferenceitem">
-    <p>Theme</p>
-    <button mat-button (click)="toggleTheme()">Toggle Dark Mode</button>
+    <p>Dark Mode</p>
+    <mat-slide-toggle [checked]="isDarkMode" (change)="toggleTheme()" ></mat-slide-toggle>
   </div>
   <div class="preferenceitem">
     <p>Color Pallete</p>
@@ -10,27 +9,35 @@
       Toggle Color Pallete
     </button>
     <mat-menu #themeMenu="matMenu">
-      <button mat-menu-item (click)="setTheme('custom-magenta', 'custom-orange')">
+      <button
+        mat-menu-item
+        (click)="setTheme('custom-magenta', 'custom-orange')">
         <span>Magenta, Orange</span>
       </button>
       <button mat-menu-item (click)="setTheme('custom-violet', 'custom-blue')">
         <span>Violet, Blue</span>
       </button>
-      <button mat-menu-item (click)="setTheme('custom-primary', 'custom-tertiary')">
+      <button
+        mat-menu-item
+        (click)="setTheme('custom-primary', 'custom-tertiary')"
+      >
         <span>Pimary, Tertiary</span>
       </button>
     </mat-menu>
   </div>
+
   <div class="preferenceitem">
     <p>Language</p>
-    <button mat-button (click)="toggleTheme()">Toggle Language </button>
-  </div>
-  <div class="preferenceitem">
-    <p>Animations</p>
-    <button mat-button (click)="toggleTheme()">Toggle Animations</button>
-  </div>
-  <div class="preferenceitem">
-    <p>Mode</p>
-    <button mat-button (click)="toggleTheme()">Toggle user Mode</button>
+    <mat-form-field appearance="fill">
+      <mat-label>Language</mat-label>
+      <mat-select
+        [(ngModel)]="selectedLanguage"
+        (selectionChange)="onLanguageChange($event.value)"
+      >
+        <mat-option *ngFor="let lang of languages" [value]="lang.code">
+          {{ lang.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </div>

@@ -3,19 +3,27 @@
     <a [routerLink]="'/'" class="brand" routerLinkActive="router-link-active">{{'PROJECT' | translate}}</a>
   </div>
   <div class="right">
-     <mat-form-field appearance="fill">
-      <mat-label>Language</mat-label>
-      <mat-select [(ngModel)]="selectedLanguage" (selectionChange)="onLanguageChange($event.value)">
-        <mat-option *ngFor="let lang of languages" [value]="lang.code">
-          {{ lang.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-icon-button *ngIf="authState()" accesskey="n"  class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
-      <mat-icon *ngIf="notificationCount()>0" [matBadge]="notificationCount()" >notifications</mat-icon>
-      <mat-icon *ngIf="notificationCount()===0" >notifications</mat-icon>
-
+    <!-- Language Switcher Button with Globe Icon -->
+    <button mat-icon-button [matBadge]="selectedLanguage" [matMenuTriggerFor]="languageMenu" aria-label="Language">
+      <mat-icon>language</mat-icon>
     </button>
+
+    <!-- Language Menu -->
+    <mat-menu #languageMenu="matMenu">
+      <button mat-menu-item *ngFor="let lang of languages" (click)="onLanguageChange(lang.code)">
+        <span>{{ lang.label }}</span>
+      </button>
+    </mat-menu>
+
+    <button mat-icon-button *ngIf="authState()" accesskey="n" class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
+      <mat-icon *ngIf="notificationCount() > 0" [matBadge]="notificationCount()">notifications</mat-icon>
+      <mat-icon *ngIf="notificationCount() === 0">notifications</mat-icon>
+    </button>
+
+    <button mat-icon-button class="theme-toggle-btn" accesskey="t" (click)="toggleTheme()" aria-label="Toggle Theme">
+      <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+
     <a mat-icon-button [routerLink]="'/signin'" routerLinkActive="router-link-active" aria-label="Sign In">
       <mat-icon (click)="logout()">{{ authState() ? 'logout' : 'account_circle' }}</mat-icon>
     </a>
