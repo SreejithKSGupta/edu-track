@@ -11,7 +11,6 @@ import { NotificationService } from '../../services/notification.service';
 import { AdminserviceService } from '../../services/adminservice.service';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let mockThemeService: ThemeService;
   let mockRouter: Router;
@@ -43,7 +42,6 @@ describe('HeaderComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
