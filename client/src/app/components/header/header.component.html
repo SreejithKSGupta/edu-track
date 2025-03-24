@@ -16,28 +16,6 @@
       <mat-icon *ngIf="notificationCount()===0" >notifications</mat-icon>
 
     </button>
-
-    <!-- Dropdown button to select theme color using Angular Material -->
-    <button mat-icon-button [matMenuTriggerFor]="themeMenu">
-      <mat-icon>brightness_4</mat-icon>
-    </button>
-    <mat-menu #themeMenu="matMenu">
-      <button mat-menu-item (click)="setTheme('custom-magenta', 'custom-orange')">
-        <span>Magenta, Oange</span>
-      </button>
-      <button mat-menu-item (click)="setTheme('custom-violet', 'custom-blue')">
-        <span>Violet, Blue</span>
-      </button>
-      <button mat-menu-item (click)="setTheme('custom-primary', 'custom-tertiary')">
-        <span>Pimary, Tertiary</span>
-      </button>
-    </mat-menu>
-    
-
-
-    <button mat-icon-button class="theme-toggle-btn" accesskey="t" (click)="toggleTheme()" aria-label="Toggle Theme">
-      <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
-    </button>
     <a mat-icon-button [routerLink]="'/signin'" routerLinkActive="router-link-active" aria-label="Sign In">
       <mat-icon (click)="logout()">{{ authState() ? 'logout' : 'account_circle' }}</mat-icon>
     </a>
