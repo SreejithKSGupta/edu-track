@@ -6,7 +6,20 @@
   </div>
   <div class="preferenceitem">
     <p>Color Pallete</p>
-    <button mat-button (click)="toggleTheme()">Azure-Blue pallet</button>
+    <button mat-button [matMenuTriggerFor]="themeMenu" id="color-pallete">
+      Toggle Color Pallete
+    </button>
+    <mat-menu #themeMenu="matMenu">
+      <button mat-menu-item (click)="setTheme('custom-magenta', 'custom-orange')">
+        <span>Magenta, Orange</span>
+      </button>
+      <button mat-menu-item (click)="setTheme('custom-violet', 'custom-blue')">
+        <span>Violet, Blue</span>
+      </button>
+      <button mat-menu-item (click)="setTheme('custom-primary', 'custom-tertiary')">
+        <span>Pimary, Tertiary</span>
+      </button>
+    </mat-menu>
   </div>
   <div class="preferenceitem">
     <p>Language</p>

@@ -3,43 +3,25 @@
   flex-direction: row;
   justify-content: space-between;
   margin: 15px 15px;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  h2 {
-    margin: 0;
-    font-size: 1.5rem;
-  }
-
-  .right {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-  }
-
-  button {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
-    mat-icon {
-      margin-right: 4px;
-    }
-  }
 }
+
+
 
 #schstdbtn {
   margin: 0 !important;
 }
 
 
+#addstdbtn, #schstdbtn{
+  background-color: var(--primary-color) !important;
+}
+
 .btn-close {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
   opacity: 1 !important;
-  z-index: 1000;
+  background-color: var(--primary-color) !important;  z-index: 1000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -86,3 +68,4 @@
     }
   }
 }
+
