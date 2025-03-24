@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminserviceService } from '../../services/adminservice.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-signin',
@@ -23,7 +24,7 @@ import { AdminserviceService } from '../../services/adminservice.service';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
 })
-export class SigninComponent {
+export class SigninComponent implements OnInit {
   username: string = '';
   password: string = '';
   user_id: string = '';
@@ -31,12 +32,14 @@ export class SigninComponent {
   errorMessage: string = '';
   isSignUp: boolean = false;
 
-  constructor(private router: Router, private adminService: AdminserviceService) {}
+  constructor(private router: Router, private adminService: AdminserviceService) {
+    console.log("came to sign in");
+  }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       if (this.adminService.isAuthenticated()) {
-        let choice = confirm('You are already logged in. Do you want to log out?');
+        const choice = confirm('You are already logged in. Do you want to log out?');
         if (choice) {
           this.adminService.logout();
         } else {
@@ -46,7 +49,7 @@ export class SigninComponent {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.isSignUp) {
       this.signup();
     } else {
@@ -54,18 +57,22 @@ export class SigninComponent {
     }
   }
 
-  private login() {
+  private login(): void {
     const user = {
       username: this.username,
       password: this.password,
       name: this.username,
     };
 
-    this.adminService.checksignin(user).subscribe((response) => {
-      this.user_id = response.user._id;
+    this.adminService.checksignin(user).subscribe((response: {message:string, user:User}) => {
+      console.log(response, typeof response)
+      if (response && response.user && response.user._id) {
+        this.user_id = response.user._id;
 
-      if (response) {
-        this.adminService.setUserCookie(this.user_id, this.username);
+        if (response) {
+          this.adminService.setUserCookie(this.user_id, this.username);
+          this.router.navigate(['/dashboard']);
+        }
         this.router.navigate(['/dashboard']);
       } else {
         this.errorMessage = 'Invalid username or password';
@@ -73,7 +80,7 @@ export class SigninComponent {
     });
   }
 
-  private signup() {
+  private signup(): void {
     if (this.password === this.confirmPassword) {
       const userData = {
         username: this.username,
@@ -82,15 +89,20 @@ export class SigninComponent {
       };
 
       this.adminService.addUser(userData).subscribe((res) => {
-        this.adminService.setUserCookie(res.user._id, this.username);
-        this.router.navigate(['/dashboard']);
+        const userID = res._id;
+        if (res && userID && res.username) {
+          this.adminService.setUserCookie(userID, res.username);
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.errorMessage = 'Signup failed. Please try again.';
+        }
       });
     } else {
       this.errorMessage = 'Passwords do not match';
     }
   }
 
-  toggleSignUp() {
+  toggleSignUp(): void {
     this.isSignUp = !this.isSignUp;
     this.errorMessage = '';
   }

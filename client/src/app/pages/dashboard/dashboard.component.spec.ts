@@ -3,18 +3,19 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { DashboardComponent } from './dashboard.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragExit, CdkDragMove, CdkDragRelease, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragExit, CdkDragMove, CdkDragRelease, CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { EventEmitter } from '@angular/core';
+import { Dialog } from '@angular/cdk/dialog';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-  let mockRouter: any;
-  let mockCookieService: any;
-  let mockMatDialog: any;
+  let mockRouter: Router;
+  let mockCookieService: CookieService;
+  let mockMatDialog: Dialog;
 
   beforeEach(async () => {
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
@@ -46,7 +47,7 @@ describe('DashboardComponent', () => {
 
   it('should initialize adminpages array when user is signed in', () => {
     const encryptedUsername = 'encryptedUsername'; 
-    mockCookieService.get.and.returnValue(encryptedUsername);
+    (mockCookieService.get as jasmine.Spy).and.returnValue(encryptedUsername);
 
     component.ngOnInit();
 
@@ -57,34 +58,34 @@ describe('DashboardComponent', () => {
   });
 
   it('should redirect to signin page if no user is signed in', () => {
-    mockCookieService.get.and.returnValue('');
+    (mockCookieService.get as jasmine.Spy).and.returnValue('');
     component.ngOnInit();
 
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/signin']);
   });
 
   it('should handle drag and drop functionality correctly', () => {
-    const mockCdkDrag: Partial<CdkDrag<any>> = {
+    const mockCdkDrag: Partial<CdkDrag<string>> = {
       data: 'Student Management', 
       lockAxis: 'x',
       freeDragPosition: { x: 0, y: 0 },
       disabled: false,
       previewContainer: document.createElement('div'),
-      started: new EventEmitter<CdkDragStart<any>>(),
-      released: new EventEmitter<CdkDragRelease<any>>(),
-      ended: new EventEmitter<CdkDragEnd<any>>(),
-      entered: new EventEmitter<CdkDragEnter<any>>(),
-      exited: new EventEmitter<CdkDragExit<any>>(),
-      dropped: new EventEmitter<CdkDragDrop<any>>(),
-      moved: new EventEmitter<CdkDragMove<any>>()
+      started: new EventEmitter<CdkDragStart<string>>(),
+      released: new EventEmitter<CdkDragRelease<string>>(),
+      ended: new EventEmitter<CdkDragEnd<string>>(),
+      entered: new EventEmitter<CdkDragEnter<string>>(),
+      exited: new EventEmitter<CdkDragExit<string>>(),
+      dropped: new EventEmitter<CdkDragDrop<string>>(),
+      moved: new EventEmitter<CdkDragMove<string>>()
     };
 
     const event: CdkDragDrop<string[]> = {
       previousIndex: 0,
       currentIndex: 1,
-      item: mockCdkDrag as CdkDrag<any>, 
-      container: {} as any, 
-      previousContainer: {} as any, 
+      item: mockCdkDrag as CdkDrag<string>, 
+      container:new CdkDropList<string[]>, 
+      previousContainer: new CdkDropList<string[]>, 
       isPointerOverContainer: true,
       distance: { x: 10, y: 10 },
       dropPoint: { x: 100, y: 100 },
@@ -110,7 +111,7 @@ describe('DashboardComponent', () => {
   });
 
   it('should navigate to signin if no username is found in the cookie', () => {
-    mockCookieService.get.and.returnValue('');
+    (mockCookieService.get as jasmine.Spy).and.returnValue('');
     component.ngOnInit();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/signin']);
   });

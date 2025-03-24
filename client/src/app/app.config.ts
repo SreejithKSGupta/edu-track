@@ -1,8 +1,8 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
@@ -10,13 +10,23 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './state/user.reducer';
 import { UserEffects } from './state/user.effects';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 
 // Import Calendar Modules
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideServiceWorker } from '@angular/service-worker';
+import { TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
+import { TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, '../../assets/i18n/', '.json');
+}
+
+const translateModuleConfig:  TranslateModuleConfig = { defaultLanguage: 'en', loader: { provide: TranslateLoader, useFactory: createTranslateLoader, deps: [HttpClient] } };
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,6 +46,14 @@ export const appConfig: ApplicationConfig = {
       })
       ),
     provideHttpClient(),
-    provideAnimations()
+    provideAnimations(), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          }), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          }),
+          importProvidersFrom(HttpClientModule),
+          importProvidersFrom(BrowserModule, TranslateModule.forRoot(translateModuleConfig) ),
   ]
 };

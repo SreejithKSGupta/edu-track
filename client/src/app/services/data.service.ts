@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class DataService {
 
-  private readonly url = 'http://localhost:5000';
+  private readonly url = environment.apiUrl;
 
   constructor(private http: HttpClient){}
 
@@ -17,15 +18,15 @@ export class DataService {
     return this.http.get<User[]>(`${this.url}/students?_start=${start}&_limit=${limit}`);
   }
 
-  addStudent(studentData: any): Observable<User> {
+  addStudent(studentData: User): Observable<User> {
     return this.http.post<User>(`${this.url}/create-student`, studentData);
   }
 
-  getStudentById(studentId: string): Observable<User> {
-    return this.http.get<User>(`${this.url}/students/${studentId}`);
+  getStudentById(studentId: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/students/${studentId}`);
   }
 
-  updateStudentById(_id: string, data: any): Observable<User>{
-    return this.http.put<User>(`${this.url}/students/${_id}`, data);
+  updateStudentById(_id: string, data: {[x: string]: string;}): Observable<User>{
+    return this.http.put<User>(`${this.url}/students/${_id}`, data, { responseType: 'text' as 'json' });
   }
 }

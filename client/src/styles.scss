@@ -8,7 +8,7 @@
   --font-family: Roboto, 'Helvetica Neue', sans-serif;
   --font-size: 16px;
 
-  --border-radius: 4px;
+  --border-radius: 15px;
   --padding: 16px;
   --margin: 16px;
   --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -17,6 +17,7 @@
   --buttoncolor: rgb(22, 72, 190);
   --transparency: 1;
   --headingcolor: rgb(26, 26, 26);
+  --bg-color: white;
 
   --background-color: #fcfcfc;
   --text-color: #000000;
@@ -37,31 +38,59 @@
   --hover-color: rgba(255, 255, 255, 0.08);
   --border-color: #484848;
   --headingcolor: rgb(255, 255, 255);
+  --bg-color: rgb(27, 26, 26);
 }
 
-html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+// styles.scss
+// html {
+//   --primary-color: #{mat.get-color-from-palette(mat.$magenta-palette, 500)};
+//   --tertiary-color: #{mat.get-color-from-palette(mat.$orange-palette, 500)};
 
-  &.dark {
-    @include mat.theme((
-      color: (
-        theme-type: dark,
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    ));
-  }
-}
+//   @include mat.theme((
+//     color: (
+//       theme-type: light,
+//       primary: (
+//         500: var(--primary-color),
+//         contrast: (
+//           500: #{mat.get-contrast-color-from-palette(mat.$magenta-palette, 500)}
+//         )
+//       ),
+//       tertiary: (
+//         500: var(--tertiary-color),
+//         contrast: (
+//           500: #{mat.get-contrast-color-from-palette(mat.$orange-palette, 500)}
+//         )
+//       ),
+//     ),
+//     typography: Roboto,
+//     density: 0,
+//   ));
+
+//   &.dark {
+//     --primary-color: #{mat.get-color-from-palette(mat.$violet-palette, 500)};
+//     --tertiary-color: #{mat.get-color-from-palette(mat.$blue-palette, 500)};
+
+//     @include mat.theme((
+//       color: (
+//         theme-type: dark,
+//         primary: (
+//           500: var(--primary-color),
+//           contrast: (
+//             500: #{mat.get-contrast-color-from-palette(mat.$violet-palette, 500)}
+//           )
+//         ),
+//         tertiary: (
+//           500: var(--tertiary-color),
+//           contrast: (
+//             500: #{mat.get-contrast-color-from-palette(mat.$blue-palette, 500)}
+//           )
+//         ),
+//       ),
+//       typography: Roboto,
+//       density: 0,
+//     ));
+//   }
+// }
 
 * {
   margin: 0;
@@ -214,3 +243,54 @@ h1,h2,h3,h4,h5,h6 {
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: var(--background-color) !important;
 }
+
+
+
+
+
+
+// // Define Magenta theme
+// $magenta-theme-primary: mat-palette($mat-pink, 700);
+// $magenta-theme-accent: mat-palette($mat-indigo, 500);
+// $magenta-theme-warn: mat-palette($mat-red);
+// $magenta-theme: mat-light-theme($magenta-theme-primary, $magenta-theme-accent, $magenta-theme-warn);
+
+// // Define Violet theme
+// $violet-theme-primary: mat-palette($mat-deep-purple, 700);
+// $violet-theme-accent: mat-palette($mat-pink, 300);
+// $violet-theme-warn: mat-palette($mat-red);
+// $violet-theme: mat-light-theme($violet-theme-primary, $violet-theme-accent, $violet-theme-warn);
+
+// // Define Pink theme
+// $pink-theme-primary: mat-palette($mat-pink, 500);
+// $pink-theme-accent: mat-palette($mat-teal, 200);
+// $pink-theme-warn: mat-palette($mat-red);
+// $pink-theme: mat-light-theme($pink-theme-primary, $pink-theme-accent, $pink-theme-warn);
+
+// // Define Azure theme
+// $azure-theme-primary: mat-palette($mat-blue, 500);
+// $azure-theme-accent: mat-palette($mat-light-blue, 200);
+// $azure-theme-warn: mat-palette($mat-red);
+// $azure-theme: mat-light-theme($azure-theme-primary, $azure-theme-accent, $azure-theme-warn);
+
+// // Apply the themes to the body (Initially, you can apply any theme)
+// body {
+//   background-color: mat-color($magenta-theme-background);
+// }
+
+// // Theme classes for toggling
+// .theme-magenta {
+//   @include angular-material-theme($magenta-theme);
+// }
+
+// .theme-violet {
+//   @include angular-material-theme($violet-theme);
+// }
+
+// .theme-pink {
+//   @include angular-material-theme($pink-theme);
+// }
+
+// .theme-azure {
+//   @include angular-material-theme($azure-theme);
+// }

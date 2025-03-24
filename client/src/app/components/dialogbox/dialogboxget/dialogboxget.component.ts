@@ -1,0 +1,60 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogActions } from '@angular/material/dialog';
+import { CommonModule, NgIf } from '@angular/common';
+import { DataService } from '../../../services/data.service';
+import { User } from '../../../models/user.model';
+import { TranslateModule } from '@ngx-translate/core';
+
+@Component({
+  selector: 'app-dialogboxget',
+  imports: [MatDialogContent, MatDialogActions, ReactiveFormsModule, NgIf,CommonModule, TranslateModule],
+  templateUrl: './dialogboxget.component.html',
+  styleUrl: './dialogboxget.component.scss'
+})
+export class DialogboxgetComponent implements OnInit {
+  studentForm!: FormGroup;
+  studentData:User[]=[];
+
+  constructor(public dialogRef: MatDialogRef<DialogboxgetComponent>, private fb: FormBuilder, private dataService: DataService) {}
+
+  ngOnInit(): void {
+    this.studentForm = this.fb.group({
+      student_id: ['', Validators.required]
+    });
+  }
+
+
+  onSubmit(): void {
+    if (this.studentForm.valid) {
+      const studentId = this.studentForm.value.student_id;
+      this.dataService.getStudentById(studentId).subscribe(
+        (students) => {
+          if (students) {
+            console.log(typeof(students),students);
+            
+            this.studentData = students;
+            console.log('Student data:', students[0]._id);
+            
+          } else {
+            alert('Student not found!');
+          }
+        },
+        (error) => {
+          console.error('Error fetching student:', error);
+          alert('Error fetching student data. Please try again.');
+        }
+      );
+    }
+    else {
+      this.studentForm.markAllAsTouched();
+    }
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+}
+

@@ -1,0 +1,68 @@
+{
+    "PROJECT": "AdManage",
+
+    "DASHBOARD": {
+      "TITLE": "Tableau de bord administrateur",
+      "CARD_TITLE": {
+        "1": "Gestion des étudiants",
+        "2": "Gestion des enseignants",
+        "3": "Gestion des cours",
+        "4": "Gestion des départements",
+        "5": "Préférences",
+        "6": "Calendrier"
+      }
+    },
+
+    "STUDENT_DASHBOARD": {
+      "TITLE": "Détails de l'étudiant",
+      "BUTTONS": {
+        "MODAL_POPUP_1": {
+          "BTN_NAME": "Ajouter un utilisateur",
+          "TITLE": "AJOUTER UN UTILISATEUR",
+          "INPUT_1": "ID étudiant",
+          "INPUT_2": "Nom",
+          "INPUT_3": "Email",
+          "INPUT_4": "Téléphone",
+          "INPUT_5": "Genre",
+          "BUTTON": {
+            "BTN_1": "Soumettre",
+            "BTN_2": "Fermer"
+          },
+          "REQUIRED": "Requis"
+        },
+        "MODAL_POPUP_2": {
+          "BTN_NAME": "Obtenir un utilisateur",
+          "TITLE": "OBTENIR UN UTILISATEUR",
+          "INPUT_1": "ID étudiant",
+          "OUTPUT": {
+            "1": {
+              "KEY": "ID"
+            },
+            "2": {
+              "KEY": "NOM"
+            },
+            "3": {
+              "KEY": "EMAIL"
+            },
+            "4": {
+              "KEY": "TÉLÉPHONE"
+            },
+            "5": {
+              "KEY": "GENRE"
+            }
+          },
+          "BUTTON": {
+            "BTN_1": "Soumettre",
+            "BTN_2": "Fermer"
+          }
+        }
+      },
+      "TABLE_COLUMN": {
+        "1": "ID",
+        "2": "Nom",
+        "3": "Email",
+        "4": "Téléphone",
+        "5": "Genre"
+      }
+    }
+}

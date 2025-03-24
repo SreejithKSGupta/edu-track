@@ -40,15 +40,14 @@ const colors: Record<string, EventColor> = {
 @Component({
   selector: 'app-calendarbox',
   imports: [CalendarModule,MatButton],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendarbox.component.html',
   styleUrl: './calendarbox.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
 export class CalendarboxComponent {
   view: CalendarView = CalendarView.Month;
-  CalendarView = CalendarView;
   viewDate: Date = new Date();
   refresh = new Subject<void>();
   activeDayIsOpen: boolean = true;
@@ -116,15 +115,15 @@ export class CalendarboxComponent {
     ];
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+  deleteEvent(eventToDelete: CalendarEvent): void {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
-  setView(view: CalendarView) {
+  setView(view: CalendarView): void {
     this.view = view;
   }
 
-  closeOpenMonthViewDay() {
+  closeOpenMonthViewDay(): void {
     this.activeDayIsOpen = false;
   }
 }

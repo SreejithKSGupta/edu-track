@@ -1,271 +1,323 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, take } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
-import { commitPrefetchedUsers, loadMoreUsers, setPagination } from '../../state/user.actions';
+import {
+  commitPrefetchedUsers,
+  loadMoreUsers,
+  setPagination,
+  updateUserData
+} from '../../state/user.actions';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { selectAllUsers, selectUserPagination } from '../../state/user.selectors';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DialogboxaddComponent } from '../../dialogbox/dialogboxadd/dialogboxadd.component';
-import { DialogboxgetComponent } from '../../dialogbox/dialogboxget/dialogboxget.component';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { DataService } from '../../services/data.service';
 import { NotificationService } from '../../services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
+import { DialogboxrowComponent } from "../dialogboxrow/dialogboxrow.component";
+import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+
+enum StudentColumnKey {
+  ID = 'ID',
+  Name = 'Name',
+  Email = 'Email',
+  Phone = 'Phone',
+  Gender = 'Gender',
+}
+
+interface CellEditState {
+  [key: string]: boolean;
+}
+
+interface OriginalValues {
+  [key: string]: string;
+}
+
+interface PaginationState {
+  length: number;
+  pageSize: number;
+  pageIndex: number;
+}
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [MatIconModule, CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    FormsModule,
+    MatTooltipModule,
+    DialogboxrowComponent,
+    MatButtonModule,
+    TranslateModule
+  ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class DataTableComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['ID', 'Name', 'Email', 'Phone', 'Gender'];
+  // Constants
+  private readonly SECRET_KEY = 'your-secret-key';
+  private readonly INITIAL_PAGE_SIZE = 10;
+  private readonly PREFETCH_LIMIT = 1000;
+
+  // Column and table configuration
+  readonly displayedColumns: string[] = Object.values(StudentColumnKey);
+  readonly pageSizeOptions: number[] = [10, 25, 50];
+  readonly hidePageSize = false;
+  readonly showPageSizeOptions = true;
+  readonly showFirstLastButtons = true;
+  readonly columnKeys = StudentColumnKey;
+
+  // Data source and state
   dataSource = new MatTableDataSource<User>([]);
-
   users$: Observable<User[]>;
-  pagination$: Observable<{ length: number; pageSize: number; pageIndex: number }>;
-  editableState: any = {};
-  originalValues: any = {};
-  length: number = 0;
-  pageSize: number = 10;
-  pageIndex: number = 0;
-  pageSizeOptions: number[] = [10, 25, 50];
-  hidePageSize = false;
-  showPageSizeOptions = true;
-  showFirstLastButtons = true;
+  pagination$: Observable<PaginationState>;
+  editableState: CellEditState = {};
+  originalValues: OriginalValues = {};
+
+  // Pagination state
+  length = 0;
+  pageSize = this.INITIAL_PAGE_SIZE;
+  pageIndex = 0;
   disabled = false;
-  isAddDialogOpen = false;
-  isGetDialogOpen = false;
-  addDialogRef!: MatDialogRef<any> | null;
-  getDialogRef!: MatDialogRef<any> | null;
 
-  worker!: Worker
-  subscriptions: Subscription[] = [];
-  currentOffset: number = 100;
-  prefetchedUsers: User[] = [];
-  user_id: string = '';
+  // Worker and prefetch state
+  private worker?: Worker;
+  private subscriptions: Subscription[] = [];
+  private prefetchedUsers: User[] = [];
+  private userId = '';
 
-
-  constructor(private store: Store, public dialog: MatDialog, private dataService: DataService, private notficationservice: NotificationService, private cookie: CookieService) {
+  constructor(
+    private store: Store,
+    private dataService: DataService,
+    private notificationService: NotificationService,
+    private cookieService: CookieService
+  ) {
     this.users$ = this.store.select(selectAllUsers);
     this.pagination$ = this.store.select(selectUserPagination);
-
-    const encryptUserID = this.cookie.get('user_id');
-    if (encryptUserID) {
-        const decryptUserID = CryptoJS.AES.decrypt(encryptUserID, 'your-secret-key').toString(CryptoJS.enc.Utf8);
-        this.user_id = decryptUserID;
-    }
+    this.initializeUserId();
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadMoreUsers({ offset: 0, limit: 1000 }));
-    if (this.users$) {
-      this.subscriptions.push(
-        this.users$.subscribe(users => {
-          const startIndex = this.pageIndex * this.pageSize;
-          this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
-        })
-      );
-    }
-    if(this.pagination$) {
-      this.subscriptions.push(
-        this.pagination$.subscribe(({ length, pageSize, pageIndex }) => {
-          this.length = length;
-          this.pageSize = pageSize;
-          this.pageIndex = pageIndex;
-          this.updatePaginatedUsers();
-        })
-      );
-    }
+    this.loadInitialData();
+    this.setupSubscriptions();
     this.initWorker();
     this.prefetchNextChunk();
   }
 
-  @HostListener('click', ['$event'])
-  stopPropagation(event: Event) {
-    console.log('Click event inside Parent Component!');
-    event.stopPropagation();
+  ngOnDestroy(): void {
+    this.cleanupResources();
   }
 
-  initWorker() {
+  handlePageEvent(event: PageEvent): void {
+    this.store.dispatch(setPagination({
+      pageIndex: event.pageIndex,
+      pageSize: event.pageSize
+    }));
 
-    if (typeof Worker !== 'undefined') {
-      if (!this.worker) {
+    this.checkAndCommitPrefetchedUsers(event.pageIndex);
+  }
 
-        this.worker = new Worker(new URL('../../webworkers/tableloader.worker', import.meta.url))
-        this.worker.onmessage = ({ data }) => {
-          const fetchedUsers: User[] = data.users;
-          if (fetchedUsers && fetchedUsers.length > 0) {
-            this.prefetchedUsers = fetchedUsers;
-          }
-        };
+  editCell(element: User, column: string): void {
+    const key = this.getCellKey(element, column);
+
+    // Close any other open editors
+    this.closeAllEditors();
+
+    // Open this editor
+    this.editableState[key] = true;
+
+    // Save original value for comparison
+    if (!this.originalValues[key] && element[column as keyof User]) {
+      this.originalValues[key] = element[column as keyof User] as string;
+    }
+
+    // Trigger change detection
+    this.refreshDataSource(element._id);
+  }
+
+  saveCell(element: User, column: string): void {
+    const key = this.getCellKey(element, column);
+    const newValue = element[column as keyof User] as string;
+
+    // Close editor
+    this.editableState[key] = false;
+
+    // Update local data
+    this.updateLocalData(element, column);
+
+    // Only update server if value changed and user is authenticated
+    if (this.shouldUpdateServer(key, newValue)) {
+      this.updateServerData(element, column, newValue, key);
+    }
+
+    // Cleanup
+    delete this.originalValues[key];
+  }
+
+  isEditing(element: User, column: string): boolean {
+    const key = this.getCellKey(element, column);
+    return this.editableState[key] ?? false;
+  }
+
+  // Private methods
+  private initializeUserId(): void {
+    const encryptedUserId = this.cookieService.get('user_id');
+    if (encryptedUserId) {
+      this.userId = CryptoJS.AES.decrypt(encryptedUserId, this.SECRET_KEY)
+        .toString(CryptoJS.enc.Utf8);
+    }
+  }
+
+  private loadInitialData(): void {
+    this.store.dispatch(loadMoreUsers({ offset: 0, limit: this.PREFETCH_LIMIT }));
+  }
+
+  private setupSubscriptions(): void {
+    // Subscribe to users with pagination
+    this.subscriptions.push(
+      this.users$.pipe(
+        map(users => this.getPaginatedUsers(users))
+      ).subscribe(pagedUsers => {
+        this.dataSource.data = pagedUsers;
+      })
+    );
+
+    // Subscribe to pagination changes
+    this.subscriptions.push(
+      this.pagination$.subscribe(pagination => {
+        this.length = pagination.length;
+        this.pageSize = pagination.pageSize;
+        this.pageIndex = pagination.pageIndex;
+        this.updatePaginatedUsers();
+      })
+    );
+  }
+
+  private initWorker(): void {
+    if (typeof Worker === 'undefined') return;
+
+    this.worker = new Worker(
+      new URL('../../webworkers/tableloader.worker', import.meta.url)
+    );
+
+    this.worker.onmessage = ({ data }) => {
+      const fetchedUsers: User[] = data.users;
+      if (fetchedUsers?.length > 0) {
+        this.prefetchedUsers = fetchedUsers;
       }
-    }
+    };
   }
 
-  prefetchNextChunk() {
-    if (this.worker) {
-      console.log("prefetch");
+  private prefetchNextChunk(): void {
+    if (!this.worker) return;
 
-      this.worker.postMessage({ offset: this.length, limit: this.length + 1000 });
-    }
-  }
-
-  updatePaginatedUsers() {
-    this.users$.subscribe(users => {
-      const startIndex = this.pageIndex * this.pageSize;
-      this.dataSource.data = users.slice(startIndex, startIndex + this.pageSize);
+    this.worker.postMessage({
+      offset: this.length,
+      limit: this.length + this.PREFETCH_LIMIT
     });
   }
 
-  handlePageEvent(event: PageEvent) {
-    this.store.dispatch(setPagination({ pageIndex: event.pageIndex, pageSize: event.pageSize }));
+  private updatePaginatedUsers(): void {
+    this.users$.pipe(
+      take(1),
+      map(users => this.getPaginatedUsers(users))
+    ).subscribe(pagedUsers => {
+      this.dataSource.data = pagedUsers;
+    });
+  }
+
+  private getPaginatedUsers(users: User[]): User[] {
+    const startIndex = this.pageIndex * this.pageSize;
+    return users.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  private checkAndCommitPrefetchedUsers(pageIndex: number): void {
     const totalVisiblePages = Math.ceil(this.length / this.pageSize);
-    if (event.pageIndex === totalVisiblePages - 1 && this.prefetchedUsers.length > 0) {
-      this.store.dispatch(commitPrefetchedUsers({ users: this.prefetchedUsers }));
+
+    if (pageIndex === totalVisiblePages - 1 && this.prefetchedUsers.length > 0) {
+      this.store.dispatch(commitPrefetchedUsers({
+        users: this.prefetchedUsers
+      }));
+
       this.prefetchedUsers = [];
       this.prefetchNextChunk();
     }
   }
 
-  ngOnDestroy(): void {
+  private cleanupResources(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+
     if (this.worker) {
       this.worker.terminate();
+      this.worker = undefined;
     }
   }
 
-  openAddDialog(event: Event) {
-    event.stopPropagation();
-    console.log("Dialogboxadd is opened");
-    if (!this.isAddDialogOpen) {
-      this.isAddDialogOpen = true;
-      this.addDialogRef = this.dialog.open(DialogboxaddComponent, {
-        position: { left: '0vw', top: '22vh' },
-        width: '40vw',
-        disableClose: true,
-        hasBackdrop: false
-      });
-
-      this.addDialogRef.afterClosed().subscribe(() => {
-        this.isAddDialogOpen = false;
-        this.addDialogRef = null;
-      });
-    } else {
-      this.closeAddDialog();
-    }
+  private getCellKey(element: User, column: string): string {
+    return `${element._id}-${column}`;
   }
 
-  openGetDialog(event: Event) {
-    event.stopPropagation();
-    console.log("Dialogboxget is opened");
-    if (!this.isGetDialogOpen) {
-      this.isGetDialogOpen = true;
-      this.getDialogRef = this.dialog.open(DialogboxgetComponent, {
-        position: { left: '38vw', top: '22vh' },
-        width: '35vw',
-        disableClose: true,
-        hasBackdrop: false
-      });
-
-      this.getDialogRef.afterClosed().subscribe(() => {
-        this.isGetDialogOpen = false;
-        this.getDialogRef = null;
-      });
-    } else {
-      this.closeGetDialog();
-    }
-  }
-
-  closeAddDialog() {
-    if (this.isAddDialogOpen && this.addDialogRef) {
-      this.addDialogRef.close();
-      this.isAddDialogOpen = false;
-      this.addDialogRef = null;
-    }
-  }
-
-  closeGetDialog() {
-    if (this.isGetDialogOpen && this.getDialogRef) {
-      this.getDialogRef.close();
-      this.isGetDialogOpen = false;
-      this.getDialogRef = null;
-    }
-  }
-
-  closeAllDialogs(event: Event) {
-    event.stopPropagation();
-    console.log("Close button is clicked");
-    this.closeAddDialog();
-    this.closeGetDialog();
-  }
-
-  editCell(element: any, column: string) {
-    const key = `${element._id}-${column}`;
-
-    Object.keys(this.editableState).forEach((k) => {
-      this.editableState[k] = false;
+  private closeAllEditors(): void {
+    Object.keys(this.editableState).forEach(key => {
+      this.editableState[key] = false;
     });
-
-    this.editableState[key] = true;
-
-
-    if (!this.originalValues[key]) {
-      this.originalValues[key] = element[column];
-    }
-
-    this.dataSource.data = this.dataSource.data.map((item: any) =>
-      item._id === element._id ? { ...item } : item
-    );
-
   }
 
-  saveCell(element: any, column: string) {
+  private refreshDataSource(elementId: string): void {
+    this.dataSource.data = this.dataSource.data.map(item =>
+      item._id === elementId ? { ...item } : item
+    );
+  }
 
-    const key = `${element._id}-${column}`;
-    const newValue = element[column];
+  private updateLocalData(element: User, column: string): void {
     const index = this.dataSource.data.findIndex(item => item._id === element._id);
+
     if (index !== -1) {
-      const updatedElement = { ...this.dataSource.data[index], [column]: newValue };
+      const updatedElement = {
+        ...this.dataSource.data[index],
+        [column]: element[column as keyof User]
+      };
+
       const updatedData = [...this.dataSource.data];
       updatedData[index] = updatedElement;
       this.dataSource.data = updatedData;
     }
-    this.editableState[key] = false;
-    const updatedData = { [column]: newValue };
-    console.log(updatedData,this.originalValues,key,index);
-    if (this.originalValues[key]!==newValue && this.user_id!=='' && this.user_id!==undefined) {
-      this.dataService.updateStudentById(element._id, updatedData).subscribe(res => {
-        alert("Updated...")
-      })
-      let notification = {
-        title: `details modified for ${key}`,
-        message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
-        read: [this.user_id],
-      }
-      this.notficationservice.sendnotification(notification).subscribe(res => {
-        console.log(res);
-      })
-    }
-
-    delete this.originalValues[key];
   }
 
-  isEditing(element: any, column: string): boolean {
-    const key = `${element._id}-${column}`;
-    const isEdit = this.editableState[key] ?? false;
-    // console.log(isEdit, key);
+  private shouldUpdateServer(key: string, newValue: string): boolean {
+    return this.originalValues[key] !== newValue &&
+           this.userId !== '' &&
+           this.userId !== undefined;
+  }
 
-    return isEdit;
+  private updateServerData(element: User, column: string, newValue: string, key: string): void {
+    const updatedData = { [column]: newValue };
+
+    this.dataService.updateStudentById(element._id, updatedData)
+      .pipe(
+        tap(() => this.store.dispatch(updateUserData({
+          id: element._id,
+          changes: updatedData
+        }))),
+        switchMap(() => {
+          const notification = {
+            title: `Details modified for ${key}`,
+            message: `${this.originalValues[key]} edited to ${newValue} for ${key}`,
+            read: [this.userId],
+          };
+          return this.notificationService.sendnotification(notification);
+        })
+      )
+      .subscribe();
   }
 }

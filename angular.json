@@ -26,8 +26,10 @@
             "tsConfig": "client/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "client/src/assets/notification-element"
-,
+              "client/src/assets/notification-element",
+              "client/src/assets/i18n/en.json",
+              "client/src/assets/i18n/fr.json",
+              "client/src/assets/i18n/sp.json",
               {
                 "glob": "**/*",
                 "input": "client/public"
@@ -47,10 +49,24 @@
             "ssr": {
               "entry": "client/src/server.ts"
             },
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            "webWorkerTsConfig": "client/tsconfig.worker.json"
           },
           "configurations": {
             "production": {
+              "baseHref": "/",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                "minify": true,
+                "inlineCritical": false
+                },
+              "fonts": true
+              },
+              "extractLicenses": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
@@ -63,7 +79,12 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "allowedCommonJsDependencies": [
+                "zone.js",
+                "crypto-js.js",
+                "compression"
+              ],
+              "serviceWorker": "client/ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -91,11 +112,13 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "main": "client/src/test.ts",
+            "karmaConfig": "karma.conf.js",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "tsconfig.spec.json",
+            "tsConfig": "client/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -105,19 +128,31 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
+              "@angular/material/prebuilt-themes/magenta-violet.css",
               "client/src/styles.scss",
               "node_modules/angular-calendar/css/angular-calendar.css",
-
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            "webWorkerTsConfig": "client/tsconfig.worker.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "client/**/*.ts",
+              "client/**/*.html"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

@@ -1,0 +1,14 @@
+<div id="headingrow">
+  <h2 class="text-uppercase">{{'STUDENT_DASHBOARD.TITLE' | translate}}</h2>
+  <ng-content></ng-content>
+  <div class="right">
+    <button mat-flat-button id="addstdbtn" (click)="openAddDialog($event)" accesskey="a" matTooltip="Add a new user"
+      matTooltipPosition="above" matTooltipShowDelay="500"> <mat-icon>person_add</mat-icon>{{'STUDENT_DASHBOARD.BUTTONS.MODAL_POPUP_1.BTN_NAME' | translate }}</button>
+    <button mat-flat-button id="schstdbtn" (click)="openGetDialog($event)" accesskey="g" matTooltip="Get User"
+      matTooltipPosition="above" matTooltipShowDelay="500"> <mat-icon>search</mat-icon>{{'STUDENT_DASHBOARD.BUTTONS.MODAL_POPUP_2.BTN_NAME' | translate }}</button>
+  </div>
+</div>
+<button class="btn-close " *ngIf="(isAddDialogOpen || isGetDialogOpen)" mat-fab aria-label="close Modals"
+  (click)="closeAllDialogs($event)" accesskey="x" title="x">
+  <mat-icon>close</mat-icon>
+</button>

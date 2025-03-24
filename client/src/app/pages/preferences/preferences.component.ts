@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-preferences',
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.scss'
 })
@@ -10,7 +11,7 @@ export class PreferencesComponent {
   constructor(private themeService: ThemeService) {}
 
 
-  toggleTheme() {
+  toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 }

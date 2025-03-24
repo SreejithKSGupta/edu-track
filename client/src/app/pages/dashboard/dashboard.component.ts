@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import CryptoJS from 'crypto-js';
-import { CookieService } from 'ngx-cookie-service';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   CdkDragDrop,
   CdkDrag,
@@ -20,65 +19,59 @@ import {
     MatIconModule,
     CdkDropList,
     CdkDrag,
+    TranslateModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
-  constructor(private router: Router, private cookieService: CookieService) {}
-  adminpages:any;
+export class DashboardComponent implements OnInit {
+  constructor(private router: Router) {}
+  adminpages:{title:string, icon:string, link:string}[]=[];
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      const encryptedUsername = this.cookieService.get('username');
-      if (!encryptedUsername) {
-        this.router.navigate(['/signin']);
-      } else {
-        const decryptedUsername = CryptoJS.AES.decrypt(encryptedUsername, 'your-secret-key').toString(CryptoJS.enc.Utf8);
         this. adminpages = [
           {
-            title: 'Student Management',
+            title: 'DASHBOARD.CARD_TITLE.1',
             icon: 'account_circle',
-            link: 'student',
+            link: 'admin/student',
           },
           {
-            title: 'Teacher Management',
+            title: 'DASHBOARD.CARD_TITLE.2',
             icon: 'work',
-            link: 'teacher',
+            link: 'admin/teacher',
           },
           {
-            title: 'Course Management',
+            title: 'DASHBOARD.CARD_TITLE.3',
             icon: 'library_books',
-            link: 'course',
+            link: 'admin/course',
           },
           {
-            title: 'Department Management',
+            title: 'DASHBOARD.CARD_TITLE.4',
             icon: 'school',
-            link: 'department',
+            link: 'admin/department',
           },
           {
-            title: 'Preferences',
+            title: 'DASHBOARD.CARD_TITLE.5',
             icon: 'settings',
-            link: 'preferences',
+            link: 'admin/preferences',
           },
           {
-            title: 'Calendar',
+            title: 'DASHBOARD.CARD_TITLE.6',
             icon: 'calendar_today',
-            link: 'calendar',
+            link: 'admin/calendar',
           },
         ];
-      }
     }
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>): void {
+    console.log( this.adminpages);
     moveItemInArray(this.adminpages, event.previousIndex, event.currentIndex);
-    if (window) {
-      console.log(event.previousIndex, event.currentIndex, this.adminpages);
-    }
+
   }
 
 
-  openitem(link: string) {
+  openitem(link: string): void {
     this.router.navigate([`/${link}`]);
   }
 }

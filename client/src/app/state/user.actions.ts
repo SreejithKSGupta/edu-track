@@ -11,7 +11,7 @@ export const loadMoreUsersSuccess = createAction(
 );
 export const loadMoreUsersFailure = createAction(
   '[User] Load More Users Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
 export const setPagination = createAction(
@@ -23,3 +23,8 @@ export const commitPrefetchedUsers = createAction(
   '[User] Commit Prefetched Users',
   props<{ users: User[] }>()
 );
+
+export const updateUserData = createAction(
+  '[User] Update Data',
+  props<{id: string; changes: Partial<User>}>()
+)

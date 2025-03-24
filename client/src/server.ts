@@ -1,6 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine, isMainModule } from '@angular/ssr/node';
 import express from 'express';
+import compression from 'compression'; // Import compression
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
@@ -12,28 +13,33 @@ const indexHtml = join(serverDistFolder, 'index.server.html');
 const app = express();
 const commonEngine = new CommonEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+// Enable Gzip/Brotli compression for responses
+app.use(compression());
 
 /**
- * Serve static files from /browser
+ * Serve static files from /browser with caching
  */
-app.get(
-  '**',
+app.use(
   express.static(browserDistFolder, {
-    maxAge: '1y',
+    maxAge: '1y', // Cache static assets for 1 year
     index: 'index.html'
-  }),
+  })
 );
+
+/**
+ * Explicitly serve Service Worker and PWA assets
+ */
+app.get('/ngsw-worker.js', (req, res) => {
+  res.sendFile(join(browserDistFolder, 'ngsw-worker.js'));
+});
+
+app.get('/ngsw.json', (req, res) => {
+  res.sendFile(join(browserDistFolder, 'ngsw.json'));
+});
+
+app.get('/manifest.webmanifest', (req, res) => {
+  res.sendFile(join(browserDistFolder, 'manifest.webmanifest'));
+});
 
 /**
  * Handle all other requests by rendering the Angular application.

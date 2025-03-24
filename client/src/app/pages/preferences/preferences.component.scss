@@ -1,0 +1,31 @@
+#preferenceslist{
+  height: 80vh;
+  padding:20px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-color);
+}
+
+.preferenceitem{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  width: clamp(350px,60%, 600px)
+}
+
+
+.preferenceitem:nth-child(odd){
+
+  -webkit-backdrop-filter: brightness(0.9);;
+  backdrop-filter:brightness(0.9);
+
+}
+.preferenceitem p {
+  width: 40%;
+}
+.preferenceitem button{
+  width: 50%;
+  text-align: left !important;
+}
