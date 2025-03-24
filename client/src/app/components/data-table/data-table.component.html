@@ -1,9 +1,4 @@
 <app-dialogboxrow>
-  <div class="language-switcher">
-    <button mat-flat-button (click)="changeLanguage('en')" [class.active]="lang === 'en'">English</button>
-    <button mat-flat-button (click)="changeLanguage('es')" [class.active]="lang === 'es'">Español</button>
-    <button mat-flat-button (click)="changeLanguage('fr')" [class.active]="lang === 'fr'">Français</button>
-  </div>
 </app-dialogboxrow>
 
 
@@ -12,7 +7,7 @@
     <table mat-table [dataSource]="dataSource" class="table-striped">
       <!-- ID Column -->
       <ng-container matColumnDef="ID">
-        <th mat-header-cell *matHeaderCellDef>{{ displayedColumnLabels[columnKeys.ID] }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{'STUDENT_DASHBOARD.TABLE_COLUMN.1' | translate}}</th>
         <td mat-cell *matCellDef="let element">
           <div *ngIf="!isEditing(element, 'student_id')"
                (click)="editCell(element, 'student_id')"
@@ -33,7 +28,7 @@
 
       <!-- Name Column -->
       <ng-container matColumnDef="Name">
-        <th mat-header-cell *matHeaderCellDef>{{ displayedColumnLabels[columnKeys.Name] }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{'STUDENT_DASHBOARD.TABLE_COLUMN.2' | translate}}</th>
         <td mat-cell *matCellDef="let element">
           <div *ngIf="!isEditing(element, 'student_name')"
                (click)="editCell(element, 'student_name')"
@@ -54,7 +49,7 @@
 
       <!-- Email Column -->
       <ng-container matColumnDef="Email">
-        <th mat-header-cell *matHeaderCellDef>{{ displayedColumnLabels[columnKeys.Email] }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{'STUDENT_DASHBOARD.TABLE_COLUMN.3' | translate}}</th>
         <td mat-cell *matCellDef="let element">
           <div *ngIf="!isEditing(element, 'student_email')"
                (click)="editCell(element, 'student_email')"
@@ -75,7 +70,7 @@
 
       <!-- Phone Column -->
       <ng-container matColumnDef="Phone">
-        <th mat-header-cell *matHeaderCellDef>{{ displayedColumnLabels[columnKeys.Phone] }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{'STUDENT_DASHBOARD.TABLE_COLUMN.4' | translate}}</th>
         <td mat-cell *matCellDef="let element">
           <div *ngIf="!isEditing(element, 'student_phone')"
                (click)="editCell(element, 'student_phone')"
@@ -96,7 +91,7 @@
 
       <!-- Gender Column -->
       <ng-container matColumnDef="Gender">
-        <th mat-header-cell *matHeaderCellDef>{{ displayedColumnLabels[columnKeys.Gender] }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{'STUDENT_DASHBOARD.TABLE_COLUMN.5' | translate}}</th>
         <td mat-cell *matCellDef="let element">
           <div *ngIf="!isEditing(element, 'gender')"
                (click)="editCell(element, 'gender')"
@@ -122,7 +117,6 @@
       <!-- No data row -->
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">
-          {{ {'en': 'No data available', 'es': 'No hay datos disponibles', 'fr': 'Aucune donnée disponible'}[lang] }}
         </td>
       </tr>
     </table>

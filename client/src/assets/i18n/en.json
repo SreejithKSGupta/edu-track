@@ -1,0 +1,70 @@
+{
+    "PROJECT": "AdManage",
+
+    "DASHBOARD":{
+      "TITLE": "Admin Dashboard",
+      "CARD_TITLE":{
+        "1":"Student Management",
+        "2":"Teacher Management",
+        "3":"Course Management",
+        "4":"Department Management",
+        "5":"Preferences",
+        "6":"Calendar"
+      }
+    },
+
+    "STUDENT_DASHBOARD":{
+      "TITLE":"Student Details",
+      "BUTTONS":{
+        "MODAL_POPUP_1":{
+          "BTN_NAME": "Add User",
+          "TITLE": "ADD USER",
+          "INPUT_1":"Student ID",
+          "INPUT_2":"Name",
+          "INPUT_3":"Email",
+          "INPUT_4":"Phone",
+          "INPUT_5":"Gender",
+          "BUTTON":{
+            "BTN_1":"Submit",
+            "BTN_2":"Close"
+          },
+          "REQUIRED":"Required"
+        },
+        "MODAL_POPUP_2":{
+          "BTN_NAME": "Get User",
+          "TITLE": "GET USER",
+          "INPUT_1":"Student ID",
+          "OUTPUT":{
+            "1":{
+              "KEY":"ID"
+            },
+            "2":{
+              "KEY":"NAME"
+            },
+            "3":{
+              "KEY":"EMAIL"
+            },
+            "4":{
+              "KEY":"PHONE"
+            },
+            "5":{
+              "KEY":"GENDER"
+            }
+          },
+          "BUTTON":{
+            "BTN_1":"Submit",
+            "BTN_2":"Close"
+          }
+        }
+      },
+      "TABLE_COLUMN":{
+        "1":"ID",
+        "2":"Name",
+        "3":"Email",
+        "4":"Phone",
+        "5":"Gender"
+      }
+    }
+
+  }
+  

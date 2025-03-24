@@ -23,7 +23,7 @@ import { CookieService } from 'ngx-cookie-service';
 import CryptoJS from 'crypto-js';
 import { DialogboxrowComponent } from "../dialogboxrow/dialogboxrow.component";
 import { MatButtonModule } from '@angular/material/button';
-// Removed the incomplete import statement as it is unnecessary
+import { TranslateModule } from '@ngx-translate/core';
 
 enum StudentColumnKey {
   ID = 'ID',
@@ -32,17 +32,6 @@ enum StudentColumnKey {
   Phone = 'Phone',
   Gender = 'Gender',
 }
-
-
-type LanguageTranslation = {
-  [key in StudentColumnKey]: string;
-};
-type LanguageMappings = {
-  [key: string]: LanguageTranslation;
-}
-
-
-
 
 interface CellEditState {
   [key: string]: boolean;
@@ -68,7 +57,8 @@ interface PaginationState {
     FormsModule,
     MatTooltipModule,
     DialogboxrowComponent,
-    MatButtonModule
+    MatButtonModule,
+    TranslateModule
   ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
@@ -86,30 +76,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
   readonly showPageSizeOptions = true;
   readonly showFirstLastButtons = true;
   readonly columnKeys = StudentColumnKey;
-  lang = 'en';
-  readonly languageMappings: LanguageMappings = {
-    'en': { // English
-      [StudentColumnKey.ID]: 'ID',
-      [StudentColumnKey.Name]: 'Name',
-      [StudentColumnKey.Email]: 'Email',
-      [StudentColumnKey.Phone]: 'Phone',
-      [StudentColumnKey.Gender]: 'Gender',
-    },
-    'es': { // Spanish
-      [StudentColumnKey.ID]: 'Identificación',
-      [StudentColumnKey.Name]: 'Nombre',
-      [StudentColumnKey.Email]: 'Correo',
-      [StudentColumnKey.Phone]: 'Teléfono',
-      [StudentColumnKey.Gender]: 'Género',
-    },
-    'fr': { // French
-      [StudentColumnKey.ID]: 'Identifiant',
-      [StudentColumnKey.Name]: 'Nom',
-      [StudentColumnKey.Email]: 'E-mail',
-      [StudentColumnKey.Phone]: 'Téléphone',
-      [StudentColumnKey.Gender]: 'Genre',
-    }
-  };
 
   // Data source and state
   dataSource = new MatTableDataSource<User>([]);
@@ -148,15 +114,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.prefetchNextChunk();
   }
 
-  changeLanguage(lang: 'en' | 'es' | 'fr'): void {
-    this.lang = lang;
-  }
   ngOnDestroy(): void {
     this.cleanupResources();
-  }
-
-  get displayedColumnLabels(): { [key: string]: string } {
-    return this.languageMappings[this.lang] || this.languageMappings['en'];
   }
 
   handlePageEvent(event: PageEvent): void {
