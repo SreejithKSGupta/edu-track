@@ -15,7 +15,7 @@ button{
 
   table {
     width: 100%;
-
+    min-width: 650px;
     &.table-striped {
       tr:nth-child(even) {
         background-color: rgba(0, 0, 0, 0.02);
@@ -25,6 +25,7 @@ button{
     th {
       font-weight: 600;
       padding: 1rem 0.75rem;
+      white-space: nowrap;
     }
 
     td {
@@ -67,21 +68,44 @@ button{
   }
 }
 
+
+
+
 @media (max-width: 768px) {
   .table-container {
     table {
+      min-width: 500px;
+
       th, td {
-        padding: 0.5rem;
+        padding: 0.1rem;
+        font-size: 0.55rem;
+      }
+    }
+
+    .editable-cell {
+      padding: 0.1rem !important;
+    }
+
+    .editable-input {
+      padding: 0.1rem !important;
+    }
+
+    mat-paginator {
+      ::ng-deep .mat-paginator-container {
+        padding: 0 8px;
+        justify-content: center;
+        min-height: 48px;
+      }
+
+      ::ng-deep .mat-paginator-range-label {
+        margin: 0 8px;
       }
     }
   }
+
 }
 
-.language-switcher {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
+
 
 .no-data {
   text-align: center;
