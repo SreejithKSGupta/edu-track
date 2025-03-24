@@ -11,12 +11,12 @@
       font-size: 1.5rem;
       font-weight: bold;
       text-decoration: none;
-      color: var(--primary-color, #1976d2);
+      // color: var(--primary-color, #1976d2);
       transition: color 0.3s;
 
-      &:hover {
-        color: var(--primary-hover, #1565c0);
-      }
+      // &:hover {
+      //   color: var(--primary-hover, #1565c0);
+      // }
     }
   }
 
