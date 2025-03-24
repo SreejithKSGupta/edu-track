@@ -33,17 +33,6 @@ enum StudentColumnKey {
   Gender = 'Gender',
 }
 
-
-type LanguageTranslation = {
-  [key in StudentColumnKey]: string;
-};
-type LanguageMappings = {
-  [key: string]: LanguageTranslation;
-}
-
-
-
-
 interface CellEditState {
   [key: string]: boolean;
 }
