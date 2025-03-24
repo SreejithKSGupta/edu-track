@@ -10,10 +10,11 @@ import { MatIcon } from '@angular/material/icon';
 import { NgIf } from '@angular/common';
 import { tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialogboxrow',
-  imports: [MatIcon, NgIf, MatButtonModule],
+  imports: [MatIcon, NgIf, MatButtonModule, TranslateModule],
   templateUrl: './dialogboxrow.component.html',
   styleUrl: './dialogboxrow.component.scss'
 })

@@ -1,12 +1,19 @@
 <header class="header">
   <div class="left">
-    <a [routerLink]="'/'" class="brand" routerLinkActive="router-link-active">AdManage</a>
+    <a [routerLink]="'/'" class="brand" routerLinkActive="router-link-active">{{'PROJECT' | translate}}</a>
   </div>
   <div class="right">
-    <button mat-icon-button *ngIf="authState()" accesskey="n" class="notification-btn" (click)="openNotifications()"
-      aria-label="Notifications">
-      <mat-icon *ngIf="notificationCount()>0" [matBadge]="notificationCount()">notifications</mat-icon>
-      <mat-icon *ngIf="notificationCount()===0">notifications</mat-icon>
+     <mat-form-field appearance="fill">
+      <mat-label>Language</mat-label>
+      <mat-select [(ngModel)]="selectedLanguage" (selectionChange)="onLanguageChange($event.value)">
+        <mat-option *ngFor="let lang of languages" [value]="lang.code">
+          {{ lang.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-icon-button *ngIf="authState()" accesskey="n"  class="notification-btn" (click)="openNotifications()" aria-label="Notifications">
+      <mat-icon *ngIf="notificationCount()>0" [matBadge]="notificationCount()" >notifications</mat-icon>
+      <mat-icon *ngIf="notificationCount()===0" >notifications</mat-icon>
 
     </button>
 
