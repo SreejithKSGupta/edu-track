@@ -4,9 +4,10 @@
   "description": "Server file for student management data",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"sleep 10 && npm run lighthouse\"",
     "start": "node index.js",
     "server": "nodemon index.js",
+    "lighthouse": "lighthouse http://localhost:4200 --preset=desktop --chrome-flags='--headless --no-sandbox'",
     "client": "ng serve edu-track --no-hmr --host 0.0.0.0 --port 4200 --open",
     "lint": "eslint \"client/src/**/*.{ts,html}\" --ignore-pattern \"**/.angular/**\" --ignore-pattern \"**/dist/**\"",
     "build": "ng build edu-track",
