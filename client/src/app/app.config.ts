@@ -26,7 +26,17 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '../../assets/i18n/', '.json');
 }
 
-const translateModuleConfig:  TranslateModuleConfig = { defaultLanguage: 'en', loader: { provide: TranslateLoader, useFactory: createTranslateLoader, deps: [HttpClient] } };
+export function getDefaultLanguage(): string {
+  let language: string = 'en';
+  if (typeof window !== 'undefined' && window.localStorage) {
+  language =  localStorage.getItem('Language') || 'en';
+}
+console.log(language);
+
+  return language;
+}
+
+const translateModuleConfig:  TranslateModuleConfig = { defaultLanguage: 'fr', loader: { provide: TranslateLoader, useFactory: createTranslateLoader, deps: [HttpClient] } };
 
 export const appConfig: ApplicationConfig = {
   providers: [
